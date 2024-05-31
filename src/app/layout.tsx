@@ -1,18 +1,18 @@
-import type { Metadata } from "next";
-import {Rubik } from "next/font/google";
+import { Rubik } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/header";
 import Fooetr from "@/components/footer/fooetr";
-import {logoFavorite} from "@/Manager";
+import { Providers } from "../components/providers";
 const rubik = Rubik({
   subsets: ["latin"],
   weight: ["300", "400"],
 });
 
+import { Metadata } from "next";
+
 export const metadata: Metadata = {
-  icons:{icon:[logoFavorite]},
   title: "LORASHOP",
-  description: "eCommerc",
+  description: "eCommerce",
 };
 
 export default function RootLayout({
@@ -23,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={rubik.className}>
-        <Header />
-        {children}
-        <Fooetr />
+        <Providers>
+          <Header />
+          {children}
+          <Fooetr />
+        </Providers>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import CheckoutCard from "@/components/Cards/checkoutCard";
 import Link from "next/link";
-import {logoImage} from "../../Manager";
+import {logoImage} from "../../_lib/Manager";
 
 export default function page() {
   /**

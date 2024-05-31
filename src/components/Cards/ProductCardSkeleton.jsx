@@ -8,7 +8,8 @@ import Typography from "@mui/material/Typography";
 import { AddShoppingCart } from "@mui/icons-material";
 import Link from "next/link";
 import { imagesCard } from "@/_lib/Manager";
-export default function ProductCard({
+import { Skeleton } from "@mui/material";
+export default function ProductCardSkeleton({
   image = "",
   tital = "",
   peice = "",
@@ -17,14 +18,10 @@ export default function ProductCard({
   id = "",
 }) {
   return (
-    <Link  href={`/Product/${id}`}>
-      <Card sx={{ maxHeight: 450,minHeight:450 }}>
-        <CardMedia
-          sx={{ minHeight: 270,objectFit:"fill"}}
-          image={image || imagesCard}
-          title="green iguana"
-        />
-        <CardContent >
+    <Link href={`/Product/${id}`}>
+      <Card sx={{ maxHeight: 450, minHeight: 450 }}>
+        <Skeleton animation="wave" variant="rounded" width={"100%"} height={270} />
+        <CardContent>
           <Typography
             className="flex justify-between gap-2 items-center"
             gutterBottom
@@ -32,7 +29,7 @@ export default function ProductCard({
             component="div"
           >
             <p className="line-clamp-1 w-full">
-              {tital ? tital : "LIFESTYLE COLLECTION SALE 20% OFF"}
+              <Skeleton animation="wave" variant="rounded" width={"70%"} height={30} />
             </p>
             <span className="bg-orange-600 px-3 rounded-xl h-fit text-sm text-white">
               5
@@ -43,22 +40,13 @@ export default function ProductCard({
             variant="body2"
             color="text.secondary"
           >
-            {discription
-              ? discription
-              : "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"}
+            <Skeleton animation="wave" variant="rounded" width={"90%"} height={60} />{" "}
           </Typography>
         </CardContent>
         <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Button size="small">
-            <AddShoppingCart />
-            <p className="text-nowrap">Add To Card</p>
-          </Button>
-          <div>
+          <div className="w-full">
             <Typography color="#3C5B6F" variant="h6" component="div">
-              ${peice ? peice : "20.99"}
-              <span className="line-through text-sm ms-1">
-                ${supPrice ? supPrice : "30.68"}
-              </span>
+              <Skeleton animation="wave" variant="rounded" width={"100%"} height={30} />
             </Typography>
           </div>
         </CardActions>

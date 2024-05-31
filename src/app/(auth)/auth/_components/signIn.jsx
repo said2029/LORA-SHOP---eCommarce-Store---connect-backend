@@ -1,6 +1,8 @@
 import { Button } from "@material-tailwind/react";
 
 export default function SignIn(props) {
+
+  
   return (
     <div className="max-w-xl lg:max-w-3xl">
             <h1 className="text-3xl font-semibold">Sing in</h1>

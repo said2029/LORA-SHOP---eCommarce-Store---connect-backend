@@ -12,7 +12,7 @@ export default function page() {
   });
 
   return (
-    <div className="bg-no-repeat bg-cover bg-[url('https://img.freepik.com/free-photo/laptop-near-smartphone-tags-tablet-packet_23-2147961975.jpg?t=st=1716724489~exp=1716728089~hmac=2e25ba4c50ec9bdda6b4891d1835eb274f5717cd7784269c2f5001d93777aa72&w=996')]">
+    <div className="bg-no-repeat bg-cover bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]">
       <section className="min-h-svh">
         <div className="flex justify-center items-center h-full min-h-svh ">
           <main className="bg-white  shadow-gray-700 p-6 rounded-xl backdrop-blur-sm ">

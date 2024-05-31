@@ -1,11 +1,12 @@
 "use client";
-import * as React from "react";
 import { Drawer, IconButton, Pagination, Typography } from "@mui/material";
 import ProductCard from "@/components/Cards/ProductCard";
+import ProductCardSkeleton from "@/components/Cards/ProductCardSkeleton";
 import { useEffect, useState } from "react";
 import { Filter } from "lucide-react";
 import FilterSidbar from "./_components/Fliter";
 import ProductApi from "../../_utils/axiosProduct";
+
 export default function page() {
   const [open, setOpen] = useState(false);
 
@@ -13,7 +14,7 @@ export default function page() {
   const closeDrawer = () => setOpen(false);
 
   // Pagination
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
@@ -43,28 +44,44 @@ export default function page() {
             </IconButton>
           </div>
           <section className="col-span-4 xl:col-span-3 grid grid-cols-1 justify-center items-center mx-auto gap-6 w-full px-4 lg:px-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
-            {products.map(
-              (e: {
-                Product_Description: string;
-                productprice: {};
-                productSaleprice: {};
-                _id: string;
-                ProducName: string;
-                ProductsImage: [any];
-              }) => {
-                return (
-                  <ProductCard
-                    discription={e.Product_Description}
-                    supPrice={e.productprice?.$numberDecimal || ""}
-                    peice={e.productSaleprice?.$numberDecimal}
-                    key={e._id}
-                    tital={e.ProducName}
-                    image={e.ProductsImage[0]}
-                    id={e._id}
-                  />
-                );
-              }
+            {products.length == 0 && (
+              <>
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+              </>
             )}
+            {products &&
+              products.map(
+                (e: {
+                  Product_Description: string;
+                  productprice: {};
+                  productSaleprice: {};
+                  _id: string;
+                  ProducName: string;
+                  ProductsImage: [any];
+                }) => {
+                  return (
+                    <ProductCard
+                      discription={e.Product_Description}
+                      supPrice={e.productprice?.$numberDecimal || ""}
+                      peice={e.productSaleprice?.$numberDecimal}
+                      key={e._id}
+                      tital={e.ProducName}
+                      image={e.ProductsImage[0]}
+                      id={e._id}
+                    />
+                  );
+                }
+              )}
           </section>
         </div>
         <div className="mt-5 w-full flex justify-center px-3">

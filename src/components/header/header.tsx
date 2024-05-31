@@ -1,6 +1,6 @@
 "use client";
 import { CircleUserRound, Search } from "lucide-react";
-import {Badge,IconButton} from "@mui/material";
+import { Badge, IconButton } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
 import { Button, Drawer, Typography } from "@material-tailwind/react";
@@ -10,7 +10,7 @@ import DropMenuCar from "./_componets/DropMenuCar";
 import CloseIcon from "@mui/icons-material/Close";
 import ShopCard from "./_componets/shopCard";
 import { usePathname } from "next/navigation";
-import {logoImage} from "../../Manager";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -25,6 +25,8 @@ export default function Header() {
   const pathName = usePathname();
   let [UtlAuthPage, setUtlAuthPage] = useState(true);
 
+  const settingStore = useSelector((state) => state.storeSetting.settingData);
+
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
   }, [pathName]);
@@ -36,7 +38,7 @@ export default function Header() {
           <div className="mx-auto flex flex-col max-w-screen-xl justify-center items-center gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
-              <img src={logoImage} alt="" />
+              <img width={140} src={settingStore.Header_Logo_image} alt="" />
             </Link>
 
             <div className="flex flex-col items-center justify-center flex-grow w-full md:w-[content] md:flex-row ">
@@ -150,9 +152,18 @@ export default function Header() {
           >
             <div>
               <div className="mb-6 flex items-center justify-between">
-                <div><img loading="lazy" decoding="async" src="./logoipsum.svg" alt="" /></div>
+                <div>
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src="./logoipsum.svg"
+                    alt=""
+                  />
+                </div>
 
-                <button onClick={closeDrawer}><CloseIcon /></button>
+                <button onClick={closeDrawer}>
+                  <CloseIcon />
+                </button>
               </div>
               <div className="flex flex-col justify-between ">
                 <List
