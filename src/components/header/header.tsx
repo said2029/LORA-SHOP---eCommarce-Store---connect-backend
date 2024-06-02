@@ -23,9 +23,12 @@ export default function Header() {
   const closeDrawerCart = () => setopenDrawerCart(false);
 
   const pathName = usePathname();
-  let [UtlAuthPage, setUtlAuthPage] = useState(true);
+  let [UtlAuthPage, setUtlAuthPage] = useState(false);
 
-  const settingStore = useSelector((state) => state.storeSetting.settingData);
+  const settingStore = useSelector(
+    (state: { storeSetting: { settingData: { Header_Logo_image: "" } } }) =>
+      state.storeSetting.settingData
+  );
 
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 export function CarouselHome() {
   const SettingStoreRedux = useSelector(
-    (state: { storeSetting: {} }) => state?.storeSetting
+    (state: { storeSetting: {loading:boolean,settingData:{hero_sections:[]}} }) => state?.storeSetting
   );
   const respons = SettingStoreRedux;
 
@@ -32,7 +32,7 @@ export function CarouselHome() {
           respons &&
           !respons?.loading &&
           respons.settingData?.hero_sections.map(
-            (element: {}, index: number) => {
+            (element: {_id:string,home_Slider_Images:string,slider_title:string,slider_description:string,slider_button_name:string,slider_button_link:string}, index: number) => {
               return (
                 <SwiperSlide
                   key={element?._id}

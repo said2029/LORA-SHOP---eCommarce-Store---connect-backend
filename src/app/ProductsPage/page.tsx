@@ -26,6 +26,7 @@ export default function page() {
     ProductApi.getProductsApi(page - 1).then((res: any) => {
       setProducts(res.data);
       console.log(res);
+      console.log(Math.floor(products.length / 10));
     });
   }, [page]);
 
@@ -43,31 +44,33 @@ export default function page() {
               <Filter /> Filter
             </IconButton>
           </div>
+          {/* product Skeleton */}
+          {products.length == 0 && (
+            <section className="col-span-4 xl:col-span-3 grid grid-cols-1 justify-center items-center mx-auto gap-6 w-full px-4 lg:px-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+            </section>
+          )}
           <section className="col-span-4 xl:col-span-3 grid grid-cols-1 justify-center items-center mx-auto gap-6 w-full px-4 lg:px-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
-            {products.length == 0 && (
-              <>
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-                <ProductCardSkeleton />
-              </>
-            )}
             {products &&
               products.map(
                 (e: {
                   Product_Description: string;
-                  productprice: {};
-                  productSaleprice: {};
+                  productprice: { $numberDecimal: string };
+                  productSaleprice: { $numberDecimal: string };
                   _id: string;
                   ProducName: string;
                   ProductsImage: [any];
+                  slug: string;
+                  rating: { $numberDecimal: string };
                 }) => {
                   return (
                     <ProductCard
@@ -78,6 +81,8 @@ export default function page() {
                       tital={e.ProducName}
                       image={e.ProductsImage[0]}
                       id={e._id}
+                      slug={e?.slug}
+                      rating={e?.rating?.$numberDecimal}
                     />
                   );
                 }

@@ -11,14 +11,14 @@ export default function ReviewCard() {
         />
       </div>
       <div>
-        <section>
+        <div>
           <RatingStars size="small" startconst={4.5} />
           <h1>name name</h1>
-          <p className="line-clamp-2 text-sm text-gray-700">
+          <span className="line-clamp-2 text-sm text-gray-700">
             A biscuit is a flour-based baked food product. This article covers
             the type of biscuit found in Africa, Asia, and Europe, which is
-          </p>
-        </section>
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -35,15 +35,24 @@ export default function page({ params }: { params: { id: string } }) {
 
   const [openReview, setReview] = useState(false);
 
-  const [product, setProduct] = useState({});
-  const [productlikes, setProductlikes] = useState([]);
+  let productModile = {
+    Product_Description: "",
+    ProducName: "",
+    ProductsImage: [""],
+    productprice: { $numberDecimal: "" },
+    productSaleprice: { $numberDecimal: "" },
+    colors: [""],
+  };
+  let [product, setProducts] = useState(productModile);
+
+  const [productlikes, setproductlikes] = useState([]);
   useEffect(() => {
     ProductApi.getProductApi(params.id).then((res) => {
       const colors = res.data.colors[0].split(",");
       res.data.colors = colors;
-      setProduct(res.data);
+      setProducts(res.data);
       ProductApi.getProductsApi(0, res.data.ProductCategory).then((res2) => {
-        setProductlikes(res2.data);
+        setproductlikes(res2.data);
       });
       console.log(res.data);
     });
@@ -100,21 +109,19 @@ export default function page({ params }: { params: { id: string } }) {
                 <Swiper
                   pagination={true}
                   modules={[Pagination]}
-                  className="mySwiper  md:order-2 md:ml-5 py-5 h-full"
+                  className="mySwiper md:order-2 md:ml-5 py-5 h-full w-full"
                 >
                   {product.ProductsImage?.map((image: string) => {
                     return (
                       <SwiperSlide>
-                        <div>
-                          <div className="max-w-xl h-[500px] overflow-hidden rounded-lg">
-                            <img
-                              loading="lazy"
-                              decoding="async"
-                              className="object-cover"
-                              src={image}
-                              alt="Prodyc image"
-                            />
-                          </div>
+                        <div className="w-full max-h-[500px] overflow-hidden rounded-lg">
+                          <img
+                            loading="lazy"
+                            decoding="async"
+                            className="object-fill h-full w-full"
+                            src={image}
+                            alt="Prodout image"
+                          />
                         </div>
                       </SwiperSlide>
                     );
@@ -148,7 +155,9 @@ export default function page({ params }: { params: { id: string } }) {
 
               {product.colors && (
                 <>
-                  <h2 className="mt-4 text-base text-gray-900 font-bold">Choose Color</h2>
+                  <h2 className="mt-4 text-base text-gray-900 font-bold">
+                    Choose Color
+                  </h2>
                   <hr className="my-2" />
                   <div className="mt-3 flex select-none flex-wrap items-center gap-3">
                     {product.colors?.map((e: string) => {
@@ -267,7 +276,7 @@ export default function page({ params }: { params: { id: string } }) {
 
       <section className="mt-16 w-full flex flex-col 2xl:px-24">
         <h1 className="text-xl font-semibold uppercase  w-fit ">
-          You May Also Like :
+          Recommended:
         </h1>
         <Divider className="mt-2 mb-6" />
 
@@ -275,11 +284,11 @@ export default function page({ params }: { params: { id: string } }) {
           {productlikes.map(
             (e: {
               Product_Description: string;
-              productprice: {};
-              productSaleprice: {};
+              productprice: { $numberDecimal: "" };
+              productSaleprice: { $numberDecimal: "" };
               _id: string;
               ProducName: string;
-              ProductsImage: [any];
+              ProductsImage: [""];
             }) => {
               return (
                 <ProductCard
