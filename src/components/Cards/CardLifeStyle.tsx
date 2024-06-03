@@ -1,4 +1,5 @@
 import { MoveRight } from "lucide-react";
+import Image from "next/image";
 
 export default function CardLifeStyle() {
   return (
@@ -12,7 +13,7 @@ export default function CardLifeStyle() {
       </div>
 
       <div className="w-full h-full">
-        <img
+        <Image width={750} height={790}
           className="object-cover text-center w-full"
           src="./images/P1.webp"
           alt="image Product"

@@ -14,90 +14,82 @@ import {
   Twitter,
   WhatsApp,
 } from "@mui/icons-material";
+import Image from "next/image";
 
 export default function Fooetr() {
   const pathName = usePathname();
   let [UtlAuthPage, setUtlAuthPage] = useState(false);
+  let [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
+    setIsClient(true);
   }, [pathName]);
-  const settingStore = useSelector((state:{storeSetting:{settingData:{
-    Header_Logo_image:string,
-    footer_block_three_link_one_title:string,
-    FooterLogo:string,
-    footer_block_four_phone:string,
-    footer_block_four_email:"",
-    TopCategoryFooter:"",
-    footer_block_two_title:"",
-    footer_block_two_link_one:"",
-    footer_block_two_link_one_title:"",
-    footer_block_two_link_two:"",
-    footer_block_two_link_three:"",
-    footer_block_two_link_three_title:"",
-    footer_block_two_link_four:"",
-    footer_block_two_link_four_title:"",
-    privacy_policy:"",
-    contact_us:"",
-    faq:"",
-    CompanyFooter:"",
-    footer_block_one_title:"",
-    footer_block_one_link_one_title:"",
-    footer_block_one_link_one:"",
-    footer_block_one_link_two_title:"",
-    footer_block_one_link_two:"",
-    footer_block_one_link_three_title:"",
-    footer_block_one_link_three:"",
-    footer_block_one_link_four_title:"",
-    footer_block_one_link_four:"",
-    footer_block_three_link_two_title:"",
-    Social_Links:"",
-    social_facebook:"",
-    social_twitter:"",
-    social_whatsapp:"",
-    social_pinterest:"",
-    social_linkedin:"",
-
-  }}}) => state.storeSetting.settingData);
+  const settingStore = useSelector(
+    (state: {
+      storeSetting: {
+        settingData: {
+          Header_Logo_image: string;
+          footer_block_three_link_one_title: string;
+          FooterLogo: string;
+          footer_block_four_phone: string;
+          footer_block_four_email: "";
+          TopCategoryFooter: "";
+          footer_block_two_title: "";
+          footer_block_two_link_one: "";
+          footer_block_two_link_one_title: "";
+          footer_block_two_link_two: "";
+          footer_block_two_link_three: "";
+          footer_block_two_link_three_title: "";
+          footer_block_two_link_four: "";
+          footer_block_two_link_four_title: "";
+          privacy_policy: "";
+          contact_us: "";
+          faq: "";
+          CompanyFooter: "";
+          footer_block_one_title: "";
+          footer_block_one_link_one_title: "";
+          footer_block_one_link_one: "";
+          footer_block_one_link_two_title: "";
+          footer_block_one_link_two: "";
+          footer_block_one_link_three_title: "";
+          footer_block_one_link_three: "";
+          footer_block_one_link_four_title: "";
+          footer_block_one_link_four: "";
+          footer_block_three_link_two_title: "";
+          Social_Links: "";
+          social_facebook: "";
+          social_twitter: "";
+          social_whatsapp: "";
+          social_pinterest: "";
+          social_linkedin: "";
+        };
+      };
+    }) => state.storeSetting.settingData
+  );
 
   return (
     <>
-      {!UtlAuthPage &&settingStore&& (
+      {isClient && !UtlAuthPage && settingStore && (
         <footer className="bg-stone-100 mt-10 shadow-md shadow-black">
           <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8">
             <div className="flex items-center justify-center">
               <div className="flex flex-col justify-center items-center text-teal-600 sm:justify-start gap-5">
-                <img width={200} src={settingStore?.Header_Logo_image} alt="" />
+                
+                <Image
+                  width={220}
+                  height={230}
+                  src={
+                    settingStore.Header_Logo_image
+                      ? settingStore.Header_Logo_image
+                      : "/logoipsum.svg"
+                  }
+                  alt="logo"
+                />
                 <p className="text-center text-pretty leading-relaxed text-gray-500 ltr:sm:text-left rtl:sm:text-right">
                   {settingStore?.footer_block_three_link_one_title || ""}
                 </p>
               </div>
-
-              {/* <div className="text-center ms-7 sm:text-left md:col-span-4 lg:col-span-2 flex-grow ">
-                <p className="text-lg font-semibold text-gray-900">
-                  Stay in Touch
-                </p>
-
-                <div className=" w-full ">
-                  <form className="mt-4 w-full ">
-                    <div className="flex flex-col gap-4 md:flex-row  lg:items-start  ">
-                      <input
-                        className="w-full rounded-full border border-gray-600 px-6 py-3   flex-grow"
-                        type="email"
-                        placeholder="Enter your email"
-                        required
-                      />
-
-                      <button
-                        className=" block rounded-full bg-blue-500 px-8 py-3 font-medium text-white transition hover:bg-blue-600"
-                        type="submit"
-                      >
-                        Subscribe
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div> */}
             </div>
 
             <div className="mt-16 flex flex-col sm:flex-row flex-wrap gap-10 border-t border-gray-100 pt-16  justify-around">
@@ -278,7 +270,9 @@ export default function Fooetr() {
 
             <div className="mt-16 border-t border-gray-100 pt-6 sm:flex sm:items-center sm:justify-between">
               <p className="text-center text-sm text-gray-500 sm:text-left">
-                Copyright &copy; {settingStore.footer_block_three_link_two_title || "2024. All rights reserved."}
+                Copyright &copy;{" "}
+                {settingStore.footer_block_three_link_two_title ||
+                  "2024. All rights reserved."}
               </p>
               {settingStore.Social_Links && (
                 <ul className="mt-4 flex justify-center gap-6 sm:mt-0 sm:justify-start">

@@ -13,6 +13,7 @@ export default function CategoryItem(props: {
         <FormControlLabel
           control={<Checkbox />}
           label={props.itemName}
+          value={props?.itemName}
           onChange={props.action}
         />
       </FormGroup>

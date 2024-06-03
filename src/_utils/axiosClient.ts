@@ -1,6 +1,6 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "https://loradash.onrender.com",
+  baseURL: process.env.NEXT_PUBLIC_BACKENDURL,
 });
 export default axiosClient;

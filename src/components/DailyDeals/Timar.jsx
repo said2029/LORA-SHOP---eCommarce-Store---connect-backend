@@ -20,7 +20,6 @@ export default function Timar() {
           RelaTime.get("seconds").toString().padStart(2, "0"),
         ]);
       } else {
-        console.log("Completed?");
         setTime(["00", "00", "00", "00"]);
         clearInterval(setIntervalId);
       }

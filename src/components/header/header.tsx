@@ -11,6 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ShopCard from "./_componets/shopCard";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -25,9 +26,17 @@ export default function Header() {
   const pathName = usePathname();
   let [UtlAuthPage, setUtlAuthPage] = useState(false);
 
-  const settingStore = useSelector(
-    (state: { storeSetting: { settingData: { Header_Logo_image: "" } } }) =>
-      state.storeSetting.settingData
+  const StoreRedux = useSelector(
+    (state: {
+      storeSetting: {
+        settingData: { Header_Logo_image: "" };
+      };
+      CategoryData: {
+        categorys: { categores: []; MaxCategores: 0 };
+        error: "";
+        loading: boolean;
+      };
+    }) => state
   );
 
   useEffect(() => {
@@ -41,7 +50,18 @@ export default function Header() {
           <div className="mx-auto flex flex-col max-w-screen-xl justify-center items-center gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
-              <img width={140} src={settingStore.Header_Logo_image} alt="" />
+              <picture>
+                <Image
+                  width={200}
+                  height={200}
+                  src={
+                    StoreRedux?.storeSetting?.settingData.Header_Logo_image
+                      ? StoreRedux?.storeSetting?.settingData.Header_Logo_image
+                      : "/logoipsum.svg"
+                  }
+                  alt="logo"
+                />
+              </picture>
             </Link>
 
             <div className="flex flex-col items-center justify-center flex-grow w-full md:w-[content] md:flex-row ">
@@ -52,7 +72,9 @@ export default function Header() {
                       className="text-gray-500 transition hover:text-gray-500/75"
                       href="#"
                     >
-                      <DropMenuCar />
+                      <DropMenuCar
+                        categorys={StoreRedux.CategoryData?.categorys}
+                      />
                     </Link>
                   </li>
                   <li>
@@ -61,14 +83,6 @@ export default function Header() {
                       href="/ProductsPage"
                     >
                       Products
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-gray-500 transition hover:text-gray-500/75"
-                      href="#"
-                    >
-                      Brands
                     </Link>
                   </li>
                 </ul>
@@ -156,11 +170,15 @@ export default function Header() {
             <div>
               <div className="mb-6 flex items-center justify-between">
                 <div>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    src="./logoipsum.svg"
-                    alt=""
+                  <Image
+                    width={200}
+                    height={200}
+                    src={
+                      StoreRedux?.storeSetting.settingData
+                        ? StoreRedux?.storeSetting.settingData.Header_Logo_image
+                        : "/logoipsum.svg"
+                    }
+                    alt="logo"
                   />
                 </div>
 
@@ -179,7 +197,9 @@ export default function Header() {
                     onPointerEnterCapture={() => {}}
                     onPointerLeaveCapture={() => {}}
                   >
-                    <DropMenuCar />
+                    <DropMenuCar
+                      categorys={StoreRedux.CategoryData?.categorys}
+                    />
                   </ListItem>
                   <ListItem
                     placeholder=""
@@ -187,13 +207,6 @@ export default function Header() {
                     onPointerLeaveCapture={() => {}}
                   >
                     Products
-                  </ListItem>
-                  <ListItem
-                    placeholder=""
-                    onPointerEnterCapture={() => {}}
-                    onPointerLeaveCapture={() => {}}
-                  >
-                    Brands
                   </ListItem>
                 </List>
                 <div className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2">

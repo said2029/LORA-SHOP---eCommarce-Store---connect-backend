@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 export function CarouselHome() {
   const SettingStoreRedux = useSelector(
     (state: { storeSetting: {loading:boolean,settingData:{hero_sections:[]}} }) => state?.storeSetting
@@ -38,11 +39,9 @@ export function CarouselHome() {
                   key={element?._id}
                   className="flex gap-2 justify-between items-center relative bg-white h-96"
                 >
-                  <img
+                  <Image width={750} height={790}
                     className="w-full h-full hidden md:block object-cover"
-                    loading="lazy"
-                    decoding="async"
-                    src={element?.home_Slider_Images}
+                    src={element?.home_Slider_Images || ""}
                     alt=""
                   />
                   <div className="absolute top-0 h-full flex items-center sm:p-5 w-full">

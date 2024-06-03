@@ -1,7 +1,9 @@
+import Image from "next/image";
+
 export default function CheckoutCard() {
   return (
     <li className="flex items-center gap-4">
-      <img
+      <Image width={512} height={512}
         src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80"
         alt=""
         className="size-16 rounded object-cover"

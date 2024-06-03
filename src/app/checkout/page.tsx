@@ -1,6 +1,7 @@
 import CheckoutCard from "@/components/Cards/checkoutCard";
 import Link from "next/link";
 import {logoImage} from "../../_lib/Manager";
+import Image from "next/image";
 
 export default function page() {
   /**
@@ -11,7 +12,7 @@ export default function page() {
     <>
       <div className="flex mt-6 flex-col items-center border-b  py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <Link href="/" className="text-2xl font-bold text-gray-800">
-          <img src={logoImage} alt="" />
+          <Image width={512} height={512} src={logoImage || ""} alt="" />
         </Link>
         <div className="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
           <div className="relative">
@@ -111,7 +112,7 @@ export default function page() {
                 className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                 htmlFor="radio_1"
               >
-                <img
+                <Image width={512} height={512}
                   className="w-14 object-contain"
                   src="/images/naorrAeygcJzX0SyNI4Y0.png"
                   alt=""
@@ -136,7 +137,7 @@ export default function page() {
                 className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                 htmlFor="radio_2"
               >
-                <img
+                <Image width={512} height={512}
                   className="w-14 object-contain"
                   src="/images/oG8xsl3xsOkwkMsrLGKM4.png"
                   alt=""
@@ -277,7 +278,7 @@ export default function page() {
                   placeholder="Street Address"
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                  <img
+                  <Image width={512} height={512}
                     className="h-4 w-4 object-contain"
                     src="https://flagpack.xyz/_nuxt/4c829b6c0131de7162790d2f897a90fd.svg"
                     alt=""

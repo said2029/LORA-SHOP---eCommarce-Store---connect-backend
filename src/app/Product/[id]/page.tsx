@@ -14,6 +14,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import { Pagination } from "swiper/modules";
+import Image from "next/image";
 
 export default function page({ params }: { params: { id: string } }) {
   function imageFun(url: string | undefined) {
@@ -22,11 +23,9 @@ export default function page({ params }: { params: { id: string } }) {
         type="button"
         className="mb-3 w-20 h-20 overflow-hidden rounded-lg border-2 border-gray-300 text-center"
       >
-        <img
-          loading="lazy"
-          decoding="async"
+        <Image width={750} height={790}
           className="object-cover"
-          src={url}
+          src={url || ""}
           alt=""
         />
       </button>
@@ -115,11 +114,9 @@ export default function page({ params }: { params: { id: string } }) {
                     return (
                       <SwiperSlide>
                         <div className="w-full max-h-[500px] overflow-hidden rounded-lg">
-                          <img
-                            loading="lazy"
-                            decoding="async"
+                          <Image width={750} height={790}
                             className="object-fill h-full w-full"
-                            src={image}
+                            src={image || ""}
                             alt="Prodout image"
                           />
                         </div>

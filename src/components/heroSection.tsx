@@ -3,6 +3,7 @@ import { Box, Button, Container } from "@mui/material";
 
 import { ArrowRight } from "lucide-react";
 import { CarouselHome } from "./Carousel/CarouselHome";
+import Image from "next/image";
 export default function HeroSection() {
   return (
     <Container className="h-[400px] md:h-[600px] w-full mt-7 grid grid-cols-9 p-4 gap-3 overflow-hidden bg-gray-100">
@@ -25,7 +26,7 @@ export default function HeroSection() {
             </Button>
           </div>
           <div className="w-60 h-60 absolute -bottom-11 right-0 z-20 ">
-            <img
+            <Image width={750} height={790}
               className="w-full h-full object-cover"
               src="/images/9.png"
               alt=""
@@ -46,7 +47,7 @@ export default function HeroSection() {
             </Button>
           </div>
           <div className="w-60 h-60 absolute bottom-1 right-0 z-20 ">
-            <img
+            <Image width={750} height={790}
               className="w-full h-full object-cover"
               src="/images/12.png"
               alt=""

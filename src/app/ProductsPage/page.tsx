@@ -1,8 +1,8 @@
 "use client";
 import { Drawer, IconButton, Pagination, Typography } from "@mui/material";
 import ProductCard from "@/components/Cards/ProductCard";
-import ProductCardSkeleton from "@/components/Cards/ProductCardSkeleton";
-import { useEffect, useState } from "react";
+import ProductListSkeleton from "@/components/ProductListSkeleton";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { Filter } from "lucide-react";
 import FilterSidbar from "./_components/Fliter";
 import ProductApi from "../../_utils/axiosProduct";
@@ -20,13 +20,43 @@ export default function page() {
   };
   // === Pagination ===
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState({
+    loading: true,
+    data: [],
+    length: 0,
+  });
+
+  // Filter Select Category callback
+  let category: string[] = [];
+  function HandCategoryAction(value: SyntheticEvent<Element, Event>) {
+    const target = value.target as HTMLInputElement;
+    if (target.checked) {
+      category.push(target.value);
+    } else {
+      category.slice(category.indexOf(target.value), 1);
+    }
+  }
+
+  function GetDataProduct(res: any) {
+    if (res.data.length <= 0) {
+      res.data.loading = false;
+      res.data.data = [];
+    } else {
+      res.data.loading = false;
+    }
+    setProducts(res.data);
+  }
+
+  function handleApplayFilter() {
+    ProductApi.getProductsApi(page - 1, category).then((res: any) => {
+      GetDataProduct(res);
+      closeDrawer();
+    });
+  }
   // api
   useEffect(() => {
-    ProductApi.getProductsApi(page - 1).then((res: any) => {
-      setProducts(res.data);
-      console.log(res);
-      console.log(Math.floor(products.length / 10));
+    ProductApi.getProductsApi(page - 1, category).then((res: any) => {
+      GetDataProduct(res);
     });
   }, [page]);
 
@@ -36,7 +66,10 @@ export default function page() {
         <div className="grid grid-cols-4 gap-3 xl:gap-6 pb-4 mt-5">
           {/* filter */}
           <div className="hidden xl:block">
-            <FilterSidbar />
+            <FilterSidbar
+              categoryAction={HandCategoryAction}
+              applayFilter={handleApplayFilter}
+            />
           </div>
           {/* products */}
           <div className=" mt-5 col-span-full xl:hidden">
@@ -44,24 +77,19 @@ export default function page() {
               <Filter /> Filter
             </IconButton>
           </div>
-          {/* product Skeleton */}
-          {products.length == 0 && (
-            <section className="col-span-4 xl:col-span-3 grid grid-cols-1 justify-center items-center mx-auto gap-6 w-full px-4 lg:px-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-              <ProductCardSkeleton />
-            </section>
-          )}
-          <section className="col-span-4 xl:col-span-3 grid grid-cols-1 justify-center items-center mx-auto gap-6 w-full px-4 lg:px-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
-            {products &&
-              products.map(
+
+          <section className="col-span-full xl:col-span-3 grid grid-cols-1 justify-center items-center mx-auto gap-6 w-full px-4 lg:px-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+            {/* product Skeleton */}
+            {products.loading && ProductListSkeleton({ count: 10 })}
+            {products.loading == false && products.data.length <= 0 && (
+              <div className="text-lg text-gray-400 text-center col-span-full ">
+                No Products!
+              </div>
+            )}
+
+            {products.loading == false &&
+              products.data.length >= 1 &&
+              products.data.map(
                 (e: {
                   Product_Description: string;
                   productprice: { $numberDecimal: string };
@@ -71,7 +99,9 @@ export default function page() {
                   ProductsImage: [any];
                   slug: string;
                   rating: { $numberDecimal: string };
+                  productPublished: string;
                 }) => {
+                  if (e.productPublished != "true") return;
                   return (
                     <ProductCard
                       discription={e.Product_Description}
@@ -94,7 +124,7 @@ export default function page() {
             size="medium"
             page={page}
             onChange={handleChange}
-            count={2}
+            count={Math.ceil(products.length / 10)}
             color="primary"
             siblingCount={0}
           />
@@ -125,7 +155,10 @@ export default function page() {
             </IconButton>
           </div>
           <div>
-            <FilterSidbar />
+            <FilterSidbar
+              categoryAction={HandCategoryAction}
+              applayFilter={handleApplayFilter}
+            />
           </div>
         </div>
       </Drawer>

@@ -10,19 +10,33 @@ import {
 import { AccordionFilter } from "./Accordion";
 import RatingStars from "./RatingStars";
 import CategoryItem from "./CategoryItem";
-import { useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-export default function FilterSidbar() {
-  
+export default function FilterSidbar({
+  categoryAction,
+  applayFilter,
+}: {
+  categoryAction: (value: SyntheticEvent<Element, Event>) => void;
+  applayFilter: () => void;
+}) {
   const [price_RangeValue, setPrice_RangeValue] = useState<number[]>([20, 37]);
+  const [Categorys, SetCategorys] = useState({
+    loading: true,
+    categorys: { categores: [] },
+  });
+  const categorys = useSelector(
+    (state: {
+      CategoryData: { loading: boolean; categorys: { categores: [] } };
+    }) => state.CategoryData
+  );
+  useEffect(() => {
+    SetCategorys(categorys);
+  }, []);
 
   const ChangeValueSlider = (event: Event, value: number[] | number) => {
     setPrice_RangeValue(value as number[]);
   };
-
-  {
-    /* price_Range_end */
-  }
 
   return (
     <div>
@@ -34,20 +48,19 @@ export default function FilterSidbar() {
           <AccordionFilter name="Category">
             <div className="max-h-80 overflow-y-scroll">
               <section>
-                <CategoryItem
-                  action={(value) => {
-                    const target = value.target as HTMLInputElement;
-                    target?.checked, "1";
-                  }}
-                  itemName="Phone"
-                />
-                <CategoryItem
-                  action={(value) => {
-                    const target = value.target as HTMLInputElement;
-                    target.checked, "2";
-                  }}
-                  itemName="Phone2"
-                />
+                {Categorys &&
+                  Categorys.loading == false &&
+                  Categorys?.categorys.categores.map(
+                    (cat: { name: ""; _id: "" }) => {
+                      return (
+                        <CategoryItem
+                          key={cat._id}
+                          action={categoryAction}
+                          itemName={cat.name}
+                        />
+                      );
+                    }
+                  )}
               </section>
             </div>
           </AccordionFilter>
@@ -55,8 +68,8 @@ export default function FilterSidbar() {
         {/* Category Filter End */}
 
         {/* price Range Filter */}
-        <section >
-          <AccordionFilter  name="Price Range">
+        <section>
+          <AccordionFilter name="Price Range">
             <div>
               <section className="px-2 mt-5">
                 <Slider
@@ -143,7 +156,15 @@ export default function FilterSidbar() {
           </AccordionFilter>
         </section>
         {/* Rating Filter End */}
-        <Button className="mt-5" size="large" fullWidth variant="contained">
+        <Button
+          onClick={() => {
+            applayFilter();
+          }}
+          className="mt-5"
+          size="large"
+          fullWidth
+          variant="contained"
+        >
           Apply
         </Button>
       </section>
