@@ -16,11 +16,15 @@ import { useSelector } from "react-redux";
 export default function FilterSidbar({
   categoryAction,
   applayFilter,
+  FilterPriceSlider,
+  priceFilterConfig,
 }: {
   categoryAction: (value: SyntheticEvent<Element, Event>) => void;
   applayFilter: () => void;
+  FilterPriceSlider: (value: number[] | number) => void;
+  priceFilterConfig: string[];
 }) {
-  const [price_RangeValue, setPrice_RangeValue] = useState<number[]>([20, 37]);
+  const [price_RangeValue, setPrice_RangeValue] = useState<number[]>([0, 999]);
   const [Categorys, SetCategorys] = useState({
     loading: true,
     categorys: { categores: [] },
@@ -73,13 +77,13 @@ export default function FilterSidbar({
             <div>
               <section className="px-2 mt-5">
                 <Slider
-                  getAriaLabel={(index) => (index === 0 ? "0" : "300")}
+                  getAriaLabel={(index) => (index === 0 ? priceFilterConfig[0]  : priceFilterConfig[1])}
                   value={price_RangeValue}
                   onChange={ChangeValueSlider}
                   valueLabelDisplay="auto"
                   color="info"
-                  max={300}
-                  min={0}
+                  max={+priceFilterConfig[1] || 999}
+                  min={+priceFilterConfig[0] || 0}
                   // getAriaValueText={(value:number)=>{return 39}}
                 />
                 <div className=" flex gap-4 mt-2">
@@ -158,6 +162,7 @@ export default function FilterSidbar({
         {/* Rating Filter End */}
         <Button
           onClick={() => {
+            FilterPriceSlider(price_RangeValue);
             applayFilter();
           }}
           className="mt-5"

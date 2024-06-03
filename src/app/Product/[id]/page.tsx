@@ -23,7 +23,9 @@ export default function page({ params }: { params: { id: string } }) {
         type="button"
         className="mb-3 w-20 h-20 overflow-hidden rounded-lg border-2 border-gray-300 text-center"
       >
-        <Image width={750} height={790}
+        <Image
+          width={750}
+          height={790}
           className="object-cover"
           src={url || ""}
           alt=""
@@ -51,7 +53,7 @@ export default function page({ params }: { params: { id: string } }) {
       res.data.colors = colors;
       setProducts(res.data);
       ProductApi.getProductsApi(0, res.data.ProductCategory).then((res2) => {
-        setproductlikes(res2.data);
+        setproductlikes(res2.data.data);
       });
       console.log(res.data);
     });
@@ -114,7 +116,9 @@ export default function page({ params }: { params: { id: string } }) {
                     return (
                       <SwiperSlide>
                         <div className="w-full max-h-[500px] overflow-hidden rounded-lg">
-                          <Image width={750} height={790}
+                          <Image
+                            width={750}
+                            height={790}
                             className="object-fill h-full w-full"
                             src={image || ""}
                             alt="Prodout image"
@@ -278,28 +282,29 @@ export default function page({ params }: { params: { id: string } }) {
         <Divider className="mt-2 mb-6" />
 
         <div className="grid grid-cols-1 mt-6 justify-center items-center mx-auto gap-4 w-full sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-          {productlikes.map(
-            (e: {
-              Product_Description: string;
-              productprice: { $numberDecimal: "" };
-              productSaleprice: { $numberDecimal: "" };
-              _id: string;
-              ProducName: string;
-              ProductsImage: [""];
-            }) => {
-              return (
-                <ProductCard
-                  discription={e.Product_Description}
-                  supPrice={e.productprice?.$numberDecimal || ""}
-                  peice={e.productSaleprice?.$numberDecimal}
-                  key={e._id}
-                  tital={e.ProducName}
-                  image={e.ProductsImage[0]}
-                  id={e._id}
-                />
-              );
-            }
-          )}
+          {productlikes.length >= 1 &&
+            productlikes?.map(
+              (e: {
+                Product_Description: string;
+                productprice: { $numberDecimal: "" };
+                productSaleprice: { $numberDecimal: "" };
+                _id: string;
+                ProducName: string;
+                ProductsImage: [""];
+              }) => {
+                return (
+                  <ProductCard
+                    discription={e.Product_Description}
+                    supPrice={e.productprice?.$numberDecimal || ""}
+                    peice={e.productSaleprice?.$numberDecimal}
+                    key={e._id}
+                    tital={e.ProducName}
+                    image={e.ProductsImage[0]}
+                    id={e._id}
+                  />
+                );
+              }
+            )}
         </div>
       </section>
     </div>

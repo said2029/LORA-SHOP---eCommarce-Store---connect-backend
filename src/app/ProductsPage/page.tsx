@@ -24,19 +24,12 @@ export default function page() {
     loading: true,
     data: [],
     length: 0,
+    maxPrixe: { $numberDecimal: "999" },
+    minPrixe: { $numberDecimal: "0" },
   });
 
-  // Filter Select Category callback
-  let category: string[] = [];
-  function HandCategoryAction(value: SyntheticEvent<Element, Event>) {
-    const target = value.target as HTMLInputElement;
-    if (target.checked) {
-      category.push(target.value);
-    } else {
-      category.slice(category.indexOf(target.value), 1);
-    }
-  }
 
+  // Call api product
   function GetDataProduct(res: any) {
     if (res.data.length <= 0) {
       res.data.loading = false;
@@ -46,13 +39,37 @@ export default function page() {
     }
     setProducts(res.data);
   }
+  console.log(products);
 
+  //#region filter
+
+  // Filter Select Category callback
+  let category: string[] = [];
+  let FilterProce = [0, 999999];
   function handleApplayFilter() {
-    ProductApi.getProductsApi(page - 1, category).then((res: any) => {
-      GetDataProduct(res);
-      closeDrawer();
-    });
+    ProductApi.getProductsApi(page - 1, category, FilterProce).then(
+      (res: any) => {
+        GetDataProduct(res);
+        closeDrawer();
+      }
+    );
   }
+  function HandCategoryAction(value: SyntheticEvent<Element, Event>) {
+    const target = value.target as HTMLInputElement;
+    if (target.checked) {
+      category.push(target.value);
+    } else {
+      category.slice(category.indexOf(target.value), 1);
+    }
+  }
+
+  const FilterPriceSlider = (value: number[] | number) => {
+    FilterProce = value as number[];
+  };
+  //#endregion filter
+  
+  
+  
   // api
   useEffect(() => {
     ProductApi.getProductsApi(page - 1, category).then((res: any) => {
@@ -67,8 +84,13 @@ export default function page() {
           {/* filter */}
           <div className="hidden xl:block">
             <FilterSidbar
+              priceFilterConfig={[
+                products?.minPrixe?.$numberDecimal,
+                products?.minPrixe?.$numberDecimal,
+              ]}
               categoryAction={HandCategoryAction}
               applayFilter={handleApplayFilter}
+              FilterPriceSlider={FilterPriceSlider}
             />
           </div>
           {/* products */}
@@ -156,8 +178,13 @@ export default function page() {
           </div>
           <div>
             <FilterSidbar
+              priceFilterConfig={[
+                products?.minPrixe?.$numberDecimal,
+                products?.minPrixe?.$numberDecimal,
+              ]}
               categoryAction={HandCategoryAction}
               applayFilter={handleApplayFilter}
+              FilterPriceSlider={FilterPriceSlider}
             />
           </div>
         </div>
