@@ -16,7 +16,7 @@ export default function ProductCard({
   discription = "",
   id = "",
   slug = "",
-  rating = "22222",
+  rating = "0",
 }) {
   return (
     <Link href={`/Product/${id}${slug && `?slug=${slug}`}`}>
@@ -24,7 +24,7 @@ export default function ProductCard({
         <Image
           width={270}
           height={270}
-          className="object-fill w-full max-h-[270px] min-h-[270px]"
+          className="object-cover w-full max-h-[270px] min-h-[270px]"
           src={image || imagesCard}
           alt="green iguana"
         />
@@ -38,9 +38,11 @@ export default function ProductCard({
             <p className="line-clamp-1 w-full">
               {tital ? tital : "Loading..."}
             </p>
-            <span className="bg-orange-600 px-3 rounded-xl h-fit text-sm text-white">
-              {rating}
-            </span>
+            {rating != "0" && (
+              <span className="bg-orange-600 px-3 rounded-xl h-fit text-sm text-white">
+                {rating}
+              </span>
+            )}
           </Typography>
           <Typography
             className="line-clamp-3"

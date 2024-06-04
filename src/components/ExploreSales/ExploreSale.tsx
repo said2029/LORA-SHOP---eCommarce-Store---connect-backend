@@ -10,7 +10,7 @@ export default function ExploreSale(prop: { tital: string; subtital: string }) {
     route.push("/Products");
   }
   return (
-    <Container className="flex flex-col justify-center items-center mt-7 px-3">
+    <Container className="flex flex-col justify-center items-center my-7 px-3">
       <div className="flex w-full justify-between gap-6 items-center">
         <h1 className="text-3xl font-semibold">
           {prop.tital} <span className="text-blue-600">{prop.subtital}</span>

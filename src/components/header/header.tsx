@@ -12,7 +12,7 @@ import ShopCard from "./_componets/shopCard";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import { getStoreSettingState } from "@/../Redux/store";
+import { getStoreSettingState } from "@/Redux/store";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -36,7 +36,12 @@ export default function Header() {
   return (
     <>
       {!UtlAuthPage && (
-        <header className=" shadow-md shadow-gray-200 w-full py-2">
+        <header className=" shadow-md shadow-gray-200 w-full">
+          <div className="py-1 w-full bg-gray-100 flex justify-between px-16 text-lg text-gray-400">
+            <span>{StoreRedux.storeSetting.settingData.help_text}</span>
+            <span>{StoreRedux.storeSetting.settingData.phone_number}</span>
+
+          </div>
           <div className="mx-auto flex flex-col max-w-screen-xl justify-center items-center gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
@@ -46,7 +51,7 @@ export default function Header() {
                     width={200}
                     height={200}
                     src={
-                      StoreRedux?.storeSetting?.settingData.Header_Logo_image ||
+                      StoreRedux?.storeSetting?.settingData.Header_Logo_image||
                       "/logoipsum.svg"
                     }
                     alt="logo"

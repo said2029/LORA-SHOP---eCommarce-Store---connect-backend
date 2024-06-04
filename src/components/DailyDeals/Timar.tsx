@@ -1,9 +1,7 @@
-"use client";
 import { useEffect, useState } from "react";
-import ProductCard from "../Cards/ProductCard";
 import moment from "moment";
-export default function Timar() {
-  const momantEnd = moment("2025-05-29T20:20:00");
+export default function Timar({DetaTime}:{DetaTime:""}) {
+  const momantEnd = moment(DetaTime);
   
   const thisTimediff = momantEnd.diff(moment());
   const RelaTime = moment.duration(thisTimediff);

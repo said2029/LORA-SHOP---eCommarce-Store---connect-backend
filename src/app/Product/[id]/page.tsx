@@ -48,7 +48,7 @@ export default function page({ params }: { params: { id: string } }) {
     rating: { $numberDecimal: 0 },
   };
   let [product, setProducts] = useState(productModile);
-  let [Reviews, setReviews] = useState({});
+  let [Reviews, setReviews] = useState([]);
 
   const [productlikes, setproductlikes] = useState([]);
   useEffect(() => {
@@ -58,8 +58,21 @@ export default function page({ params }: { params: { id: string } }) {
       res.data.rating.$numberDecimal = +res.data.rating.$numberDecimal;
       setProducts(res.data);
       getProductsApi(0, res.data.ProductCategory).then((res2) => {
-        setproductlikes(res2.data.data);
+        if (res2.data.data.length <= 0) {
+          getProductsApi(0).then((res3) => {
+            setproductlikes(res3.data.data);
+          });
+        } else {
+          setproductlikes(res2.data.data);
+        }
       });
+    });
+    ReviewProductApi(params.id).then((res) => {
+      res.data.reviews.map((e: any) => {
+        e.useImage = e.customers[0].imageUser;
+        e.useName = `${e.customers[0].FirstName} ${e.customers[0].lastName}`;
+      });
+      setReviews(res.data.reviews);
     });
   }, []);
 
@@ -189,13 +202,14 @@ export default function page({ params }: { params: { id: string } }) {
                   )}
                 </div>
                 <p className="ml-2 text-sm font-medium text-gray-500">
-                  {
+                  {Reviews.length <= 0 ? (
                     <Skeleton
                       animation={"wave"}
-                      sx={{ width: "100%", height: 40 }}
+                      sx={{ width: 200, height: 40 }}
                     />
-                  }
-                  1,209 Reviews
+                  ) : (
+                    Reviews.length + " Reviews"
+                  )}
                 </p>
               </div>
 
@@ -242,7 +256,7 @@ export default function page({ params }: { params: { id: string } }) {
                     ) : (
                       <Skeleton
                         animation={"wave"}
-                        sx={{ width: 200, height: 100 }}
+                        sx={{ width: 150, height: 100 }}
                       />
                     )}
                     {product.productprice?.$numberDecimal && (
@@ -314,7 +328,7 @@ export default function page({ params }: { params: { id: string } }) {
                   >
                     Reviews
                     <span className="ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100">
-                      1,209
+                      {Reviews.length}
                     </span>
                   </button>
                 </nav>
@@ -331,14 +345,26 @@ export default function page({ params }: { params: { id: string } }) {
                   )}
                 </div>
               ) : (
-                <div className="mt-9 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <ReviewCard />
-                  <ReviewCard />
-                  <ReviewCard />
-                  <ReviewCard />
-                  <ReviewCard />
-                  <ReviewCard />
-                  <ReviewCard />
+                <div className="mt-9 grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto">
+                  {Reviews.map(
+                    (e: {
+                      _id: "";
+                      review: "";
+                      rating: "";
+                      useImage: "";
+                      useName: "";
+                    }) => {
+                      return (
+                        <ReviewCard
+                          key={e._id}
+                          dis={e.review}
+                          image={e.useImage}
+                          name={e.useName}
+                          stars={+e.rating}
+                        />
+                      );
+                    }
+                  )}
                 </div>
               )}
             </div>
@@ -357,25 +383,30 @@ export default function page({ params }: { params: { id: string } }) {
         <div className="grid grid-cols-1 mt-6 justify-center items-center mx-auto gap-4 w-full sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {productlikes.length >= 1 &&
             productlikes?.map(
-              (e: {
-                Product_Description: string;
-                productprice: { $numberDecimal: "" };
-                productSaleprice: { $numberDecimal: "" };
-                _id: string;
-                ProducName: string;
-                ProductsImage: [""];
-              }) => {
-                return (
-                  <ProductCard
-                    discription={e.Product_Description}
-                    supPrice={e.productprice?.$numberDecimal || ""}
-                    peice={e.productSaleprice?.$numberDecimal}
-                    key={e._id}
-                    tital={e.ProducName}
-                    image={e.ProductsImage[0]}
-                    id={e._id}
-                  />
-                );
+              (
+                e: {
+                  Product_Description: string;
+                  productprice: { $numberDecimal: "" };
+                  productSaleprice: { $numberDecimal: "" };
+                  _id: string;
+                  ProducName: string;
+                  ProductsImage: [""];
+                },
+                index
+              ) => {
+                if (index < 4) {
+                  return (
+                    <ProductCard
+                      discription={e.Product_Description}
+                      supPrice={e.productprice?.$numberDecimal || ""}
+                      peice={e.productSaleprice?.$numberDecimal}
+                      key={e._id}
+                      tital={e.ProducName}
+                      image={e.ProductsImage[0]}
+                      id={e._id}
+                    />
+                  );
+                }
               }
             )}
         </div>

@@ -1,4 +1,4 @@
-import store from "../../Redux/store";
+import store from "../Redux/store";
 
 const logoFavorite = "";
 let logoImage = store.getState().storeSetting.settingData.Header_Logo_image;

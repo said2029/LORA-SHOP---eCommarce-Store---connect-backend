@@ -10,7 +10,9 @@ const fetchCategorys = createAsyncThunk(
   "categoryRedux/fatchCategorys",
   async () => {
     return (
-      await fetch(process.env.NEXT_PUBLIC_BACKENDURL + "/cateorys?all=dsfd").then(async (res) => res)
+      await fetch(process.env.NEXT_PUBLIC_BACKENDURL + "/cateorys?all=all", {
+        next: { revalidate: 20000 },
+      }).then(async (res) => res)
     ).json();
   }
 );

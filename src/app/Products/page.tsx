@@ -74,7 +74,6 @@ export default function page() {
   function SelectRateFilter(value: SyntheticEvent<Element, Event>) {
     const target = value.target as HTMLInputElement;
     Rateing = target.value;
-    console.log("Rateing  ", Rateing);
   }
 
   const FilterPriceSlider = (value: number[] | number) => {

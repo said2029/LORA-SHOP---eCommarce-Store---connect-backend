@@ -5,11 +5,10 @@ import Avatar from "@mui/material/Avatar";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import storeSetting from "../../../Redux/feature/storeSetting/storeSetting";
-import { Facebook, Linkedin } from "lucide-react";
+import { Linkedin } from "lucide-react";
+import { getStoreSettingState } from "@/Redux/store";
 import {
   FacebookOutlined,
-  Instagram,
   Pinterest,
   Twitter,
   WhatsApp,
@@ -18,64 +17,61 @@ import Image from "next/image";
 
 export default function Fooetr() {
   const pathName = usePathname();
-  let [UtlAuthPage, setUtlAuthPage] = useState(false);
-  let [isClient, setIsClient] = useState(false);
+  let [UtlAuthPage, setUtlAuthPage] = useState(true);
 
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
-    setIsClient(true);
   }, [pathName]);
-  const settingStore = useSelector(
-    (state: {
-      storeSetting: {
-        settingData: {
-          Header_Logo_image: string;
-          footer_block_three_link_one_title: string;
-          FooterLogo: string;
-          footer_block_four_phone: string;
-          footer_block_four_email: "";
-          TopCategoryFooter: "";
-          footer_block_two_title: "";
-          footer_block_two_link_one: "";
-          footer_block_two_link_one_title: "";
-          footer_block_two_link_two: "";
-          footer_block_two_link_three: "";
-          footer_block_two_link_three_title: "";
-          footer_block_two_link_four: "";
-          footer_block_two_link_four_title: "";
-          privacy_policy: "";
-          contact_us: "";
-          faq: "";
-          CompanyFooter: "";
-          footer_block_one_title: "";
-          footer_block_one_link_one_title: "";
-          footer_block_one_link_one: "";
-          footer_block_one_link_two_title: "";
-          footer_block_one_link_two: "";
-          footer_block_one_link_three_title: "";
-          footer_block_one_link_three: "";
-          footer_block_one_link_four_title: "";
-          footer_block_one_link_four: "";
-          footer_block_three_link_two_title: "";
-          Social_Links: "";
-          social_facebook: "";
-          social_twitter: "";
-          social_whatsapp: "";
-          social_pinterest: "";
-          social_linkedin: "";
-        };
-      };
-    }) => state.storeSetting.settingData
-  );
+  let settingStore = useSelector(getStoreSettingState).storeSetting;
+  settingStore = settingStore?.settingData;
+  // (state: {
+  //   storeSetting: {
+  //     settingData: {
+  //       Header_Logo_image: string;
+  //       footer_block_three_link_one_title: string;
+  //       FooterLogo: string;
+  //       footer_block_four_phone: string;
+  //       footer_block_four_email: "";
+  //       TopCategoryFooter: "";
+  //       footer_block_two_title: "";
+  //       footer_block_two_link_one: "";
+  //       footer_block_two_link_one_title: "";
+  //       footer_block_two_link_two: "";
+  //       footer_block_two_link_three: "";
+  //       footer_block_two_link_three_title: "";
+  //       footer_block_two_link_four: "";
+  //       footer_block_two_link_four_title: "";
+  //       privacy_policy: "";
+  //       contact_us: "";
+  //       faq: "";
+  //       CompanyFooter: "";
+  //       footer_block_one_title: "";
+  //       footer_block_one_link_one_title: "";
+  //       footer_block_one_link_one: "";
+  //       footer_block_one_link_two_title: "";
+  //       footer_block_one_link_two: "";
+  //       footer_block_one_link_three_title: "";
+  //       footer_block_one_link_three: "";
+  //       footer_block_one_link_four_title: "";
+  //       footer_block_one_link_four: "";
+  //       footer_block_three_link_two_title: "";
+  //       Social_Links: "";
+  //       social_facebook: "";
+  //       social_twitter: "";
+  //       social_whatsapp: "";
+  //       social_pinterest: "";
+  //       social_linkedin: "";
+  //     };
+  //   };
+  // }) => state.storeSetting.settingData
 
   return (
     <>
-      {isClient && !UtlAuthPage && settingStore && (
+      {!UtlAuthPage && settingStore && (
         <footer className="bg-stone-100 mt-10 shadow-md shadow-black">
           <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8">
             <div className="flex items-center justify-center">
               <div className="flex flex-col justify-center items-center text-teal-600 sm:justify-start gap-5">
-                
                 <Image
                   width={220}
                   height={230}
@@ -180,8 +176,7 @@ export default function Fooetr() {
                       className="text-gray-700 transition hover:text-gray-700/75"
                       href="#"
                     >
-                      {" "}
-                      Track Order{" "}
+                      Track Order{" "}=
                     </a>
                   </li>
 

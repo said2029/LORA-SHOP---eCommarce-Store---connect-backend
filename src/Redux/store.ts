@@ -3,7 +3,6 @@ import { fatchData } from "./feature/storeSetting/storeSetting";
 import SettingStoreReducers from "./feature/storeSetting/storeSetting";
 import fetchCategorys from "./feature/dataFetch/Category";
 import { CategorySliceReducer } from "./feature/dataFetch/Category";
-import { RootState } from "@reduxjs/toolkit/query";
 
 const store = configureStore({
   reducer: {

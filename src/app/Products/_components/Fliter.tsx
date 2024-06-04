@@ -14,7 +14,7 @@ import RatingStars from "./RatingStars";
 import CategoryItem from "./CategoryItem";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {getStoreSettingState} from "../../../../Redux/store";
+import {getStoreSettingState} from "../../../Redux/store";
 import React from "react";
 
 export default function FilterSidbar({
