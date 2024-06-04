@@ -12,6 +12,7 @@ import ShopCard from "./_componets/shopCard";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import { getStoreSettingState } from "@/../Redux/store";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -26,18 +27,7 @@ export default function Header() {
   const pathName = usePathname();
   let [UtlAuthPage, setUtlAuthPage] = useState(false);
 
-  const StoreRedux = useSelector(
-    (state: {
-      storeSetting: {
-        settingData: { Header_Logo_image: "" };
-      };
-      CategoryData: {
-        categorys: { categores: []; MaxCategores: 0 };
-        error: "";
-        loading: boolean;
-      };
-    }) => state
-  );
+  const StoreRedux = useSelector(getStoreSettingState);
 
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
@@ -51,16 +41,17 @@ export default function Header() {
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
               <picture>
-                <Image
-                  width={200}
-                  height={200}
-                  src={
-                    StoreRedux?.storeSetting?.settingData.Header_Logo_image
-                      ? StoreRedux?.storeSetting?.settingData.Header_Logo_image
-                      : "/logoipsum.svg"
-                  }
-                  alt="logo"
-                />
+                {StoreRedux.storeSetting && (
+                  <Image
+                    width={200}
+                    height={200}
+                    src={
+                      StoreRedux?.storeSetting?.settingData.Header_Logo_image ||
+                      "/logoipsum.svg"
+                    }
+                    alt="logo"
+                  />
+                )}
               </picture>
             </Link>
 
@@ -68,19 +59,14 @@ export default function Header() {
               <nav aria-label="Global" className="hidden xl:block ">
                 <ul className="flex items-center gap-6 text-sm">
                   <li>
-                    <Link
-                      className="text-gray-500 transition hover:text-gray-500/75"
-                      href="#"
-                    >
-                      <DropMenuCar
-                        categorys={StoreRedux.CategoryData?.categorys}
-                      />
-                    </Link>
+                    <DropMenuCar
+                      categorys={StoreRedux.CategoryData?.categorys}
+                    />
                   </li>
                   <li>
                     <Link
+                      href="/Products"
                       className="text-gray-500 transition hover:text-gray-500/75"
-                      href="/ProductsPage"
                     >
                       Products
                     </Link>
@@ -170,16 +156,17 @@ export default function Header() {
             <div>
               <div className="mb-6 flex items-center justify-between">
                 <div>
-                  <Image
-                    width={200}
-                    height={200}
-                    src={
-                      StoreRedux?.storeSetting.settingData
-                        ? StoreRedux?.storeSetting.settingData.Header_Logo_image
-                        : "/logoipsum.svg"
-                    }
-                    alt="logo"
-                  />
+                  {StoreRedux.storeSetting && (
+                    <Image
+                      width={200}
+                      height={200}
+                      src={
+                        StoreRedux?.storeSetting.settingData
+                          .Header_Logo_image || "/logoipsum.svg"
+                      }
+                      alt="logo"
+                    />
+                  )}
                 </div>
 
                 <button onClick={closeDrawer}>
@@ -206,7 +193,7 @@ export default function Header() {
                     onPointerEnterCapture={() => {}}
                     onPointerLeaveCapture={() => {}}
                   >
-                    Products
+                    <Link href={"/Products"}>Products</Link>
                   </ListItem>
                 </List>
                 <div className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2">

@@ -1,11 +1,12 @@
 "use client";
 import ProductCard from "@/components/Cards/ProductCard";
-import { Divider } from "@mui/material";
+import { Divider, Skeleton } from "@mui/material";
 import Link from "next/link";
-import RatingStars from "@/app/ProductsPage/_components/RatingStars";
+import RatingStars from "@/app/Products/_components/RatingStars";
 import { ShoppingBag } from "lucide-react";
 import ReviewCard from "../_components/ReviewCard";
-import ProductApi from "../../../_utils/axiosProduct";
+import { getProductApi, ReviewProductApi } from "../../../_utils/axiosProduct";
+import getProductsApi from "../../../_utils/axiosProduct";
 
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -20,6 +21,7 @@ export default function page({ params }: { params: { id: string } }) {
   function imageFun(url: string | undefined) {
     return (
       <button
+        key={url}
         type="button"
         className="mb-3 w-20 h-20 overflow-hidden rounded-lg border-2 border-gray-300 text-center"
       >
@@ -39,23 +41,25 @@ export default function page({ params }: { params: { id: string } }) {
   let productModile = {
     Product_Description: "",
     ProducName: "",
-    ProductsImage: [""],
+    ProductsImage: [],
     productprice: { $numberDecimal: "" },
     productSaleprice: { $numberDecimal: "" },
-    colors: [""],
+    colors: [],
+    rating: { $numberDecimal: 0 },
   };
   let [product, setProducts] = useState(productModile);
+  let [Reviews, setReviews] = useState({});
 
   const [productlikes, setproductlikes] = useState([]);
   useEffect(() => {
-    ProductApi.getProductApi(params.id).then((res) => {
+    getProductApi(params.id).then((res) => {
       const colors = res.data.colors[0].split(",");
       res.data.colors = colors;
+      res.data.rating.$numberDecimal = +res.data.rating.$numberDecimal;
       setProducts(res.data);
-      ProductApi.getProductsApi(0, res.data.ProductCategory).then((res2) => {
+      getProductsApi(0, res.data.ProductCategory).then((res2) => {
         setproductlikes(res2.data.data);
       });
-      console.log(res.data);
     });
   }, []);
 
@@ -80,7 +84,7 @@ export default function page({ params }: { params: { id: string } }) {
                   <span className="mx-2 text-gray-400">/</span>
                   <div className="-m-1">
                     <Link
-                      href="/ProductsPage"
+                      href="/Products"
                       className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"
                     >
                       Products
@@ -97,7 +101,14 @@ export default function page({ params }: { params: { id: string } }) {
                       className="rounded-md line-clamp-1 p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"
                       aria-current="page"
                     >
-                      {product?.ProducName}
+                      {product?.ProducName ? (
+                        product?.ProducName
+                      ) : (
+                        <Skeleton
+                          animation={"wave"}
+                          sx={{ width: 300, height: 40 }}
+                        />
+                      )}
                     </a>
                   </div>
                 </div>
@@ -112,49 +123,94 @@ export default function page({ params }: { params: { id: string } }) {
                   modules={[Pagination]}
                   className="mySwiper md:order-2 md:ml-5 py-5 h-full w-full"
                 >
-                  {product.ProductsImage?.map((image: string) => {
-                    return (
-                      <SwiperSlide>
-                        <div className="w-full max-h-[500px] overflow-hidden rounded-lg">
-                          <Image
-                            width={750}
-                            height={790}
-                            className="object-fill h-full w-full"
-                            src={image || ""}
-                            alt="Prodout image"
-                          />
-                        </div>
-                      </SwiperSlide>
-                    );
-                  })}
+                  {product.ProductsImage.length >= 1 ? (
+                    product.ProductsImage?.map((image: string) => {
+                      return (
+                        <SwiperSlide key={image}>
+                          <div className="w-full max-h-[500px] overflow-hidden rounded-lg">
+                            <Image
+                              width={750}
+                              height={790}
+                              className="object-fill h-full w-full"
+                              src={image || "logoipsum.svg"}
+                              alt="Prodout image"
+                            />
+                          </div>
+                        </SwiperSlide>
+                      );
+                    })
+                  ) : (
+                    <SwiperSlide>
+                      <div className="w-full max-h-[500px] min-h-[500px] overflow-hidden rounded-lg  animate-pulse bg-gray-400"></div>
+                    </SwiperSlide>
+                  )}
                 </Swiper>
                 <div className="mt-2 w-full md:order-1 md:w-32 md:flex-shrink-0">
                   <div className="flex flex-row items-start md:flex-col gap-2">
-                    {product.ProductsImage?.map((image: string) => {
-                      return imageFun(image);
-                    })}
+                    {product.ProductsImage.length >= 1 ? (
+                      product.ProductsImage?.map((image: string) => {
+                        return imageFun(image);
+                      })
+                    ) : (
+                      <>
+                        <span className="mb-3 w-20 h-20 overflow-hidden rounded-lg border-2 border-gray-300 text-center animate-pulse bg-gray-400" />
+                        <span className="mb-3 w-20 h-20 overflow-hidden rounded-lg border-2 border-gray-300 text-center animate-pulse bg-gray-400" />
+                        <span className="mb-3 w-20 h-20 overflow-hidden rounded-lg border-2 border-gray-300 text-center animate-pulse bg-gray-400" />
+                        <span className="mb-3 w-20 h-20 overflow-hidden rounded-lg border-2 border-gray-300 text-center animate-pulse bg-gray-400" />
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
             <div className="lg:col-span-2 lg:row-span-2 lg:row-end-2 text-gray-900">
               <h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl line-clamp-2">
-                {product.ProducName}
+                {!product.ProducName ? (
+                  <Skeleton
+                    animation={"wave"}
+                    sx={{ width: "100%", height: 60 }}
+                  />
+                ) : (
+                  product.ProducName
+                )}
               </h1>
               <div className="mt-5 flex items-center">
                 <div className="flex items-center">
-                  <RatingStars startconst={3.5} size={"large"} />
+                  {product.rating.$numberDecimal ? (
+                    <RatingStars
+                      startconst={product.rating.$numberDecimal || 5}
+                      size={"large"}
+                    />
+                  ) : (
+                    <Skeleton
+                      animation={"wave"}
+                      sx={{ width: 140, height: 50 }}
+                    />
+                  )}
                 </div>
                 <p className="ml-2 text-sm font-medium text-gray-500">
+                  {
+                    <Skeleton
+                      animation={"wave"}
+                      sx={{ width: "100%", height: 40 }}
+                    />
+                  }
                   1,209 Reviews
                 </p>
               </div>
 
               <div className="mt-3">
-                <p className="line-clamp-2">{product?.Product_Description}</p>
+                {product?.Product_Description ? (
+                  <p className="line-clamp-2">{product?.Product_Description}</p>
+                ) : (
+                  <Skeleton
+                    animation={"wave"}
+                    sx={{ width: "100%", height: 200 }}
+                  />
+                )}
               </div>
 
-              {product.colors && (
+              {product.colors.length >= 1 && (
                 <>
                   <h2 className="mt-4 text-base text-gray-900 font-bold">
                     Choose Color
@@ -164,6 +220,7 @@ export default function page({ params }: { params: { id: string } }) {
                     {product.colors?.map((e: string) => {
                       return (
                         <span
+                          key={e}
                           onClick={() => {}}
                           style={{
                             outlineColor: e || "",
@@ -180,10 +237,19 @@ export default function page({ params }: { params: { id: string } }) {
               <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
                 <div className="flex items-end">
                   <h1 className="text-3xl font-bold">
-                    ${product.productSaleprice?.$numberDecimal}
-                    <span className="line-through ms-1 text-[20px] text-gray-600">
-                      ${product.productprice?.$numberDecimal}
-                    </span>{" "}
+                    {product.productSaleprice?.$numberDecimal ? (
+                      "$" + product.productSaleprice?.$numberDecimal
+                    ) : (
+                      <Skeleton
+                        animation={"wave"}
+                        sx={{ width: 200, height: 100 }}
+                      />
+                    )}
+                    {product.productprice?.$numberDecimal && (
+                      <span className="line-through ms-1 text-[20px] text-gray-600">
+                        ${product.productprice?.$numberDecimal}
+                      </span>
+                    )}
                   </h1>
                 </div>
                 <button
@@ -255,7 +321,14 @@ export default function page({ params }: { params: { id: string } }) {
               </div>
               {!openReview ? (
                 <div className="mt-8 flow-root sm:mt-12">
-                  <p className="mt-4">{product.Product_Description}</p>
+                  {product?.Product_Description ? (
+                    <p className="mt-4">{product.Product_Description}</p>
+                  ) : (
+                    <Skeleton
+                      animation={"wave"}
+                      sx={{ width: "100%", height: 300 }}
+                    />
+                  )}
                 </div>
               ) : (
                 <div className="mt-9 grid grid-cols-1 sm:grid-cols-2 gap-3">

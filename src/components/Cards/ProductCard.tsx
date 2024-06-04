@@ -2,7 +2,6 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { AddShoppingCart } from "@mui/icons-material";
@@ -17,16 +16,15 @@ export default function ProductCard({
   discription = "",
   id = "",
   slug = "",
-  rating = "",
+  rating = "22222",
 }) {
   return (
     <Link href={`/Product/${id}${slug && `?slug=${slug}`}`}>
       <Card sx={{ maxHeight: 450, minHeight: 450 }}>
-        
         <Image
           width={270}
           height={270}
-          className="object-fill max-h-[270px]"
+          className="object-fill w-full max-h-[270px] min-h-[270px]"
           src={image || imagesCard}
           alt="green iguana"
         />
@@ -38,13 +36,11 @@ export default function ProductCard({
             component="div"
           >
             <p className="line-clamp-1 w-full">
-              {tital ? tital : "LIFESTYLE COLLECTION SALE 20% OFF"}
+              {tital ? tital : "Loading..."}
             </p>
-            {rating && rating != "0" && (
-              <span className="bg-orange-600 px-3 rounded-xl h-fit text-sm text-white">
-                {rating}
-              </span>
-            )}
+            <span className="bg-orange-600 px-3 rounded-xl h-fit text-sm text-white">
+              {rating}
+            </span>
           </Typography>
           <Typography
             className="line-clamp-3"

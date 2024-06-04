@@ -24,6 +24,7 @@ export default function DropMenuCar({
         <DragIndicatorIcon />
         Categorys{" "}
         <KeyboardArrowDownIcon
+        
           sx={{ rotate: anchorEl ? "180deg" : "0deg", transition: "0.3s" }}
         />
       </button>
@@ -38,7 +39,7 @@ export default function DropMenuCar({
       >
         {categorys &&
           categorys.categores?.map((e: { name: string,_id:string }) => {
-            return <MenuItem key={e._id} onClick={handleClose}>{e.name}</MenuItem>;
+            return <MenuItem  key={e._id} onClick={handleClose}>{e.name}</MenuItem>;
           })}
       </Menu>
     </div>

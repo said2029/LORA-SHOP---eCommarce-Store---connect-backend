@@ -2,9 +2,11 @@ import Slider from "@mui/material/Slider";
 import {
   Button,
   Checkbox,
+  Radio,
   FormControlLabel,
   FormGroup,
   TextField,
+  RadioGroup,
 } from "@mui/material";
 
 import { AccordionFilter } from "./Accordion";
@@ -12,30 +14,35 @@ import RatingStars from "./RatingStars";
 import CategoryItem from "./CategoryItem";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import {getStoreSettingState} from "../../../../Redux/store";
+import React from "react";
 
 export default function FilterSidbar({
   categoryAction,
   applayFilter,
   FilterPriceSlider,
   priceFilterConfig,
+  SelectRateFilter,
+  RestartFilter,
 }: {
   categoryAction: (value: SyntheticEvent<Element, Event>) => void;
   applayFilter: () => void;
   FilterPriceSlider: (value: number[] | number) => void;
   priceFilterConfig: string[];
+  SelectRateFilter: (value: SyntheticEvent<Element, Event>) => void;
+  RestartFilter: () => void;
 }) {
   const [price_RangeValue, setPrice_RangeValue] = useState<number[]>([0, 999]);
   const [Categorys, SetCategorys] = useState({
     loading: true,
     categorys: { categores: [] },
   });
-  const categorys = useSelector(
-    (state: {
-      CategoryData: { loading: boolean; categorys: { categores: [] } };
-    }) => state.CategoryData
-  );
+  const categorys = useSelector(getStoreSettingState);
+  // (state: {
+  //   CategoryData: { loading: boolean; categorys: { categores: [] } };
+  // }) => state.CategoryData
   useEffect(() => {
-    SetCategorys(categorys);
+    SetCategorys(categorys.CategoryData);
   }, []);
 
   const ChangeValueSlider = (event: Event, value: number[] | number) => {
@@ -77,7 +84,9 @@ export default function FilterSidbar({
             <div>
               <section className="px-2 mt-5">
                 <Slider
-                  getAriaLabel={(index) => (index === 0 ? priceFilterConfig[0]  : priceFilterConfig[1])}
+                  getAriaLabel={(index) =>
+                    index === 0 ? priceFilterConfig[0] : priceFilterConfig[1]
+                  }
                   value={price_RangeValue}
                   onChange={ChangeValueSlider}
                   valueLabelDisplay="auto"
@@ -116,44 +125,41 @@ export default function FilterSidbar({
             <div>
               <section>
                 <FormGroup>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label={<RatingStars startconst={1} size={"large"} />}
-                    onChange={(value) => {
-                      console.info(
-                        "Select star",
-                        (value.target as HTMLInputElement).checked
-                      );
-                    }}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label={<RatingStars startconst={2} size={"large"} />}
-                    onChange={(value) => {
-                      (value.target as HTMLInputElement).checked;
-                    }}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label={<RatingStars startconst={3} size={"large"} />}
-                    onChange={(value) => {
-                      (value.target as HTMLInputElement).checked;
-                    }}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label={<RatingStars startconst={4} size={"large"} />}
-                    onChange={(value) => {
-                      (value.target as HTMLInputElement).checked;
-                    }}
-                  />
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label={<RatingStars startconst={5} size={"large"} />}
-                    onChange={(value) => {
-                      (value.target as HTMLInputElement).checked;
-                    }}
-                  />
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="RatingStars"
+                  >
+                    <FormControlLabel
+                      control={<Radio />}
+                      label={<RatingStars startconst={1} size={"large"} />}
+                      value={1}
+                      onChange={SelectRateFilter}
+                    />
+                    <FormControlLabel
+                      control={<Radio />}
+                      label={<RatingStars startconst={2} size={"large"} />}
+                      value={2}
+                      onChange={SelectRateFilter}
+                    />
+                    <FormControlLabel
+                      control={<Radio />}
+                      label={<RatingStars startconst={3} size={"large"} />}
+                      value={3}
+                      onChange={SelectRateFilter}
+                    />
+                    <FormControlLabel
+                      control={<Radio />}
+                      label={<RatingStars startconst={4} size={"large"} />}
+                      value={4}
+                      onChange={SelectRateFilter}
+                    />
+                    <FormControlLabel
+                      control={<Radio />}
+                      label={<RatingStars startconst={5} size={"large"} />}
+                      value={5}
+                      onChange={SelectRateFilter}
+                    />
+                  </RadioGroup>
                 </FormGroup>
               </section>
             </div>
@@ -171,6 +177,15 @@ export default function FilterSidbar({
           variant="contained"
         >
           Apply
+        </Button>
+        <Button
+          onClick={RestartFilter}
+          className="mt-5"
+          size="large"
+          fullWidth
+          variant="outlined"
+        >
+          Restart
         </Button>
       </section>
     </div>

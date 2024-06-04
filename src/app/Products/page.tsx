@@ -1,11 +1,12 @@
 "use client";
 import { Drawer, IconButton, Pagination, Typography } from "@mui/material";
-import ProductCard from "@/components/Cards/ProductCard";
-import ProductListSkeleton from "@/components/ProductListSkeleton";
+import ProductCard from "../../components/Cards/ProductCard";
+import ProductListSkeleton from "../../components/ProductListSkeleton";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { Filter } from "lucide-react";
 import FilterSidbar from "./_components/Fliter";
-import ProductApi from "../../_utils/axiosProduct";
+import getProductsApi from "../../_utils/axiosProduct";
+import React from "react";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function page() {
   // Pagination
   const [page, setPage] = useState(1);
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    handleRestartFilter();
     setPage(value);
   };
   // === Pagination ===
@@ -28,9 +30,8 @@ export default function page() {
     minPrixe: { $numberDecimal: "0" },
   });
 
-
   // Call api product
-  function GetDataProduct(res: any) {
+  function SetProductData(res: any) {
     if (res.data.length <= 0) {
       res.data.loading = false;
       res.data.data = [];
@@ -39,20 +40,28 @@ export default function page() {
     }
     setProducts(res.data);
   }
-  console.log(products);
 
   //#region filter
 
   // Filter Select Category callback
   let category: string[] = [];
   let FilterProce = [0, 999999];
+  let Rateing = "";
   function handleApplayFilter() {
-    ProductApi.getProductsApi(page - 1, category, FilterProce).then(
+    setProducts((old) => ({ ...old, loading: true }));
+    getProductsApi(page - 1, category, FilterProce, Rateing).then(
       (res: any) => {
-        GetDataProduct(res);
+        SetProductData(res);
         closeDrawer();
       }
     );
+  }
+  function handleRestartFilter() {
+    setProducts((old) => ({ ...old, loading: true }));
+    getProductsApi(page - 1, category).then((res: any) => {
+      SetProductData(res);
+      closeDrawer();
+    });
   }
   function HandCategoryAction(value: SyntheticEvent<Element, Event>) {
     const target = value.target as HTMLInputElement;
@@ -62,19 +71,20 @@ export default function page() {
       category.slice(category.indexOf(target.value), 1);
     }
   }
+  function SelectRateFilter(value: SyntheticEvent<Element, Event>) {
+    const target = value.target as HTMLInputElement;
+    Rateing = target.value;
+    console.log("Rateing  ", Rateing);
+  }
 
   const FilterPriceSlider = (value: number[] | number) => {
     FilterProce = value as number[];
   };
   //#endregion filter
-  
-  
-  
+
   // api
   useEffect(() => {
-    ProductApi.getProductsApi(page - 1, category).then((res: any) => {
-      GetDataProduct(res);
-    });
+    handleRestartFilter();
   }, [page]);
 
   return (
@@ -91,6 +101,8 @@ export default function page() {
               categoryAction={HandCategoryAction}
               applayFilter={handleApplayFilter}
               FilterPriceSlider={FilterPriceSlider}
+              SelectRateFilter={SelectRateFilter}
+              RestartFilter={handleRestartFilter}
             />
           </div>
           {/* products */}
@@ -134,7 +146,7 @@ export default function page() {
                       image={e.ProductsImage[0]}
                       id={e._id}
                       slug={e?.slug}
-                      rating={e?.rating?.$numberDecimal}
+                      rating={e.rating?.$numberDecimal}
                     />
                   );
                 }
@@ -185,6 +197,8 @@ export default function page() {
               categoryAction={HandCategoryAction}
               applayFilter={handleApplayFilter}
               FilterPriceSlider={FilterPriceSlider}
+              SelectRateFilter={SelectRateFilter}
+              RestartFilter={handleRestartFilter}
             />
           </div>
         </div>

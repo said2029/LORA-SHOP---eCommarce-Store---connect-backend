@@ -9,10 +9,11 @@ export default function RatingStars(prop: {
     <div className="flex gap-1">
       <Rating
         readOnly
-        size={prop.size || 0}
+        size={prop.size || "large"}
+        value={prop.startconst}
         name="product-rating"
-        defaultValue={prop.startconst}
-        precision={0.5}
+        defaultValue={0}
+        precision={0.1}
       />
     </div>
   );

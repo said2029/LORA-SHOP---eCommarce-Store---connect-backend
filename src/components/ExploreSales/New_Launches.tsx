@@ -7,7 +7,7 @@ import { Container } from "@mui/material";
 export default function New_Launches(prop: { tital: string; subtital: string }) {
   const route = useRouter();
   function ClickHandler() {
-    route.push("ProductsPage");
+    route.push("/Products");
   }
   return (
     <Container className="flex flex-col justify-center items-center mt-7 px-3 md:px-0 ">

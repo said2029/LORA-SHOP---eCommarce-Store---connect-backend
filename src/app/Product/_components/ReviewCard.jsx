@@ -1,4 +1,4 @@
-import RatingStars from "@/app/ProductsPage/_components/RatingStars";
+import RatingStars from "@/app/Products/_components/RatingStars";
 import Image from "next/image";
 
 export default function ReviewCard() {
