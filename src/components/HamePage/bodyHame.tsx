@@ -10,13 +10,13 @@ export default function BodyHame() {
   return (
     <>
       <HeroSection />
-      {/* bast saler */}
-      <ExploreSale tital="Explore" subtital="Bestsellers" />
+      <New_Launches tital="New" subtital="Launches" />
       {/* Shop by category */}
       <ShopByCat />
       <DailyDeals />
       <DeliveryCard />
-      <New_Launches tital="New" subtital="Launches" />
+      {/* bast saler */}
+      <ExploreSale tital="Explore" subtital="Bestsellers" />
       {/* <ShopByLifeStyle tital="Shop By" subtital="Lifestyles" /> */}
     </>
   );

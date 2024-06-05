@@ -3,6 +3,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import Link from "next/link";
 
 export default function DropMenuCar({
   categorys,
@@ -39,7 +40,8 @@ export default function DropMenuCar({
       >
         {categorys &&
           categorys.categores?.map((e: { name: string,_id:string }) => {
-            return <MenuItem  key={e._id} onClick={handleClose}>{e.name}</MenuItem>;
+            return <MenuItem  key={e._id} onClick={handleClose}><Link href={`/Products?category=${e.name}`}>{e.name}</Link></MenuItem>;
+
           })}
       </Menu>
     </div>

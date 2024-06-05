@@ -3,22 +3,31 @@ import { fatchData } from "./feature/storeSetting/storeSetting";
 import SettingStoreReducers from "./feature/storeSetting/storeSetting";
 import fetchCategorys from "./feature/dataFetch/Category";
 import { CategorySliceReducer } from "./feature/dataFetch/Category";
+import ProductsReducer from "./feature/products/ReduxProducts";
+import { fetchProducts } from "./feature/products/ReduxProducts";
 
 const store = configureStore({
   reducer: {
     storeSetting: SettingStoreReducers,
     CategoryData: CategorySliceReducer,
+    Products: ProductsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
 });
 store.dispatch(fatchData());
 store.dispatch(fetchCategorys());
+store.dispatch(fetchProducts());
 
-const getStoreSettingState = createSelector(
+const getStoreState = createSelector(
   (state) => state,
-  ({ storeSetting, CategoryData }) => {
-    return { storeSetting, CategoryData };
+  ({ storeSetting, CategoryData, Products }) => {
+    return { storeSetting, CategoryData, Products };
   }
 );
-export { getStoreSettingState };
+export { getStoreState };
 
 export default store;

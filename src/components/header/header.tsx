@@ -4,15 +4,15 @@ import { Badge, IconButton } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
 import { Button, Drawer, Typography } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { List, ListItem } from "@material-tailwind/react";
 import DropMenuCar from "./_componets/DropMenuCar";
 import CloseIcon from "@mui/icons-material/Close";
 import ShopCard from "./_componets/shopCard";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import { getStoreSettingState } from "@/Redux/store";
+import { getStoreState } from "@/Redux/store";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -27,7 +27,18 @@ export default function Header() {
   const pathName = usePathname();
   let [UtlAuthPage, setUtlAuthPage] = useState(false);
 
-  const StoreRedux = useSelector(getStoreSettingState);
+  const StoreRedux = useSelector(getStoreState);
+  // search Form
+  const router = useRouter();
+  const FormSearch = useRef<HTMLFormElement>(null);
+  if (FormSearch.current != null && FormSearch.current != undefined) {
+    FormSearch.current.onsubmit = (ev: SubmitEvent) => {
+      ev.preventDefault();
+      const dataForm = new FormData(FormSearch.current as HTMLFormElement);
+      router.push(`/Products?search=${dataForm.get("search")}`);
+
+    };
+  }
 
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
@@ -40,19 +51,17 @@ export default function Header() {
           <div className="py-1 w-full bg-gray-100 flex justify-between px-16 text-lg text-gray-400">
             <span>{StoreRedux.storeSetting.settingData.help_text}</span>
             <span>{StoreRedux.storeSetting.settingData.phone_number}</span>
-
           </div>
           <div className="mx-auto flex flex-col max-w-screen-xl justify-center items-center gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
               <picture>
-                {StoreRedux.storeSetting && (
+                {StoreRedux.storeSetting !="" && (
                   <Image
                     width={200}
                     height={200}
                     src={
-                      StoreRedux?.storeSetting?.settingData.Header_Logo_image||
-                      "/logoipsum.svg"
+                      StoreRedux?.storeSetting?.settingData.Header_Logo_image
                     }
                     alt="logo"
                   />
@@ -80,6 +89,7 @@ export default function Header() {
               </nav>
               {/* Search bar */}
               <form
+                ref={FormSearch}
                 className="flex-grow flex-shrink-0 mb-5 md:mb-0"
                 method="get"
               >
@@ -88,6 +98,7 @@ export default function Header() {
                     placeholder="Search your products"
                     className="py-[10px] px-3 bg-gray-50 rounded-3xl border border-gray-300 w-full pl-10 text-sm focus:outline-none focus:border-teal-500 focus:ring-1"
                     type="text"
+                    name="search"
                   />
                   <Search className="absolute left-2 text-gray-400" />
                 </div>

@@ -14,7 +14,7 @@ import RatingStars from "./RatingStars";
 import CategoryItem from "./CategoryItem";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {getStoreSettingState} from "../../../Redux/store";
+import {getStoreState} from "../../../Redux/store";
 import React from "react";
 
 export default function FilterSidbar({
@@ -37,7 +37,7 @@ export default function FilterSidbar({
     loading: true,
     categorys: { categores: [] },
   });
-  const categorys = useSelector(getStoreSettingState);
+  const categorys = useSelector(getStoreState);
   // (state: {
   //   CategoryData: { loading: boolean; categorys: { categores: [] } };
   // }) => state.CategoryData

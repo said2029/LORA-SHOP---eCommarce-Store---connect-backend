@@ -1,12 +1,12 @@
 "use client";
 import { Container } from "@mui/material";
 import CategoryCars from "./CategoryCards";
-import { getStoreSettingState } from "../../Redux/store";
+import { getStoreState } from "../../Redux/store";
 import { useSelector } from "react-redux";
 import UseIsClient from "../../hooks/IsClient";
 export default function ShopByCat() {
   const SettingStoreRedux =
-    useSelector(getStoreSettingState).storeSetting.settingData;
+    useSelector(getStoreState).storeSetting.settingData;
   const osClient = UseIsClient();
 
   return (

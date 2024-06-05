@@ -3,12 +3,12 @@ import { BriefcaseBusiness, Users } from "lucide-react";
 import PaymentIcon from "@mui/icons-material/Payment";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { useSelector } from "react-redux";
-import { getStoreSettingState } from "../Redux/store";
+import { getStoreState } from "../Redux/store";
 import UseIsClient from "../hooks/IsClient";
 
 export default function DeliveryCard() {
   const SettingStoreRedux =
-    useSelector(getStoreSettingState).storeSetting.settingData;
+    useSelector(getStoreState).storeSetting.settingData;
   const osClient = UseIsClient();
 
   return (

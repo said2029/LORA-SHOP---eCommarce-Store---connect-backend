@@ -5,13 +5,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 // import required modules
-import { Pagination } from "swiper/modules";
+import {Autoplay, Pagination } from "swiper/modules";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { getStoreSettingState } from "../../Redux/store";
+import { getStoreState } from "../../Redux/store";
 export function CarouselHome() {
-  const SettingStoreRedux = useSelector(getStoreSettingState).storeSetting;
+  const SettingStoreRedux = useSelector(getStoreState).storeSetting;
   const respons = SettingStoreRedux;
 
   let [IsClient, SetIsClient] = useState(false);
@@ -25,8 +25,12 @@ export function CarouselHome() {
         pagination={{
           dynamicBullets: true,
         }}
-        modules={[Pagination]}
+        modules={[Autoplay,Pagination]}
         className="mySwiper h-full"
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false,
+        }}
       >
         {IsClient &&
           respons &&
@@ -60,12 +64,8 @@ export function CarouselHome() {
                       <h1 className="text-4xl font-thin uppercase">
                         {element?.slider_title}
                       </h1>
-                      <h1 className="text-2xl font-light my-4">
-                        SALE UP TO{" "}
-                        <span className="text-light-blue-600">30% OFF</span>
-                      </h1>
-                      <span className="text-gray-600 my-2">
-                        {element?.slider_description}
+                      <span className="text-gray-600 my-4 block">
+                        {element?.slider_description.split("//")[0]} <span className="text-light-blue-600">{element?.slider_description.split("//")[1]}</span>
                       </span>
                       <span className="flex justify-center md:justify-start">
                         <a

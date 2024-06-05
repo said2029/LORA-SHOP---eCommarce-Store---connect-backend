@@ -140,11 +140,11 @@ export default function page({ params }: { params: { id: string } }) {
                     product.ProductsImage?.map((image: string) => {
                       return (
                         <SwiperSlide key={image}>
-                          <div className="w-full max-h-[500px] overflow-hidden rounded-lg">
+                          <div className="w-full max-h-[600px] overflow-hidden rounded-lg">
                             <Image
-                              width={750}
-                              height={790}
-                              className="object-fill h-full w-full"
+                              width={650}
+                              height={690}
+                              className="object-fit h-full w-full"
                               src={image || "logoipsum.svg"}
                               alt="Prodout image"
                             />

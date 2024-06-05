@@ -4,10 +4,11 @@ const getProductsApi = (
   page = 0,
   categorys = [""],
   price = [0, 99999],
-  rate = ""
+  rate = "",
+  search="",
 ) =>
   axiosClient.get(
-    `/products?ProducName=&ProductCategory=${categorys}&page=${page}&minPrice=${
+    `/products?searchProduct=${search}&ProductCategory=${categorys}&page=${page}&minPrice=${
       price[0]
     }&maxPrice=${price[1]}${rate != "" && "&rating=" + rate}`
   );

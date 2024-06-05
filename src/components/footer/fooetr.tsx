@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Linkedin } from "lucide-react";
-import { getStoreSettingState } from "@/Redux/store";
+import { getStoreState } from "@/Redux/store";
 import {
   FacebookOutlined,
   Pinterest,
@@ -22,7 +22,7 @@ export default function Fooetr() {
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
   }, [pathName]);
-  let settingStore = useSelector(getStoreSettingState).storeSetting;
+  let settingStore = useSelector(getStoreState).storeSetting;
   settingStore = settingStore?.settingData;
   // (state: {
   //   storeSetting: {

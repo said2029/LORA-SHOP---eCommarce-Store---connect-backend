@@ -1,13 +1,13 @@
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
-
+import getProductsApi from "../../../_utils/axiosProduct";
 const initialState = {
   loading: true,
   error: "",
   products: [],
 };
 
-const fetchProducts = createAsyncThunk("Products/fetchProducts", () => {
-    
+const fetchProducts = createAsyncThunk("Products/fetchProducts", async () => {
+  return await getProductsApi().then((res) => res);
 });
 const ProductSlice = createSlice({
   name: "Products",

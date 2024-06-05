@@ -7,6 +7,7 @@ import { Filter } from "lucide-react";
 import FilterSidbar from "./_components/Fliter";
 import getProductsApi from "../../_utils/axiosProduct";
 import React from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -42,9 +43,12 @@ export default function page() {
   }
 
   //#region filter
-
+  // search
+  const SearchParams = useSearchParams();
+  const SearchValue = SearchParams.get("search") || "";
+  const CategoryParams = SearchParams.get("category") ||""
   // Filter Select Category callback
-  let category: string[] = [];
+  let category: string[] = [CategoryParams];
   let FilterProce = [0, 999999];
   let Rateing = "";
   function handleApplayFilter() {
@@ -57,11 +61,15 @@ export default function page() {
     );
   }
   function handleRestartFilter() {
+    console.log("CategoryParams", CategoryParams);
+
     setProducts((old) => ({ ...old, loading: true }));
-    getProductsApi(page - 1, category).then((res: any) => {
-      SetProductData(res);
-      closeDrawer();
-    });
+    getProductsApi(page - 1, category, [0, 99999], "", SearchValue).then(
+      (res: any) => {
+        SetProductData(res);
+        closeDrawer();
+      }
+    );
   }
   function HandCategoryAction(value: SyntheticEvent<Element, Event>) {
     const target = value.target as HTMLInputElement;
@@ -84,7 +92,7 @@ export default function page() {
   // api
   useEffect(() => {
     handleRestartFilter();
-  }, [page]);
+  }, [page, SearchValue,CategoryParams]);
 
   return (
     <>
