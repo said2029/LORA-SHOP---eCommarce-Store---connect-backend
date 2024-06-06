@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 // import required modules
-import {Autoplay, Pagination } from "swiper/modules";
+import {Autoplay, Pagination} from "swiper/modules";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -24,9 +24,10 @@ export function CarouselHome() {
       <Swiper
         pagination={{
           dynamicBullets: true,
+
         }}
         modules={[Autoplay,Pagination]}
-        className="mySwiper h-full"
+        className="mySwiper h-[200px] sm:h-[400px]"
         autoplay={{
           delay: 4000,
           disableOnInteraction: false,
@@ -50,24 +51,24 @@ export function CarouselHome() {
               return (
                 <SwiperSlide
                   key={element?._id}
-                  className="flex gap-2 justify-between items-center relative bg-white h-96"
+                  className="flex gap-2 justify-between  items-center relative bg-white h-96"
                 >
                   <Image
                     width={750}
                     height={790}
-                    className="w-full h-full hidden md:block object-cover"
+                    className="w-full h-full object-cover"
                     src={element?.home_Slider_Images || ""}
                     alt=""
                   />
-                  <div className="absolute top-0 h-full flex items-center sm:p-5 w-full">
-                    <section className="text-center md:text-start w-full">
-                      <h1 className="text-4xl font-thin uppercase">
+                  <div className="absolute top-0 h-full flex items-center sm:p-5 w-[70%] md:w-[60%] px-2">
+                    <section className="text-start w-full">
+                      <h1 className="text-sm sm:text-4xl font-medium uppercase">
                         {element?.slider_title}
                       </h1>
-                      <span className="text-gray-600 my-4 block">
-                        {element?.slider_description.split("//")[0]} <span className="text-light-blue-600">{element?.slider_description.split("//")[1]}</span>
+                      <span className="text-gray-600 my-4 block text-[13px]">
+                        <span className="line-clamp-2 md:line-clamp-none">{element?.slider_description.split("//")[0]}</span> <span className="text-light-blue-600">{element?.slider_description.split("//")[1]}</span>
                       </span>
-                      <span className="flex justify-center md:justify-start">
+                      <span className=" justify-center sm:justify-start hidden sm:flex">
                         <a
                           href={element?.slider_button_link}
                           className="bg-light-blue-600 mt-10 w-fit block p-2 rounded-md text-white"

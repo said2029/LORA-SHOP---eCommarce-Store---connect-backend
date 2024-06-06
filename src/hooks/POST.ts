@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import axiosClient from "../src/_utils/axiosClient";
+import axiosClient from "../_utils/axiosClient";
 const UsePOST = (url: string, body: {}) => {
   useEffect(() => {
     axiosClient.post(url, body).then((res) => {

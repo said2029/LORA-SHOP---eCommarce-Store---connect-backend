@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
-export default function Timar({DetaTime}:{DetaTime:""}) {
+export default function Timar({ DetaTime }: { DetaTime: "" }) {
   const momantEnd = moment(DetaTime);
-  
+
   const thisTimediff = momantEnd.diff(moment());
   const RelaTime = moment.duration(thisTimediff);
+  let daysFromMonth = moment.duration(RelaTime.get("month"), "months").asDays();
+  daysFromMonth += RelaTime.get("days");
   const [time, setTime] = useState(["00", "00", "00", "00"]);
 
   useEffect(() => {
@@ -12,7 +14,7 @@ export default function Timar({DetaTime}:{DetaTime:""}) {
       if (momantEnd.isAfter(moment())) {
         RelaTime.add(-1, "seconds");
         setTime([
-          RelaTime.get("days").toString().padStart(2, "0"),
+          daysFromMonth.toString(),
           RelaTime.get("hours").toString().padStart(2, "0"),
           RelaTime.get("minutes").toString().padStart(2, "0"),
           RelaTime.get("seconds").toString().padStart(2, "0"),

@@ -7,8 +7,10 @@ import Link from "next/link";
 
 export default function DropMenuCar({
   categorys,
+  name,
 }: {
   categorys: { categores: []; MaxCategores: 0 };
+  name:"Categorys"
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -23,7 +25,7 @@ export default function DropMenuCar({
     <div className="z-30">
       <button id="basic-button" onClick={handleClick}>
         <DragIndicatorIcon />
-        Categorys{" "}
+        {name}
         <KeyboardArrowDownIcon
         
           sx={{ rotate: anchorEl ? "180deg" : "0deg", transition: "0.3s" }}

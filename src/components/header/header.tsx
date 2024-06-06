@@ -1,9 +1,9 @@
 "use client";
-import { CircleUserRound, Search } from "lucide-react";
+import { CircleUserRound, Phone, PhoneCall, Search } from "lucide-react";
 import { Badge, IconButton } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
-import { Button, Drawer, Typography } from "@material-tailwind/react";
+import { Button, Drawer } from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import { List, ListItem } from "@material-tailwind/react";
 import DropMenuCar from "./_componets/DropMenuCar";
@@ -13,6 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import { getStoreState } from "@/Redux/store";
+import UseIsClient from "@/hooks/IsClient";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -30,33 +31,80 @@ export default function Header() {
   const StoreRedux = useSelector(getStoreState);
   // search Form
   const router = useRouter();
-  const FormSearch = useRef<HTMLFormElement>(null);
-  if (FormSearch.current != null && FormSearch.current != undefined) {
-    FormSearch.current.onsubmit = (ev: SubmitEvent) => {
-      ev.preventDefault();
-      const dataForm = new FormData(FormSearch.current as HTMLFormElement);
-      router.push(`/Products?search=${dataForm.get("search")}`);
+  const FormSearch = useRef<HTMLFormElement[]>([]);
 
-    };
+  function addRefSearchInput(el: HTMLFormElement) {
+    if (el && !FormSearch.current.includes(el)) {
+      FormSearch.current.push(el);
+    }
+  }
+  if (FormSearch.current != null && FormSearch.current != undefined) {
+    FormSearch.current.map((e) => {
+      e.addEventListener("submit", (ev: SubmitEvent) => {
+        ev.preventDefault();
+        const dataForm = new FormData(e);
+        router.push(`/Products?search=${dataForm.get("search")}`);
+      });
+    });
   }
 
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
   }, [pathName]);
+  const isClient = UseIsClient();
 
   return (
     <>
-      {!UtlAuthPage && (
-        <header className=" shadow-md shadow-gray-200 w-full">
-          <div className="py-1 w-full bg-gray-100 flex justify-between px-16 text-lg text-gray-400">
-            <span>{StoreRedux.storeSetting.settingData.help_text}</span>
-            <span>{StoreRedux.storeSetting.settingData.phone_number}</span>
+      {isClient && !UtlAuthPage && (
+        <header className="w-full">
+          <div className="py-2 w-full bg-gray-900 flex gap-2 flex-col md:flex-row justify-center items-center md:justify-between px-16 text-[13px] text-white font-thin text-nowrap">
+            <div className="flex gap-1 items-center">
+              <PhoneCall widths={1} size={14} />
+              <div className="flex gap-1">
+                <section>
+                  {StoreRedux.storeSetting.settingData.help_text}{" "}
+                  <span className="text-blue-300">
+                    {StoreRedux.storeSetting.settingData.phone_number}
+                  </span>
+                </section>
+              </div>
+            </div>
+            <section>
+              <ul className="flex gap-2 items-center">
+                <li className="px-2 hover:text-blue-300">
+                  <a href="">{StoreRedux.storeSetting.settingData.about_us}</a>
+                </li>
+                <li>
+                  <hr className="border border-white h-5" />
+                </li>
+                <li className="px-2 hover:text-blue-300">
+                  <a href="">
+                    {StoreRedux.storeSetting.settingData.contact_us}
+                  </a>
+                </li>
+                <li>
+                  <hr className="border border-white h-5" />
+                </li>
+                <li className=" px-2 hover:text-blue-300">
+                  <a href="">{StoreRedux.storeSetting.settingData.login}</a>
+                </li>
+                <li>
+                  <hr className="border border-white h-5" />
+                </li>
+                <li className=" px-2 hover:text-blue-300">
+                  <a href="">
+                    {StoreRedux.storeSetting.settingData.my_account}
+                  </a>
+                </li>
+              </ul>
+            </section>
           </div>
-          <div className="mx-auto flex flex-col max-w-screen-xl justify-center items-center gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
+
+          <div className="mx-auto flex flex-col max-w-screen-2xl justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
               <picture>
-                {StoreRedux.storeSetting !="" && (
+                {StoreRedux.storeSetting != "" && (
                   <Image
                     width={200}
                     height={200}
@@ -69,28 +117,11 @@ export default function Header() {
               </picture>
             </Link>
 
-            <div className="flex flex-col items-center justify-center flex-grow w-full md:w-[content] md:flex-row ">
-              <nav aria-label="Global" className="hidden xl:block ">
-                <ul className="flex items-center gap-6 text-sm">
-                  <li>
-                    <DropMenuCar
-                      categorys={StoreRedux.CategoryData?.categorys}
-                    />
-                  </li>
-                  <li>
-                    <Link
-                      href="/Products"
-                      className="text-gray-500 transition hover:text-gray-500/75"
-                    >
-                      Products
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
+            <div className="flex flex-col items-center justify-center flex-grow w-full md:w-full md:flex-row py-2">
               {/* Search bar */}
               <form
-                ref={FormSearch}
-                className="flex-grow flex-shrink-0 mb-5 md:mb-0"
+                ref={addRefSearchInput}
+                className="flex-grow flex-shrink-0 mb-5 md:mb-0 block sm:hidden md:block"
                 method="get"
               >
                 <div className="md:ml-8 relative w-full flex items-center">
@@ -113,6 +144,23 @@ export default function Header() {
                     </Badge>
                   </IconButton>
                 </div>
+
+                <form
+                  ref={addRefSearchInput}
+                  className="flex-grow flex-shrink-0 mb-5 md:mb-0 hidden sm:block md:hidden"
+                  method="get"
+                >
+                  <div className="md:ml-8 relative w-full flex items-center">
+                    <input
+                      placeholder="Search your products"
+                      className="py-[10px] px-3 bg-gray-50 rounded-3xl border border-gray-300 w-full pl-10 text-sm focus:outline-none focus:border-teal-500 focus:ring-1"
+                      type="text"
+                      name="search"
+                    />
+                    <Search className="absolute left-2 text-gray-400" />
+                  </div>
+                </form>
+
                 <Button
                   placeholder=""
                   onPointerEnterCapture={() => {}}
@@ -128,17 +176,10 @@ export default function Header() {
                     Sign In
                   </Link>
                 </Button>
-                {/* <Link
-              className="text-nowrap font-sans flex gap-2 items-center rounded-3xl bg-gray-200 px-4 py-2 text-sm font-medium text-black transition hover:bg-gray-300"
-              href="#"
-            >
-              <UserRoundPlus />
-              Sign In
-            </Link> */}
 
                 <button
                   onClick={openDrawer}
-                  className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600 xl:hidden"
+                  className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600 sm:hidden"
                 >
                   <span className="sr-only">Toggle menu</span>
                   <svg
@@ -157,6 +198,42 @@ export default function Header() {
                   </svg>
                 </button>
               </div>
+            </div>
+          </div>
+
+          <div className="py-3 gap-3 px-4 sm:px-6 lg:px-8  shadow-md shadow-gray-200 mt-4 hidden sm:block">
+            <div className="mx-auto flex flex-col items-center max-w-screen-2xl md:flex-row">
+              <nav aria-label="Global" className="">
+                <ul className="flex items-center gap-3 text-md font-semibold">
+                  <li>
+                    <DropMenuCar
+                      categorys={StoreRedux.CategoryData?.categorys}
+                      name={StoreRedux.storeSetting.settingData.categories}
+                    />
+                  </li>
+                  <li className="px-2 hover:text-blue-300">
+                    <a href="">
+                      {StoreRedux.storeSetting.settingData.about_us}
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="border border-white h-5" />
+                  </li>
+                  <li className=" px-2 hover:text-blue-300">
+                    <a href="">
+                      {StoreRedux.storeSetting.settingData.contact_us}
+                    </a>
+                  </li>
+                  <li>
+                    <Link
+                      href="/Products"
+                      className="text-gray-500 transition hover:text-gray-500/75"
+                    >
+                      Products
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
           {/* Navbar drawer */}
@@ -202,7 +279,26 @@ export default function Header() {
                   >
                     <DropMenuCar
                       categorys={StoreRedux.CategoryData?.categorys}
+                      name={StoreRedux.storeSetting.settingData.categories}
                     />
+                  </ListItem>
+                  <ListItem
+                    placeholder=""
+                    onPointerEnterCapture={() => {}}
+                    onPointerLeaveCapture={() => {}}
+                  >
+                    <Link href={""}>
+                      {StoreRedux.storeSetting.settingData.about_us}
+                    </Link>
+                  </ListItem>
+                  <ListItem
+                    placeholder=""
+                    onPointerEnterCapture={() => {}}
+                    onPointerLeaveCapture={() => {}}
+                  >
+                    <Link href={""}>
+                      {StoreRedux.storeSetting.settingData.contact_us}
+                    </Link>
                   </ListItem>
                   <ListItem
                     placeholder=""

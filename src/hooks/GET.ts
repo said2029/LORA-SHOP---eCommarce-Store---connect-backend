@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axiosClient from "../src/_utils/axiosClient";
+import axiosClient from "../_utils/axiosClient";
 const UseGET = (url: string) => {
   let [respons, setSespons] = useState({});
   useEffect(() => {

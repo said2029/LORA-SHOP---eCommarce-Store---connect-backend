@@ -5,6 +5,7 @@ import MoreButton from "@/components/buttons/moreButton";
 import { Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { getStoreState } from "@/Redux/store";
+import ProductListSkeleton from "../ProductListSkeleton";
 
 export default function New_Launches(prop: {
   tital: string;
@@ -18,7 +19,7 @@ export default function New_Launches(prop: {
   return (
     <Container className="flex flex-col justify-center items-center mt-7  my-7 px-3">
       <div className="flex w-full justify-between gap-6 items-center">
-        <h1 className="text-3xl font-semibold">
+        <h1 className="text-xl sm:text-3xl font-semibold">
           {prop.tital} <span className="text-blue-600">{prop.subtital}</span>
         </h1>
         <div className="flex">
@@ -27,6 +28,9 @@ export default function New_Launches(prop: {
       </div>
       {/* Cards */}
       <div className="grid grid-cols-1 mt-10 justify-center items-center mx-auto gap-4 w-full sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+        {products.products?.data?.data?.length <= 0 && (
+          <ProductListSkeleton count={4} />
+        )}
         {products.products?.data?.data?.length >= 1 &&
           products.products.data.data.map((e: any) => {
             return (
