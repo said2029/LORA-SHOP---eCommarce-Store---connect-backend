@@ -12,11 +12,9 @@ export default function BodyHame() {
       <HeroSection />
       <New_Launches tital="New" subtital="Launches" />
       {/* Shop by category */}
-      <ShopByCat />
       <DailyDeals />
+      <ShopByCat />
       <DeliveryCard />
-      {/* bast saler */}
-      <ExploreSale tital="Explore" subtital="Bestsellers" />
       {/* <ShopByLifeStyle tital="Shop By" subtital="Lifestyles" /> */}
     </>
   );

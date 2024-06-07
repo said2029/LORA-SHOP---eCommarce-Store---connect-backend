@@ -1,13 +1,9 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { AddShoppingCart } from "@mui/icons-material";
+import { AddShoppingCartRounded } from "@mui/icons-material";
 import Link from "next/link";
 import { imagesCard } from "@/_lib/Manager";
 import Image from "next/image";
+import RatingStars from "@/app/Products/_components/RatingStars";
 export default function ProductCard({
   image = "",
   tital = "",
@@ -19,58 +15,55 @@ export default function ProductCard({
   rating = "0",
 }) {
   return (
-    <Link href={`/Product/${id}${slug && `?slug=${slug}`}`}>
-      <Card sx={{ maxHeight: 450, minHeight: 450 }}>
-        <Image
-          width={270}
-          height={270}
-          className="object-cover w-full max-h-[270px] min-h-[270px]"
-          src={image || imagesCard}
-          alt="green iguana"
+    <Link
+      href={`/Product/${id}?slug=${slug}`} 
+      className="relative h-[25rem] w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md"
+    >
+      <article className="w-full flex justify-center">
+        <img
+        loading="lazy"
+        decoding="async"
+          className="h-60 rounded-t-lg object-cover object-center"
+          src={image}
+          alt="product image"
         />
-        <CardContent>
-          <Typography
-            className="flex justify-between gap-2 items-center"
-            gutterBottom
-            variant="h6"
-            component="div"
-          >
-            <p className="line-clamp-1 w-full">
-              {tital ? tital : "Loading..."}
-            </p>
-            {rating != "0" && (
-              <span className="bg-orange-600 px-3 rounded-xl h-fit text-sm text-white">
-                {rating}
+      </article>
+      {/* <span className="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-sm text-white">
+        Sale
+      </span> */}
+      <article className="mt-4 px-2 pb-5 flex flex-col justify-between  h-40">
+        <p>
+          <h5 className="text-xl font-semibold tracking-tight text-slate-900 line-clamp-1">
+            {tital}
+          </h5>
+        </p>
+
+        {rating != "0" ? (
+          <div className="mt-2.5 mb-5 flex items-center">
+            <span className="mr-2 rounded bg-orange-500 px-2.5 py-0.5 text-xs font-semibold">
+              {rating}
+            </span>
+            <RatingStars size="small" startconst={+rating} />
+          </div>
+        ) : (
+          <p className="mt-2.5 mb-5 text-sm text-gray-600 line-clamp-2">
+            {discription}
+          </p>
+        )}
+        <div className="flex items-center justify-between">
+          <p>
+            <span className="text-3xl font-bold  text-gray-900">${peice}</span>
+            {supPrice && (
+              <span className="text-sm text-slate-900 line-through text-gray-600">
+                ${supPrice}
               </span>
             )}
-          </Typography>
-          <Typography
-            className="line-clamp-3"
-            variant="body2"
-            color="text.secondary"
-          >
-            {discription
-              ? discription
-              : "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"}
-          </Typography>
-        </CardContent>
-        <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Button size="small">
-            <AddShoppingCart />
-            <p className="text-nowrap">Add To Card</p>
-          </Button>
-          <div className="flex items-end">
-            <Typography color="#3C5B6F" variant="h6" component="div">
-              ${peice ? peice : "20.99"}
-              {supPrice && supPrice > "0" && (
-                <span className="line-through text-sm ms-1">
-                  ${supPrice ? supPrice : "30.68"}
-                </span>
-              )}
-            </Typography>
-          </div>
-        </CardActions>
-      </Card>
+          </p>
+          <button className="flex items-center rounded-md bg-slate-900 py-1  px-2 duration-300 hover:bg-blue-600 hover:text-white text-center text-sm font-medium text-blue-600 border border-gray-300">
+            <AddShoppingCartRounded style={{ fontSize: "20px" }} />
+          </button>
+        </div>
+      </article>
     </Link>
   );
 }

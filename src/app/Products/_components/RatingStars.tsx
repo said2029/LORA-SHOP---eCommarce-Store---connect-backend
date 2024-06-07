@@ -2,7 +2,7 @@ import { Rating } from "@mui/material";
 
 export default function RatingStars(prop: {
   startconst: number;
-  size: "large";
+  size: "large"|"small";
 }) {
 
   return (

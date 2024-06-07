@@ -57,7 +57,7 @@ export default function Header() {
     <>
       {isClient && !UtlAuthPage && (
         <header className="w-full">
-          <div className="py-2 w-full bg-gray-900 flex gap-2 flex-col md:flex-row justify-center items-center md:justify-between px-16 text-[13px] text-white font-thin text-nowrap">
+          <div className="py-2 w-full flex gap-2 flex-col md:flex-row justify-center items-center md:justify-between px-16 text-[13px] text-gray-900 font-thin text-nowrap">
             <div className="flex gap-1 items-center">
               <PhoneCall widths={1} size={14} />
               <div className="flex gap-1">
@@ -75,7 +75,7 @@ export default function Header() {
                   <a href="">{StoreRedux.storeSetting.settingData.about_us}</a>
                 </li>
                 <li>
-                  <hr className="border border-white h-5" />
+                  <hr className="border border-gray-900 h-5" />
                 </li>
                 <li className="px-2 hover:text-blue-300">
                   <a href="">
@@ -83,13 +83,13 @@ export default function Header() {
                   </a>
                 </li>
                 <li>
-                  <hr className="border border-white h-5" />
+                <hr className="border border-gray-900 h-5" />
                 </li>
                 <li className=" px-2 hover:text-blue-300">
                   <a href="">{StoreRedux.storeSetting.settingData.login}</a>
                 </li>
                 <li>
-                  <hr className="border border-white h-5" />
+                <hr className="border border-gray-900 h-5" />
                 </li>
                 <li className=" px-2 hover:text-blue-300">
                   <a href="">
@@ -100,7 +100,7 @@ export default function Header() {
             </section>
           </div>
 
-          <div className="mx-auto flex flex-col max-w-screen-2xl justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
+          <div className="mx-auto bg-blue-500 flex flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
               <picture>
@@ -126,8 +126,8 @@ export default function Header() {
               >
                 <div className="md:ml-8 relative w-full flex items-center">
                   <input
-                    placeholder="Search your products"
-                    className="py-[10px] px-3 bg-gray-50 rounded-3xl border border-gray-300 w-full pl-10 text-sm focus:outline-none focus:border-teal-500 focus:ring-1"
+                    placeholder="Search for products (e.g. Smartwatch, Smart Phone, Camera)"
+                    className="py-[10px] px-3 bg-gray-50 rounded-lg w-full pl-10 text-sm focus:outline-none focus:border-teal-500 focus:ring-1"
                     type="text"
                     name="search"
                   />
@@ -139,8 +139,8 @@ export default function Header() {
               <div className="flex justify-evenly md:justify-end items-center gap-4 w-full md:w-fit md:ml-12 ">
                 <div className="flex gap-4 items-center">
                   <IconButton onClick={openDrawerCartEvent} aria-label="cart">
-                    <Badge badgeContent={4} color="primary">
-                      <ShoppingCartIcon />
+                    <Badge badgeContent={4} color="error">
+                      <ShoppingCartIcon  sx={{color:"white",fontSize:"27px"}}/>
                     </Badge>
                   </IconButton>
                 </div>
@@ -152,7 +152,7 @@ export default function Header() {
                 >
                   <div className="md:ml-8 relative w-full flex items-center">
                     <input
-                      placeholder="Search your products"
+                      placeholder="Search for products (e.g. Smartwatch, Smart Phone, Camera)"
                       className="py-[10px] px-3 bg-gray-50 rounded-3xl border border-gray-300 w-full pl-10 text-sm focus:outline-none focus:border-teal-500 focus:ring-1"
                       type="text"
                       name="search"
@@ -204,7 +204,7 @@ export default function Header() {
           <div className="py-3 gap-3 px-4 sm:px-6 lg:px-8  shadow-md shadow-gray-200 mt-4 hidden sm:block">
             <div className="mx-auto flex flex-col items-center max-w-screen-2xl md:flex-row">
               <nav aria-label="Global" className="">
-                <ul className="flex items-center gap-3 text-md font-semibold">
+                <ul className="flex items-center gap-3 text-md font-medium">
                   <li>
                     <DropMenuCar
                       categorys={StoreRedux.CategoryData?.categorys}

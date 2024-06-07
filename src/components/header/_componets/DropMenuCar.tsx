@@ -4,13 +4,14 @@ import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import Link from "next/link";
+import { LayoutGrid } from "lucide-react";
 
 export default function DropMenuCar({
   categorys,
   name,
 }: {
   categorys: { categores: []; MaxCategores: 0 };
-  name:"Categorys"
+  name: "Categorys";
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -23,11 +24,10 @@ export default function DropMenuCar({
 
   return (
     <div className="z-30">
-      <button id="basic-button" onClick={handleClick}>
-        <DragIndicatorIcon />
+      <button className="flex gap-1" id="basic-button" onClick={handleClick}>
+        <LayoutGrid />
         {name}
         <KeyboardArrowDownIcon
-        
           sx={{ rotate: anchorEl ? "180deg" : "0deg", transition: "0.3s" }}
         />
       </button>
@@ -41,9 +41,12 @@ export default function DropMenuCar({
         }}
       >
         {categorys &&
-          categorys.categores?.map((e: { name: string,_id:string }) => {
-            return <MenuItem  key={e._id} onClick={handleClose}><Link href={`/Products?category=${e.name}`}>{e.name}</Link></MenuItem>;
-
+          categorys.categores?.map((e: { name: string; _id: string }) => {
+            return (
+              <MenuItem key={e._id} onClick={handleClose}>
+                <Link href={`/Products?category=${e.name}`}>{e.name}</Link>
+              </MenuItem>
+            );
           })}
       </Menu>
     </div>

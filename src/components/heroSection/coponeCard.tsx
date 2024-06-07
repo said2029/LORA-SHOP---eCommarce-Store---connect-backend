@@ -3,7 +3,7 @@ import TimarCopon from "../TimarCopons";
 import Image from "next/image";
 import { Alert } from "@material-tailwind/react";
 import { useState } from "react";
-export default function CoponeCard() {
+export default function CoponeCard({coupon}:any) {
   const [open, setOpen] = useState(false);
   function CopyCod(text:string){
     setOpen(true);
@@ -28,7 +28,7 @@ export default function CoponeCard() {
         <div className="h-full flex flex-col w-full justify-evenly ">
           <div className="flex gap-2 items-center">
             <span className="text-2xl text-red-500 font-medium">
-              10% <span className="text-sm text-gray-600">off</span>
+              ${coupon.discount} <span className="text-sm text-gray-600">off</span>
             </span>
             <span className="bg-teal-50 text-teal-500  rounded-2xl px-2 h-fit">
               Active
@@ -38,18 +38,18 @@ export default function CoponeCard() {
             <p className="font-medium text-lg">Summer Gift Voucher</p>
           </div>
           <div className="w-10 text-sm">
-            <TimarCopon DetaTime={"6-8-2024"} />
+            <TimarCopon DetaTime={coupon.Validity_Time} />
           </div>
         </div>
         <hr className="h-full border col-span-2 border-gray-400 border-1-2 border-dashed hidden xl:block" />
       </div>
 
       <div className="col-span-2 flex-col rounded-sm justify-center gap-2 items-center px-3 hidden xl:flex shadow-md">
-        <div onClick={()=>{CopyCod("9NC2e7Ee")}} className="bg-teal-100 text-teal-500 px-3 py-1 border border-dashed border-[#fefae0] h-fit rounded-md w-full text-center">
-          <span className="cursor-pointer">9NC2e7Ee</span>
+        <div onClick={()=>{CopyCod(coupon?.code)}} className="bg-teal-100 text-teal-500 px-3 py-1 border border-dashed border-[#fefae0] h-fit rounded-md w-full text-center">
+          <span className="cursor-pointer">{coupon?.code}</span>
         </div>
         <div className="text-sm text-gray-700 mt-2">
-          <p>* This coupon apply when shopping more then €500</p>
+          <p>* This coupon apply when shopping more then ${coupon.minimum_amount}</p>
         </div>
       </div>
     </div>

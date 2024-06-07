@@ -8,7 +8,6 @@ import { getStoreState } from "@/Redux/store";
 import MoreButton from "../buttons/moreButton";
 export default function HeroSection() {
   const coupons = useSelector(getStoreState).Coupons?.copons?.body;
-  console.log(coupons);
   return (
     <Container
       maxWidth="xl"
@@ -29,7 +28,7 @@ export default function HeroSection() {
           <div className="flex flex-col gap-2 w-full h-full">
             {coupons?.map((e: any, i: number) => {
               if (i >= 2) return;
-              return <CoponeCard />;
+              return <CoponeCard key={e._id} coupon={e}/>;
             })}
           </div>
         </Box>
