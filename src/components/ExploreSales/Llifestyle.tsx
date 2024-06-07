@@ -1,12 +1,11 @@
-import { Avatar, AvatarGroup, IconButton } from "@mui/material";
-import { ChevronRight, ChevronLeft } from "lucide-react";
-import ProductCard from "../Cards/ProductCard";
+import { Container, IconButton } from "@mui/material";
+import { ChevronRight, ChevronLeft} from "lucide-react";
 import CardLifeStyle from "../Cards/CardLifeStyle";
 
 export default function ShopByLifeStyle(prop: { tital: string,subtital:string }) {
   return (
-    <div className="flex flex-col justify-center items-center my-6 mt-7 px-4 md:px-14 xl:px-36">
-      <div className="flex w-full justify-between  items-center">
+    <Container maxWidth="xl" className="flex flex-col justify-center items-center">
+      <div className="flex w-full justify-between items-center">
         <h1 className="text-3xl font-semibold">
           {prop.tital} <span className="text-blue-600">{prop.subtital}</span>
         </h1>
@@ -25,8 +24,9 @@ export default function ShopByLifeStyle(prop: { tital: string,subtital:string })
         <CardLifeStyle />
         <CardLifeStyle />
         <CardLifeStyle />
+        <CardLifeStyle />
 
       </div>
-    </div>
+    </Container>
   );
 }

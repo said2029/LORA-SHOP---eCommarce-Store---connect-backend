@@ -17,9 +17,14 @@ const nextConfig = {
                 hostname: "img.freepik.com",
                 pathname: '**',
             },
+            {
+                protocol: 'https',
+                hostname: "kachabazar-store-nine.vercel.app",
+                pathname: '**',
+            },
 
         ],
-        domains:["images.unsplash.com","img.freepik.com","res.cloudinary.com"]
+        domains:["images.unsplash.com","img.freepik.com","res.cloudinary.com","kachabazar-store-nine.vercel.app"]
     }
 };
 export default nextConfig;

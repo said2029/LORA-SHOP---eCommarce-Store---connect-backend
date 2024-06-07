@@ -68,7 +68,7 @@ export default function Fooetr() {
   return (
     <>
       {!UtlAuthPage && settingStore && (
-        <footer className="bg-stone-100 mt-10 shadow-md shadow-black">
+        <footer className="bg-stone-100 mt-24 shadow-md shadow-black ">
           <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8">
             <div className="flex items-center justify-center">
               <div className="flex flex-col justify-center items-center text-teal-600 sm:justify-start gap-5">

@@ -14,7 +14,7 @@ function CategoryCars({ image = "", name = "" }) {
     },
   ];
   return (
-    <Link  href="/">
+    <Link  href={`/Products?category=${name}`}>
       <AnimatedTooltip items={Categorys} />
     </Link>
   );

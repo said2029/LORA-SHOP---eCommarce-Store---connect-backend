@@ -1,4 +1,4 @@
-import HeroSection from "@/components/heroSection";
+import HeroSection from "@/components/heroSection/heroSection";
 import ExploreSale from "../ExploreSales/ExploreSale";
 import ShopByCat from "../ShopByCategory/ShopByCat";
 import DailyDeals from "../DailyDeals/DailyDeals";

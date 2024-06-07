@@ -5,9 +5,9 @@ export default function MoreButton({ name, event }) {
       onPointerEnterCapture={() => {}}
       onClick={event}
       variant="text"
-      className="flex items-center gap-2 transition-all duration-300 hover:gap-3"
+      className="flex items-center gap-2 transition-all duration-300 hover:gap-3 text-[#264653]"
     >
-      <span className="text-nowrap">{name}</span>
+      <span className="text-nowrap ">{name}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
