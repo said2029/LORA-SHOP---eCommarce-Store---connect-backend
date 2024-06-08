@@ -72,7 +72,9 @@ export default function Header() {
             <section>
               <ul className="flex gap-2 items-center">
                 <li className="px-2 hover:text-base-color-200/75">
-                  <Link href={"/info/aboutUs"}>{StoreRedux.storeSetting.settingData.about_us}</Link>
+                  <Link href={"/info/aboutUs"}>
+                    {StoreRedux.storeSetting.settingData.about_us}
+                  </Link>
                 </li>
                 <li>
                   <hr className="border border-gray-900 h-5" />
@@ -164,18 +166,14 @@ export default function Header() {
                 </form>
 
                 <Button
-                placeholder={""}
+                  placeholder={""}
                   onPointerEnterCapture={() => {}}
                   onPointerLeaveCapture={() => {}}
                   className="bg-base-color-500"
                 >
-                  <Link
-                    className="flex items-center gap-1"
-                    
-                    href={"/auth"}
-                  >
+                  <Link className="flex items-center gap-1" href={"/auth"}>
                     <CircleUserRound size={20} />
-                    Sign In
+                    {StoreRedux.storeSetting.settingData.login}
                   </Link>
                 </Button>
 
@@ -205,43 +203,76 @@ export default function Header() {
 
           <div className="py-3 gap-3 px-4 sm:px-6 lg:px-8  shadow-md shadow-gray-200 mt-4 hidden sm:block">
             <div className="mx-auto flex flex-col items-center max-w-screen-2xl md:flex-row">
-              <nav aria-label="Global" className="flex justify-between  w-full text-md font-medium flex-wrap gap-3">
+              <nav
+                aria-label="Global"
+                className="flex justify-between  w-full text-md font-medium flex-wrap gap-3"
+              >
                 <ul className="flex items-center gap-3 ">
-                  <li>
-                    <DropMenuCar
-                      categorys={StoreRedux.CategoryData?.categorys}
-                      name={StoreRedux.storeSetting.settingData.categories}
-                    />
-                  </li>
-                  <li className="px-2 hover:text-base-color-500">
-                    <Link href={"/info/aboutUs"}>
-                      {StoreRedux.storeSetting.settingData.about_us}
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="border border-white h-5" />
-                  </li>
-                  <li className=" px-2 hover:text-base-color-200/75 ">
-                    <Link href={"/contect_us"}>
-                      {StoreRedux.storeSetting.settingData.contact_us}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/Products"
-                      className=" duration-300 hover:text-base-color-200/75"
-                    >
-                      Products
-                    </Link>
-                  </li>
+                  {StoreRedux.storeSetting.settingData.Categories_Header ==
+                    "true" && (
+                    <li>
+                      <DropMenuCar
+                        categorys={StoreRedux.CategoryData?.categorys}
+                        name={StoreRedux.storeSetting.settingData.categories}
+                      />
+                    </li>
+                  )}
+                  {StoreRedux.storeSetting.settingData.About_Us_Header ==
+                    "true" && (
+                    <li className="px-2 hover:text-base-color-500">
+                      <Link href={"/info/aboutUs"}>
+                        {StoreRedux.storeSetting.settingData.about_us}
+                      </Link>
+                    </li>
+                  )}
+                  {StoreRedux.storeSetting.settingData.ContactUs_Header ==
+                    "true" && (
+                    <li className=" px-2 hover:text-base-color-200/75 ">
+                      <Link href={"/contect_us"}>
+                        {StoreRedux.storeSetting.settingData.contact_us}
+                      </Link>
+                    </li>
+                  )}
+                  {StoreRedux.storeSetting.settingData.FAQ_Header == "true" && (
+                    <li className=" px-2 hover:text-base-color-200/75 ">
+                      <Link href={"/contect_us"}>
+                        {StoreRedux.storeSetting.settingData.faq}
+                      </Link>
+                    </li>
+                  )}
+                  {StoreRedux.storeSetting.settingData.Offers_Header == "true" && (
+                    <li className=" px-2 hover:text-base-color-200/75 ">
+                      <Link className="bg-teal-100/45 relative border border-dashed border-teal-700 text-teal-500  py-1 px-2 rounded-lg font-normal" href={"/contect_us"}>
+                        {StoreRedux.storeSetting.settingData.offers}
+                        <span className="w-3 h-3 rounded-full animate-ping bg-teal-700 absolute -top-1 -right-1"/>
+                        <span className="w-3 h-3 rounded-full  bg-teal-700 absolute -top-1 -right-1"/>
+                      </Link>
+                    </li>
+                  )}
                 </ul>
+
                 <ul className="flex gap-5 ">
-                  <li className="cursor-pointer duration-300 hover:text-base-color-200/75"> <Link href={"/info/privacyPolicy"}>{StoreRedux.storeSetting.settingData.privacy_policy}</Link> </li>
-                  <li className="cursor-pointer duration-300 hover:text-base-color-200/75"> <Link href={"/info/terms_conditions"}>{StoreRedux.storeSetting.settingData.term_and_condition}</Link> </li>
-               </ul>
+                  {StoreRedux.storeSetting.PrivacyPolicy_Header == "true" && (
+                    <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
+                      {" "}
+                      <Link href={"/info/privacyPolicy"}>
+                        {StoreRedux.storeSetting.settingData.privacy_policy}
+                      </Link>{" "}
+                    </li>
+                  )}
+                  {StoreRedux.storeSetting.Terms_Header == "true" && (
+                    <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
+                      {" "}
+                      <Link href={"/info/terms_conditions"}>
+                        {StoreRedux.storeSetting.settingData.term_and_condition}
+                      </Link>{" "}
+                    </li>
+                  )}
+                </ul>
               </nav>
             </div>
           </div>
+
           {/* Navbar drawer */}
           <Drawer
             placeholder=""
@@ -305,14 +336,14 @@ export default function Header() {
                       {StoreRedux.storeSetting.settingData.about_us}
                     </Link>
                   </ListItem>
-                  
+
                   <ListItem
                     placeholder=""
                     onPointerEnterCapture={() => {}}
                     onPointerLeaveCapture={() => {}}
                   >
                     <Link href={"/info/privacyPolicy"}>
-                    {StoreRedux.storeSetting.settingData.privacy_policy}
+                      {StoreRedux.storeSetting.settingData.privacy_policy}
                     </Link>
                   </ListItem>
                   <ListItem
@@ -321,7 +352,7 @@ export default function Header() {
                     onPointerLeaveCapture={() => {}}
                   >
                     <Link href={"/info/terms_conditions"}>
-                    {StoreRedux.storeSetting.settingData.term_and_condition}
+                      {StoreRedux.storeSetting.settingData.term_and_condition}
                     </Link>
                   </ListItem>
 
@@ -342,12 +373,9 @@ export default function Header() {
                     onPointerLeaveCapture={() => {}}
                     className="bg-base-color-500"
                   >
-                    <Link
-                      className="flex items-center gap-1"
-                      href={"/auth"}
-                    >
+                    <Link className="flex items-center gap-1" href={"/auth"}>
                       <CircleUserRound size={20} />
-                      Sign In
+                      {StoreRedux.storeSetting.settingData.login}
                     </Link>
                   </Button>
                 </div>

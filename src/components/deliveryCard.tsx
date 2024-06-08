@@ -6,11 +6,11 @@ import UseIsClient from "../hooks/IsClient";
 
 export default function DeliveryCard() {
   const SettingStoreRedux = useSelector(getStoreState).storeSetting.settingData;
-  const osClient = UseIsClient();
+  const isClient = UseIsClient();
 
   return (
     <>
-      {osClient && SettingStoreRedux.Quick_Delivery_Section == "true" && (
+      {isClient && SettingStoreRedux.Quick_Delivery_Section == "true" && (
         <div className="flex justify-center items-center py-7 px-11 border-b border-gray-300">
           <ul className="flex gap-5 flex-wrap justify-center text-sm items-center w-full">
             <li className="flex gap-2 justify-center items-center">

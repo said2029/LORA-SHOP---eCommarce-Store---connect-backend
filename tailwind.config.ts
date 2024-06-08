@@ -25,7 +25,7 @@ const config: Config = withMT({
       },
       colors:{
         "base-color":{
-          "500":"#10B981",
+          "500":"#f44336",
           "200/75":"#f3b3b3"
         }
       }
