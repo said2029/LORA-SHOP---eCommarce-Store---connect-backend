@@ -57,13 +57,13 @@ export default function Header() {
     <>
       {isClient && !UtlAuthPage && (
         <header className="w-full">
-          <div className="py-2 w-full flex gap-2 flex-col md:flex-row justify-center items-center md:justify-between px-16 text-[13px] text-gray-900 font-thin text-nowrap">
+          <div className="py-2 w-full flex gap-2 flex-col md:flex-row justify-center items-center md:justify-between px-16 text-[13px] text-gray-900  text-nowrap">
             <div className="flex gap-1 items-center">
               <PhoneCall widths={1} size={14} />
               <div className="flex gap-1">
                 <section>
                   {StoreRedux.storeSetting.settingData.help_text}{" "}
-                  <span className="text-blue-300">
+                  <span className="text-base-color-500">
                     {StoreRedux.storeSetting.settingData.phone_number}
                   </span>
                 </section>
@@ -71,27 +71,27 @@ export default function Header() {
             </div>
             <section>
               <ul className="flex gap-2 items-center">
-                <li className="px-2 hover:text-blue-300">
-                  <a href="">{StoreRedux.storeSetting.settingData.about_us}</a>
+                <li className="px-2 hover:text-base-color-200/75">
+                  <Link href={"/info/aboutUs"}>{StoreRedux.storeSetting.settingData.about_us}</Link>
                 </li>
                 <li>
                   <hr className="border border-gray-900 h-5" />
                 </li>
-                <li className="px-2 hover:text-blue-300">
-                  <a href="">
+                <li className="px-2 hover:text-base-color-200/75 ">
+                  <Link href={"/contect_us"}>
                     {StoreRedux.storeSetting.settingData.contact_us}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                <hr className="border border-gray-900 h-5" />
+                  <hr className="border border-gray-900 h-5" />
                 </li>
-                <li className=" px-2 hover:text-blue-300">
+                <li className=" px-2 hover:text-base-color-200/75 ">
                   <a href="">{StoreRedux.storeSetting.settingData.login}</a>
                 </li>
                 <li>
-                <hr className="border border-gray-900 h-5" />
+                  <hr className="border border-gray-900 h-5" />
                 </li>
-                <li className=" px-2 hover:text-blue-300">
+                <li className=" px-2 hover:text-base-color-200/75 ">
                   <a href="">
                     {StoreRedux.storeSetting.settingData.my_account}
                   </a>
@@ -100,7 +100,7 @@ export default function Header() {
             </section>
           </div>
 
-          <div className="mx-auto bg-blue-500 flex flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
+          <div className="mx-auto bg-base-color-500 flex flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
               <picture>
@@ -140,7 +140,9 @@ export default function Header() {
                 <div className="flex gap-4 items-center">
                   <IconButton onClick={openDrawerCartEvent} aria-label="cart">
                     <Badge badgeContent={4} color="error">
-                      <ShoppingCartIcon  sx={{color:"white",fontSize:"27px"}}/>
+                      <ShoppingCartIcon
+                        sx={{ color: "white", fontSize: "27px" }}
+                      />
                     </Badge>
                   </IconButton>
                 </div>
@@ -162,14 +164,14 @@ export default function Header() {
                 </form>
 
                 <Button
-                  placeholder=""
+                placeholder={""}
                   onPointerEnterCapture={() => {}}
                   onPointerLeaveCapture={() => {}}
-                  color="blue"
+                  className="bg-base-color-500"
                 >
                   <Link
                     className="flex items-center gap-1"
-                    color="blue"
+                    
                     href={"/auth"}
                   >
                     <CircleUserRound size={20} />
@@ -203,36 +205,40 @@ export default function Header() {
 
           <div className="py-3 gap-3 px-4 sm:px-6 lg:px-8  shadow-md shadow-gray-200 mt-4 hidden sm:block">
             <div className="mx-auto flex flex-col items-center max-w-screen-2xl md:flex-row">
-              <nav aria-label="Global" className="">
-                <ul className="flex items-center gap-3 text-md font-medium">
+              <nav aria-label="Global" className="flex justify-between  w-full text-md font-medium flex-wrap gap-3">
+                <ul className="flex items-center gap-3 ">
                   <li>
                     <DropMenuCar
                       categorys={StoreRedux.CategoryData?.categorys}
                       name={StoreRedux.storeSetting.settingData.categories}
                     />
                   </li>
-                  <li className="px-2 hover:text-blue-300">
-                    <a href="">
+                  <li className="px-2 hover:text-base-color-500">
+                    <Link href={"/info/aboutUs"}>
                       {StoreRedux.storeSetting.settingData.about_us}
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <hr className="border border-white h-5" />
                   </li>
-                  <li className=" px-2 hover:text-blue-300">
-                    <a href="">
+                  <li className=" px-2 hover:text-base-color-200/75 ">
+                    <Link href={"/contect_us"}>
                       {StoreRedux.storeSetting.settingData.contact_us}
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link
                       href="/Products"
-                      className="text-gray-500 transition hover:text-gray-500/75"
+                      className=" duration-300 hover:text-base-color-200/75"
                     >
                       Products
                     </Link>
                   </li>
                 </ul>
+                <ul className="flex gap-5 ">
+                  <li className="cursor-pointer duration-300 hover:text-base-color-200/75"> <Link href={"/info/privacyPolicy"}>{StoreRedux.storeSetting.settingData.privacy_policy}</Link> </li>
+                  <li className="cursor-pointer duration-300 hover:text-base-color-200/75"> <Link href={"/info/terms_conditions"}>{StoreRedux.storeSetting.settingData.term_and_condition}</Link> </li>
+               </ul>
               </nav>
             </div>
           </div>
@@ -244,7 +250,7 @@ export default function Header() {
             overlay={false}
             open={open}
             onClose={closeDrawer}
-            className="p-4 z-10"
+            className="p-4 z-30"
           >
             <div>
               <div className="mb-6 flex items-center justify-between">
@@ -287,17 +293,26 @@ export default function Header() {
                     onPointerEnterCapture={() => {}}
                     onPointerLeaveCapture={() => {}}
                   >
-                    <Link href={""}>
+                    <Link href={"/Products"}>Products</Link>
+                  </ListItem>
+
+                  <ListItem
+                    placeholder=""
+                    onPointerEnterCapture={() => {}}
+                    onPointerLeaveCapture={() => {}}
+                  >
+                    <Link href={"/info/aboutUs"}>
                       {StoreRedux.storeSetting.settingData.about_us}
                     </Link>
                   </ListItem>
+                  
                   <ListItem
                     placeholder=""
                     onPointerEnterCapture={() => {}}
                     onPointerLeaveCapture={() => {}}
                   >
-                    <Link href={""}>
-                      {StoreRedux.storeSetting.settingData.contact_us}
+                    <Link href={"/info/privacyPolicy"}>
+                    {StoreRedux.storeSetting.settingData.privacy_policy}
                     </Link>
                   </ListItem>
                   <ListItem
@@ -305,7 +320,19 @@ export default function Header() {
                     onPointerEnterCapture={() => {}}
                     onPointerLeaveCapture={() => {}}
                   >
-                    <Link href={"/Products"}>Products</Link>
+                    <Link href={"/info/terms_conditions"}>
+                    {StoreRedux.storeSetting.settingData.term_and_condition}
+                    </Link>
+                  </ListItem>
+
+                  <ListItem
+                    placeholder=""
+                    onPointerEnterCapture={() => {}}
+                    onPointerLeaveCapture={() => {}}
+                  >
+                    <Link href={"/contect_us"}>
+                      {StoreRedux.storeSetting.settingData.contact_us}
+                    </Link>
                   </ListItem>
                 </List>
                 <div className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2">
@@ -313,11 +340,10 @@ export default function Header() {
                     placeholder=""
                     onPointerEnterCapture={() => {}}
                     onPointerLeaveCapture={() => {}}
-                    color="blue"
+                    className="bg-base-color-500"
                   >
                     <Link
                       className="flex items-center gap-1"
-                      color="blue"
                       href={"/auth"}
                     >
                       <CircleUserRound size={20} />

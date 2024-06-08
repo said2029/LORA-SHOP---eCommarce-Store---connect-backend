@@ -21,7 +21,7 @@ export default function ShopByCat() {
           <div className="flex w-full justify-between items-center">
             <h1 className="text-3xl font-semibold">
               {SettingStoreRedux.feature_title.split(",")[0]}{" "}
-              <span className="text-blue-600">
+              <span className="text-base-color-500">
                 {SettingStoreRedux.feature_title.split(",")[1]}
               </span>
             </h1>

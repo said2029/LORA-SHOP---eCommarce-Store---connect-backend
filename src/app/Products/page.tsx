@@ -46,7 +46,7 @@ export default function page() {
   // search
   const SearchParams = useSearchParams();
   const SearchValue = SearchParams.get("search") || "";
-  const CategoryParams = SearchParams.get("category") ||""
+  const CategoryParams = SearchParams.get("category") || "";
   // Filter Select Category callback
   let category: string[] = [CategoryParams];
   let FilterProce = [0, 999999];
@@ -92,7 +92,7 @@ export default function page() {
   // api
   useEffect(() => {
     handleRestartFilter();
-  }, [page, SearchValue,CategoryParams]);
+  }, [page, SearchValue, CategoryParams]);
 
   return (
     <>
@@ -166,7 +166,6 @@ export default function page() {
             page={page}
             onChange={handleChange}
             count={Math.ceil(products.length / 10)}
-            color="primary"
             siblingCount={0}
           />
         </div>

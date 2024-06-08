@@ -27,7 +27,7 @@ export default function CoponeCard({coupon}:any) {
         </div>
         <div className="h-full flex flex-col w-full justify-evenly ">
           <div className="flex gap-2 items-center">
-            <span className="text-2xl text-red-500 font-medium">
+            <span className="text-2xl text-base-color-500 font-medium">
               ${coupon.discount} <span className="text-sm text-gray-600">off</span>
             </span>
             <span className="bg-teal-50 text-teal-500  rounded-2xl px-2 h-fit">

@@ -17,7 +17,7 @@ export default function ProductCard({
   return (
     <Link
       href={`/Product/${id}?slug=${slug}`} 
-      className="relative h-[25rem] w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md"
+      className="relative h-[25rem] w-full overflow-hidden rounded-lg bg-white shadow-md"
     >
       <article className="w-full flex justify-center">
         <img
@@ -59,7 +59,7 @@ export default function ProductCard({
               </span>
             )}
           </p>
-          <button className="flex items-center rounded-md bg-slate-900 py-1  px-2 duration-300 hover:bg-blue-600 hover:text-white text-center text-sm font-medium text-blue-600 border border-gray-300">
+          <button className="flex items-center rounded-md bg-slate-900 py-1  px-2 duration-300 hover:bg-base-color-500 hover:text-white text-center text-sm font-medium text-base-color-500 border border-gray-300">
             <AddShoppingCartRounded style={{ fontSize: "20px" }} />
           </button>
         </div>

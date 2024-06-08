@@ -24,7 +24,6 @@ export function CarouselHome() {
       <Swiper
         pagination={{
           dynamicBullets: true,
-
         }}
         modules={[Autoplay,Pagination]}
         className="mySwiper h-[200px] sm:h-[400px]"
@@ -66,12 +65,12 @@ export function CarouselHome() {
                         {element?.slider_title}
                       </h1>
                       <span className="text-gray-600 my-4 block text-[13px]">
-                        <span className="line-clamp-2 md:line-clamp-none">{element?.slider_description.split("//")[0]}</span> <span className="text-light-blue-600">{element?.slider_description.split("//")[1]}</span>
+                        <span className="line-clamp-2 md:line-clamp-none">{element?.slider_description.split("//")[0]}</span> <span className="text-base-color-500">{element?.slider_description.split("//")[1]}</span>
                       </span>
                       <span className=" justify-center sm:justify-start hidden sm:flex">
                         <a
                           href={element?.slider_button_link}
-                          className="bg-light-blue-600 mt-10 w-fit block p-2 rounded-md text-white"
+                          className="bg-base-color-500 mt-10 w-fit block p-2 rounded-md text-white"
                         >
                           {element?.slider_button_name}
                         </a>

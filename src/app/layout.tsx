@@ -1,11 +1,11 @@
-import { Rubik } from "next/font/google";
+import { Rubik,Lato,Roboto} from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/header";
 import Fooetr from "@/components/footer/fooetr";
 import { Providers } from "../components/providers";
-const rubik = Rubik({
-  subsets: ["latin"],
-  weight: ["300", "400"],
+const rubik = Roboto({
+  subsets: ["latin-ext"],
+  weight: ["400","700","900","100","300","500"],
 });
 
 import { Metadata } from "next";

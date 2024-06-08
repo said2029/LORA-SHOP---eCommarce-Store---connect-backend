@@ -11,7 +11,7 @@ export default function HeroSection() {
   return (
     <Container
       maxWidth="xl"
-      className="h-fit w-full mt-7 grid grid-cols-9 py-4 gap-3 overflow-hidden bg-gray-100"
+      className="h-fit w-full mt-7 grid grid-cols-9 py-4 gap-3 overflow-hidden bg-gray-100 "
     >
       <div className="w-full h-full col-span-full lg:col-span-5  overflow-hidden">
         <CarouselHome />

@@ -87,10 +87,10 @@ export default function FilterSidbar({
                   getAriaLabel={(index) =>
                     index === 0 ? priceFilterConfig[0] : priceFilterConfig[1]
                   }
+                  className=" text-base-color-500"
                   value={price_RangeValue}
                   onChange={ChangeValueSlider}
                   valueLabelDisplay="auto"
-                  color="info"
                   max={+priceFilterConfig[1] || 999}
                   min={+priceFilterConfig[0] || 0}
                   // getAriaValueText={(value:number)=>{return 39}}
@@ -171,7 +171,7 @@ export default function FilterSidbar({
             FilterPriceSlider(price_RangeValue);
             applayFilter();
           }}
-          className="mt-5"
+          className="mt-5 bg-base-color-500 hover:bg-base-color-200/75"
           size="large"
           fullWidth
           variant="contained"
@@ -180,7 +180,7 @@ export default function FilterSidbar({
         </Button>
         <Button
           onClick={RestartFilter}
-          className="mt-5"
+          className="mt-5 border border-base-color-500 text-base-color-500 hover:border-base-color-200/75"
           size="large"
           fullWidth
           variant="outlined"

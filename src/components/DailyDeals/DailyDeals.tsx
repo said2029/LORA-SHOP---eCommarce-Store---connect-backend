@@ -4,6 +4,7 @@ import ProductCard from "../Cards/ProductCard";
 import Timar from "./Timar";
 import { getStoreState } from "../../Redux/store";
 import UseIsClient from "@/hooks/IsClient";
+import { Container } from "@mui/material";
 
 export default function DailyDeals() {
   const SettingStoreRedux =
@@ -13,8 +14,8 @@ export default function DailyDeals() {
   return (
     <>
       {IsClient && SettingStoreRedux?.Popular_Products == "true" && (
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 w-full py-16 gap-6 px-4 flex flex-col justify-center md:px-14 xl:px-24">
-          <div className="text-white flex flex-col gap-5 lg:flex-row justify-between items-center">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 w-full py-16 gap-6 flex flex-col justify-center px-9">
+          <Container maxWidth="xl" className="text-white flex flex-col gap-5 lg:flex-row justify-between items-center">
             <h1 className="text-3xl font-bold">
               {SettingStoreRedux?.feature_title_Daily_Title}
             </h1>
@@ -26,9 +27,9 @@ export default function DailyDeals() {
             {SettingStoreRedux?.feature_title_Daily_dicount && (
               <div className="bg-red-600 p-3 rounded-full text-gray-950">{SettingStoreRedux?.feature_title_Daily_dicount}</div>
             )}
-          </div>
+          </Container>
           {/* cards */}
-          <div className="grid grid-cols-1 mt-3 justify-center items-center mx-auto gap-4 w-full sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+          <div className="grid grid-cols-1 mt-3 justify-center items-center mx-auto gap-4 w-fit sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
             {SettingStoreRedux.DelayShoppingProducts.length >= 1 &&
               SettingStoreRedux.DelayShoppingProducts.map((e: any) => {
                 return (

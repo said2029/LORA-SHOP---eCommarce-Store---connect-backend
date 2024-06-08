@@ -1,7 +1,4 @@
 "use client";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import MailIcon from "@mui/icons-material/Mail";
-import Avatar from "@mui/material/Avatar";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,10 +11,13 @@ import {
   WhatsApp,
 } from "@mui/icons-material";
 import Image from "next/image";
+import DeliveryCard from "../deliveryCard";
+import UseIsClient from "@/hooks/IsClient";
 
 export default function Fooetr() {
   const pathName = usePathname();
   let [UtlAuthPage, setUtlAuthPage] = useState(true);
+  const isclient = UseIsClient();
 
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
@@ -67,67 +67,19 @@ export default function Fooetr() {
 
   return (
     <>
-      {!UtlAuthPage && settingStore && (
-        <footer className="bg-stone-100 mt-24 shadow-md shadow-black ">
-          <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-center">
-              <div className="flex flex-col justify-center items-center text-teal-600 sm:justify-start gap-5">
-                <Image
-                  width={220}
-                  height={230}
-                  src={
-                    settingStore.Header_Logo_image
-                      ? settingStore.Header_Logo_image
-                      : "/logoipsum.svg"
-                  }
-                  alt="logo"
-                />
-                <p className="text-center text-pretty leading-relaxed text-gray-500 ltr:sm:text-left rtl:sm:text-right">
-                  {settingStore?.footer_block_three_link_one_title || ""}
-                </p>
-              </div>
-            </div>
+      {isclient && !UtlAuthPage && settingStore && (
+        <footer className="bg-stone-100  shadow-md shadow-black pt-10">
+          <DeliveryCard />
 
-            <div className="mt-16 flex flex-col sm:flex-row flex-wrap gap-10 border-t border-gray-100 pt-16  justify-around">
-              {settingStore?.FooterLogo && (
-                <div className="text-center sm:text-left ">
-                  <p className="text-lg font-medium text-gray-900">About Us</p>
-
-                  <ul className="mt-8 space-y-4 text-sm text-center flex flex-col items-center md:items-start ">
-                    <li>
-                      <a
-                        className="text-gray-700 transition hover:text-gray-700/75 flex items-center gap-1"
-                        href="#"
-                      >
-                        <Avatar sx={{ width: 24, height: 24 }}>
-                          <LocalPhoneIcon className="w-4 h-4" />
-                        </Avatar>
-                        <p>{settingStore.footer_block_four_phone}</p>
-                      </a>
-                    </li>
-
-                    <li className="mt-3">
-                      <a
-                        className="text-gray-700 transition hover:text-gray-700/75 flex items-center gap-1"
-                        href="#"
-                      >
-                        <Avatar sx={{ width: 24, height: 24 }}>
-                          <MailIcon className="w-4 h-4" />
-                        </Avatar>
-                        <p> {settingStore.footer_block_four_email}</p>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              )}
-
+          <div className="mx-auto w-full px-4 pb-6 pt-2 sm:px-6 lg:px-8 flex flex-col justify-center items-center">
+            <div className="my-16 flex flex-col sm:flex-row flex-wrap gap-10  justify-around w-full">
               {settingStore.TopCategoryFooter && (
                 <div className="text-center sm:text-left md:max-w-96">
                   <p className="text-lg font-medium text-gray-900">
                     {settingStore.footer_block_two_title || "Top Category"}
                   </p>
-                  <div className="flex gap-3 mt-3 text-sm">
-                    <ul className="flex flex-wrap items-center justify-center  md:justify-start gap-4">
+                  <div className="flex gap-3 text-sm justify-center md:justify-start">
+                    <ul className="mt-8 space-y-4 text-sm text-center">
                       <li>
                         <a
                           className="text-gray-700 transition hover:text-gray-700/75 basis-1/2"
@@ -141,7 +93,7 @@ export default function Fooetr() {
                           className="text-gray-700 transition hover:text-gray-700/75 basis-1/2"
                           href={settingStore.footer_block_two_link_two}
                         >
-                          {settingStore.footer_block_two_link_one_title}
+                          {settingStore.footer_block_two_link_two_title}
                         </a>
                       </li>
                       <li>
@@ -167,43 +119,42 @@ export default function Fooetr() {
 
               <div className="text-center sm:text-left">
                 <p className="text-lg font-medium text-gray-900">
-                  Hello Center
+                  {settingStore.footer_block_three_title}
                 </p>
 
                 <ul className="mt-8 space-y-4 text-sm">
                   <li>
                     <a
                       className="text-gray-700 transition hover:text-gray-700/75"
-                      href="#"
+                      href={settingStore.footer_block_three_link_one}
                     >
-                      Track Order{" "}=
+                      {settingStore.footer_block_three_link_one_title}
                     </a>
                   </li>
 
                   <li>
                     <a
                       className="text-gray-700 transition hover:text-gray-700/75"
-                      href="#"
+                      href={settingStore.footer_block_three_link_two}
                     >
-                      {settingStore.privacy_policy}
+                      {settingStore.footer_block_three_link_two_title}
                     </a>
                   </li>
 
                   <li>
                     <a
                       className="text-gray-700 transition hover:text-gray-700/75"
-                      href="#"
+                      href={settingStore.footer_block_three_link_three}
                     >
-                      {settingStore.contact_us}
+                      {settingStore.footer_block_three_link_three_title}
                     </a>
                   </li>
-
                   <li>
                     <a
                       className="text-gray-700 transition hover:text-gray-700/75"
-                      href="#"
+                      href={settingStore.footer_block_three_link_four}
                     >
-                      {settingStore.faq}
+                      {settingStore.footer_block_three_link_four_title}
                     </a>
                   </li>
                 </ul>
@@ -227,120 +178,152 @@ export default function Fooetr() {
                       </li>
                     )}
 
-                    {settingStore.footer_block_one_link_two_title && (
-                      <li>
-                        <a
-                          className="text-gray-700 transition hover:text-gray-700/75"
-                          href={settingStore.footer_block_one_link_two}
-                        >
-                          {settingStore.footer_block_one_link_two_title}
-                        </a>
-                      </li>
-                    )}
-                    {settingStore.footer_block_one_link_three_title && (
-                      <li>
-                        <a
-                          className="text-gray-700 transition hover:text-gray-700/75"
-                          href={settingStore.footer_block_one_link_three}
-                        >
-                          {settingStore.footer_block_one_link_three_title}
-                        </a>
-                      </li>
-                    )}
+                    <li>
+                      <a
+                        className="text-gray-700 transition hover:text-gray-700/75"
+                        href={settingStore.footer_block_one_link_two}
+                      >
+                        {settingStore.footer_block_one_link_two_title}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="text-gray-700 transition hover:text-gray-700/75"
+                        href={settingStore.footer_block_one_link_three}
+                      >
+                        {settingStore.footer_block_one_link_three_title}
+                      </a>
+                    </li>
 
-                    {settingStore.footer_block_one_link_four_title && (
-                      <li>
-                        <a
-                          className="text-gray-700 transition hover:text-gray-700/75"
-                          href={settingStore.footer_block_one_link_four}
-                        >
-                          {settingStore.footer_block_one_link_four_title}
-                        </a>
-                      </li>
-                    )}
+                    <li>
+                      <a
+                        className="text-gray-700 transition hover:text-gray-700/75"
+                        href={settingStore.footer_block_one_link_four}
+                      >
+                        {settingStore.footer_block_one_link_four_title}
+                      </a>
+                    </li>
                   </ul>
                 </div>
               )}
+
+              <div className="text-center sm:text-left flex justify-center md:items-start flex-col items-center">
+                <p className="text-lg font-medium text-gray-900">
+                  <Image
+                    alt="logo"
+                    width={200}
+                    height={200}
+                    src={settingStore.Footer_logo_image}
+                  />
+                </p>
+
+                <ul className="mt-8 space-y-4 text-sm">
+                  <li>Tel:{settingStore.footer_block_four_address}</li>
+                  <li>Tel:{settingStore.footer_block_four_phone}</li>
+                  <li>Email:{settingStore.footer_block_four_email}</li>
+                </ul>
+              </div>
+            </div>
+            <hr className="border border-gray-200 w-1/2 block"/>
+            <div className="mt-10 w-full">
+              <ul className="flex items-center justify-around">
+                <li>
+                  <p>Follow Us</p>
+                  
+                  {settingStore.Social_Links && (
+                    <ul className="mt-3 flex justify-center gap-6">
+                      {settingStore.social_facebook && (
+                        <li>
+                          <a
+                            href={settingStore.social_facebook}
+                            rel="noreferrer"
+                            target="_blank"
+                            className="text-base-color-500 transition hover:text-red-200/75"
+                          >
+                            <span className="sr-only">Facebook</span>
+                            <FacebookOutlined />
+                          </a>
+                        </li>
+                      )}
+
+                      {settingStore.social_twitter && (
+                        <li>
+                          <a
+                            href={settingStore.social_twitter}
+                            rel="noreferrer"
+                            target="_blank"
+                            className="text-base-color-500 transition hover:text-red-200/75"
+                          >
+                            <span className="sr-only">Twitter</span>
+                            <Twitter />
+                          </a>
+                        </li>
+                      )}
+
+                      {settingStore.social_whatsapp && (
+                        <li>
+                          <a
+                            href={settingStore.social_whatsapp}
+                            rel="noreferrer"
+                            target="_blank"
+                            className="text-base-color-500 transition hover:text-red-200/75"
+                          >
+                            <span className="sr-only">Twitter</span>
+                            <WhatsApp />
+                          </a>
+                        </li>
+                      )}
+                      {settingStore.social_pinterest && (
+                        <li>
+                          <a
+                            href={settingStore.social_pinterest}
+                            rel="noreferrer"
+                            target="_blank"
+                            className="text-base-color-500 transition hover:text-red-200/75"
+                          >
+                            <span className="sr-only">Twitter</span>
+                            <Pinterest />
+                          </a>
+                        </li>
+                      )}
+
+                      {settingStore.social_linkedin && (
+                        <li>
+                          <a
+                            href={settingStore.social_linkedin}
+                            rel="noreferrer"
+                            target="_blank"
+                            className="text-base-color-500 transition hover:text-red-200/75"
+                          >
+                            <span className="sr-only">Twitter</span>
+                            <Linkedin />
+                          </a>
+                        </li>
+                      )}
+                    </ul>
+                  )}
+                </li>
+                <li className="text-center">
+                  <span>Call Us Today!</span>
+                  <h1 className="text-2xl text-base-color-500 font-semibold">
+                   {settingStore.footer_block_four_phone}
+                  </h1>
+                </li>
+                <li className="hidden md:block">
+                  <Image
+                    width={300}
+                    height={300}
+                    alt="er"
+                    src={settingStore.PaymentMethod_logo}
+                  />
+                </li>
+              </ul>
             </div>
 
-            <div className="mt-16 border-t border-gray-100 pt-6 sm:flex sm:items-center sm:justify-between">
+            <div className="mt-16 border-t border-gray-100 pt-6 justify-center flex items-center">
               <p className="text-center text-sm text-gray-500 sm:text-left">
-                Copyright &copy;{" "}
-                {settingStore.footer_block_three_link_two_title ||
-                  "2024. All rights reserved."}
+                Copyright 2024 @ HtmlLover, All rights reserved.
               </p>
-              {settingStore.Social_Links && (
-                <ul className="mt-4 flex justify-center gap-6 sm:mt-0 sm:justify-start">
-                  {settingStore.social_facebook && (
-                    <li>
-                      <a
-                        href={settingStore.social_facebook}
-                        rel="noreferrer"
-                        target="_blank"
-                        className="text-blue-600 transition hover:text-blue-200/75"
-                      >
-                        <span className="sr-only">Facebook</span>
-                        <FacebookOutlined />
-                      </a>
-                    </li>
-                  )}
-
-                  {settingStore.social_twitter && (
-                    <li>
-                      <a
-                        href={settingStore.social_twitter}
-                        rel="noreferrer"
-                        target="_blank"
-                        className="text-blue-600 transition hover:text-blue-200/75"
-                      >
-                        <span className="sr-only">Twitter</span>
-                        <Twitter />
-                      </a>
-                    </li>
-                  )}
-
-                  {settingStore.social_whatsapp && (
-                    <li>
-                      <a
-                        href={settingStore.social_whatsapp}
-                        rel="noreferrer"
-                        target="_blank"
-                        className="text-blue-600 transition hover:text-blue-200/75"
-                      >
-                        <span className="sr-only">Twitter</span>
-                        <WhatsApp />
-                      </a>
-                    </li>
-                  )}
-                  {settingStore.social_pinterest && (
-                    <li>
-                      <a
-                        href={settingStore.social_pinterest}
-                        rel="noreferrer"
-                        target="_blank"
-                        className="text-blue-600 transition hover:text-blue-200/75"
-                      >
-                        <span className="sr-only">Twitter</span>
-                        <Pinterest />
-                      </a>
-                    </li>
-                  )}
-
-                  {settingStore.social_linkedin && (
-                    <li>
-                      <a
-                        href={settingStore.social_linkedin}
-                        rel="noreferrer"
-                        target="_blank"
-                        className="text-blue-600 transition hover:text-blue-200/75"
-                      >
-                        <span className="sr-only">Twitter</span>
-                        <Linkedin />
-                      </a>
-                    </li>
-                  )}
-                </ul>
-              )}
             </div>
           </div>
         </footer>

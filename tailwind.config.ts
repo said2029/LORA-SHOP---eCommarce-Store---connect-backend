@@ -23,11 +23,18 @@ const config: Config = withMT({
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors:{
+        "base-color":{
+          "500":"#10B981",
+          "200/75":"#f3b3b3"
+        }
+      }
     },
   },
   plugins: [addVariablesForColors],
 });
 export default config;
+// #f44336
 
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
