@@ -11,7 +11,7 @@ import Image from "next/image";
 
 export default function page() {
   const data = UseGET(
-    process.env.NEXT_PUBLIC_BACKENDURL + "/setting/GetContactus"
+    process.env.BACKENDURL + "/setting/GetContactus"
   ) as { body: [any] };
   return (
     <>

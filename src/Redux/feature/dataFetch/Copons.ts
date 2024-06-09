@@ -10,7 +10,7 @@ const fetchCoupons = createAsyncThunk(
   "CouponRedux/fatchCoupons",
   async () => {
     return (
-      await fetch(process.env.NEXT_PUBLIC_BACKENDURL + "/coupons?published=true", {
+      await fetch(process.env.BACKENDURL + "/coupons?published=true", {
         next: { revalidate: 20000 },
       }).then(async (res) => res)
     ).json();
