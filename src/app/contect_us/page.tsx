@@ -1,4 +1,5 @@
 "use client";
+import axiosClient from "@/_utils/axiosClient";
 import UseGET from "@/hooks/GET";
 import { Textarea } from "@material-tailwind/react";
 import {
@@ -9,10 +10,10 @@ import {
 import { Button, TextField, TextareaAutosize } from "@mui/material";
 import Image from "next/image";
 
-export default function page() {
-  const data = UseGET(
-    process.env.BACKENDURL + "/setting/GetContactus"
-  ) as { body: [any] };
+export default async function page() {
+  const axiosBody =await axiosClient.get("/setting/GetContactus");
+  const data = axiosBody.data;
+
   return (
     <>
       {data.body != undefined && (

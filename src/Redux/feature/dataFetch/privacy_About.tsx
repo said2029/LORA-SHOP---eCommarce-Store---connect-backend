@@ -10,7 +10,7 @@ const fetch_p_a= createAsyncThunk(
   "privacy_about/fetch_p_a",
   async () => {
     return (
-      await fetch(process.env.BACKENDURL + "/setting/A_P", {
+      await fetch(process.env.NEXT_PUBLIC_BACKENDURL + "/setting/A_P", {
         next: { revalidate: 20000 },
       }).then(async (res) => res)
     ).json();

@@ -205,7 +205,7 @@ export default function Header() {
             <div className="mx-auto flex flex-col items-center max-w-screen-2xl md:flex-row">
               <nav
                 aria-label="Global"
-                className="flex justify-between  w-full text-md font-medium flex-wrap gap-3"
+                className="flex justify-between w-full text-md font-medium flex-wrap gap-3"
               >
                 <ul className="flex items-center gap-3 ">
                   {StoreRedux.storeSetting.settingData.Categories_Header ==
@@ -235,35 +235,38 @@ export default function Header() {
                   )}
                   {StoreRedux.storeSetting.settingData.FAQ_Header == "true" && (
                     <li className=" px-2 hover:text-base-color-200/75 ">
-                      <Link href={"/contect_us"}>
+                      <Link href={"/faq"}>
                         {StoreRedux.storeSetting.settingData.faq}
                       </Link>
                     </li>
                   )}
-                  {StoreRedux.storeSetting.settingData.Offers_Header == "true" && (
+                  {StoreRedux.storeSetting.settingData.Offers_Header ==
+                    "true" && (
                     <li className=" px-2 hover:text-base-color-200/75 ">
-                      <Link className="bg-teal-100/45 relative border border-dashed border-teal-700 text-teal-500  py-1 px-2 rounded-lg font-normal" href={"/contect_us"}>
+                      <Link
+                        className="bg-teal-100/45 relative border border-dashed border-teal-700 text-teal-500  py-1 px-2 rounded-lg font-normal"
+                        href={"/offers"}
+                      >
                         {StoreRedux.storeSetting.settingData.offers}
-                        <span className="w-3 h-3 rounded-full animate-ping bg-teal-700 absolute -top-1 -right-1"/>
-                        <span className="w-3 h-3 rounded-full  bg-teal-700 absolute -top-1 -right-1"/>
+                        <span className="w-3 h-3 rounded-full animate-ping bg-teal-700 absolute -top-1 -right-1" />
+                        <span className="w-3 h-3 rounded-full  bg-teal-700 absolute -top-1 -right-1" />
                       </Link>
                     </li>
                   )}
                 </ul>
 
                 <ul className="flex gap-5 ">
-                  {StoreRedux.storeSetting.PrivacyPolicy_Header == "true" && (
+                  {StoreRedux.storeSetting.settingData.PrivacyPolicy_Header == "true" && (
                     <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
-                      {" "}
                       <Link href={"/info/privacyPolicy"}>
                         {StoreRedux.storeSetting.settingData.privacy_policy}
                       </Link>{" "}
                     </li>
                   )}
-                  {StoreRedux.storeSetting.Terms_Header == "true" && (
+                  {StoreRedux.storeSetting.settingData.Terms_Header == "true" && (
                     <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
-                      {" "}
                       <Link href={"/info/terms_conditions"}>
+                      
                         {StoreRedux.storeSetting.settingData.term_and_condition}
                       </Link>{" "}
                     </li>
