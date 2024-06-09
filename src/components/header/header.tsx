@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { getStoreState } from "@/Redux/store";
 import UseIsClient from "@/hooks/IsClient";
+import AuthDialog from "../dialog/authDialog";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -88,7 +89,12 @@ export default function Header() {
                   <hr className="border border-gray-900 h-5" />
                 </li>
                 <li className=" px-2 hover:text-base-color-200/75 ">
-                  <a href="">{StoreRedux.storeSetting.settingData.login}</a>
+                  <AuthDialog
+                    useIcon={false}
+                    variantBtn="text"
+                    name={StoreRedux.storeSetting.settingData.login}
+                    className="text-gray-800 bg-none"
+                  />
                 </li>
                 <li>
                   <hr className="border border-gray-900 h-5" />
@@ -165,17 +171,13 @@ export default function Header() {
                   </div>
                 </form>
 
-                <Button
-                  placeholder={""}
-                  onPointerEnterCapture={() => {}}
-                  onPointerLeaveCapture={() => {}}
-                  className="bg-base-color-500"
-                >
-                  <Link className="flex items-center gap-1" href={"/auth"}>
-                    <CircleUserRound size={20} />
-                    {StoreRedux.storeSetting.settingData.login}
-                  </Link>
-                </Button>
+                <div>
+                  <AuthDialog
+                    useIcon={true}
+                    variantBtn="contained"
+                    name={StoreRedux.storeSetting.settingData.login}
+                  />
+                </div>
 
                 <button
                   onClick={openDrawer}
@@ -256,17 +258,18 @@ export default function Header() {
                 </ul>
 
                 <ul className="flex gap-5 ">
-                  {StoreRedux.storeSetting.settingData.PrivacyPolicy_Header == "true" && (
+                  {StoreRedux.storeSetting.settingData.PrivacyPolicy_Header ==
+                    "true" && (
                     <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
                       <Link href={"/info/privacyPolicy"}>
                         {StoreRedux.storeSetting.settingData.privacy_policy}
                       </Link>{" "}
                     </li>
                   )}
-                  {StoreRedux.storeSetting.settingData.Terms_Header == "true" && (
+                  {StoreRedux.storeSetting.settingData.Terms_Header ==
+                    "true" && (
                     <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
                       <Link href={"/info/terms_conditions"}>
-                      
                         {StoreRedux.storeSetting.settingData.term_and_condition}
                       </Link>{" "}
                     </li>
@@ -369,18 +372,12 @@ export default function Header() {
                     </Link>
                   </ListItem>
                 </List>
-                <div className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2">
-                  <Button
-                    placeholder=""
-                    onPointerEnterCapture={() => {}}
-                    onPointerLeaveCapture={() => {}}
-                    className="bg-base-color-500"
-                  >
-                    <Link className="flex items-center gap-1" href={"/auth"}>
-                      <CircleUserRound size={20} />
-                      {StoreRedux.storeSetting.settingData.login}
-                    </Link>
-                  </Button>
+                <div onClick={closeDrawer} className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2">
+                  <AuthDialog
+                    useIcon={true}
+                    variantBtn="contained"
+                    name={StoreRedux.storeSetting.settingData.login}
+                  />
                 </div>
               </div>
             </div>
