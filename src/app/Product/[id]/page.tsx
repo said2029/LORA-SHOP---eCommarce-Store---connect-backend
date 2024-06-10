@@ -17,6 +17,12 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import Image from "next/image";
 
+import { useCookies } from "react-cookie";
+
+import { ContaroleDeloag } from "../../../components/dialog/authDialog";
+import { useDispatch } from "react-redux";
+import { addProductToCard } from "@/Redux/feature/ShopCards/ShopCards";
+
 export default function page({ params }: { params: { id: string } }) {
   function imageFun(url: string | undefined) {
     return (
@@ -39,6 +45,7 @@ export default function page({ params }: { params: { id: string } }) {
   const [openReview, setReview] = useState(false);
 
   let productModile = {
+    _id: "",
     Product_Description: "",
     ProducName: "",
     ProductsImage: [],
@@ -53,11 +60,12 @@ export default function page({ params }: { params: { id: string } }) {
   const [productlikes, setproductlikes] = useState([]);
   useEffect(() => {
     getProductApi(params.id).then((res) => {
-      const colors = res.data.colors[0].split(",");
-      res.data.colors = colors;
-      res.data.rating.$numberDecimal = +res.data.rating.$numberDecimal;
-      setProducts(res.data);
-      getProductsApi(0, res.data.ProductCategory).then((res2) => {
+      const body = res.data[0];
+      const colors = body.colors[0].split(",");
+      body.colors = colors;
+      body.rating.$numberDecimal = +body.rating.$numberDecimal;
+      setProducts(body);
+      getProductsApi(0, body.ProductCategory).then((res2) => {
         if (res2.data.data.length <= 0) {
           getProductsApi(0).then((res3) => {
             setproductlikes(res3.data.data);
@@ -75,6 +83,10 @@ export default function page({ params }: { params: { id: string } }) {
       setReviews(res.data.reviews);
     });
   }, []);
+
+  const [cookie, setCookie] = useCookies(["access_token"]);
+
+  const dispatch = useDispatch();
 
   return (
     <div className=" px-5 ">
@@ -269,6 +281,10 @@ export default function page({ params }: { params: { id: string } }) {
                 <button
                   type="button"
                   className="inline-flex h-14 items-center gap-2 justify-center rounded-md border-2 border-transparent bg-base-color-500 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+                  onClick={() => {
+                    if (!cookie.access_token) ContaroleDeloag.openAuthDelog();
+                    else dispatch(addProductToCard(product._id ));
+                  }}
                 >
                   <ShoppingBag />
                   <p className="text-nowrap "> Add to cart</p>

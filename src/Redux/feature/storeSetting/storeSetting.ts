@@ -14,7 +14,8 @@ const fatchData = createAsyncThunk("SettingStore/fatchData", async() => {
 const SettingStoreRedux = createSlice({
   name: "SettingStore",
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers(builder) {
     builder.addCase(fatchData.pending, (state) => {
       state.loading = true;

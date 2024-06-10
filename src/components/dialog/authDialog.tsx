@@ -2,9 +2,24 @@
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import { CircleUserRound } from "lucide-react";
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import Log_in from "./_components/log_in";
 import Sign_in from "./_components/sign_up";
+
+export class Contarole {
+  DeloadStata: Dispatch<SetStateAction<boolean>> | undefined;
+  openAuthDelog: () => void;
+  CloseAuthDelog: () => void;
+  constructor() {
+    this.openAuthDelog = () => {
+      if (this.DeloadStata != undefined) this.DeloadStata(true);
+    };
+    this.CloseAuthDelog = () => {
+      if (this.DeloadStata != undefined) this.DeloadStata(false);
+    };
+  }
+}
+export const ContaroleDeloag = new Contarole();
 
 export default function AuthDialog({
   name,
@@ -19,6 +34,7 @@ export default function AuthDialog({
 }) {
   const [mode, setMode] = useState("log in");
   const [open, setOpen] = useState(false);
+  ContaroleDeloag.DeloadStata = setOpen;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,8 +64,8 @@ export default function AuthDialog({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        {mode == "log in" && <Log_in selectMode={selectMode}/>}
-        {mode == "sign in" && <Sign_in selectMode={selectMode}/>}
+        {mode == "log in" && <Log_in selectMode={selectMode} />}
+        {mode == "sign in" && <Sign_in selectMode={selectMode} />}
       </Dialog>
     </Fragment>
   );

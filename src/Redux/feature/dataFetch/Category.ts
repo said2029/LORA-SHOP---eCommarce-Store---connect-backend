@@ -20,16 +20,16 @@ const fetchCategorys = createAsyncThunk(
 const CategorySlice = createSlice({
   name: "categoryRedux",
   initialState,
-  extraReducers: (bulder) => {
-    bulder.addCase(fetchCategorys.pending, (state) => {
+  extraReducers: (bulder:any) => {
+    bulder.addCase(fetchCategorys.pending, (state:any) => {
       state.loading = true;
     });
-    bulder.addCase(fetchCategorys.fulfilled, (state, action) => {
+    bulder.addCase(fetchCategorys.fulfilled, (state:any, action:any) => {
       state.loading = false;
       state.error = "";
       state.categorys = action.payload;
     });
-    bulder.addCase(fetchCategorys.rejected, (state, action) => {
+    bulder.addCase(fetchCategorys.rejected, (state:any, action:any) => {
       state.loading = true;
       state.error = action.error.massegs;
       state.categorys = [];

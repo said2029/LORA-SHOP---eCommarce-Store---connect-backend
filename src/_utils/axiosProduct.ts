@@ -5,14 +5,14 @@ const getProductsApi = (
   categorys = [""],
   price = [0, 99999],
   rate = "",
-  search="",
+  search = ""
 ) =>
   axiosClient.get(
     `/products?searchProduct=${search}&ProductCategory=${categorys}&page=${page}&minPrice=${
       price[0]
     }&maxPrice=${price[1]}${rate != "" && "&rating=" + rate}`
   );
-const getProductApi = (id: string) => axiosClient.post(`/product`, { id: id });
+const getProductApi = (id: string) => axiosClient.get(`/product?id=${id}`);
 const ReviewProductApi = (id: string) =>
   axiosClient.get(`/product/rating/${id}`);
 

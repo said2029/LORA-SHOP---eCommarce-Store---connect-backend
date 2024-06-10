@@ -15,6 +15,7 @@ import Image from "next/image";
 import { getStoreState } from "@/Redux/store";
 import UseIsClient from "@/hooks/IsClient";
 import AuthDialog from "../dialog/authDialog";
+import { useCookies } from "react-cookie";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -30,9 +31,13 @@ export default function Header() {
   let [UtlAuthPage, setUtlAuthPage] = useState(false);
 
   const StoreRedux = useSelector(getStoreState);
+  console.log(StoreRedux);
   // search Form
   const router = useRouter();
   const FormSearch = useRef<HTMLFormElement[]>([]);
+
+  // cookies
+  const [cookie, SetCookie] = useCookies(["access_token"]);
 
   function addRefSearchInput(el: HTMLFormElement) {
     if (el && !FormSearch.current.includes(el)) {
@@ -73,7 +78,7 @@ export default function Header() {
             <section>
               <ul className="flex gap-2 items-center">
                 <li className="px-2 hover:text-base-color-200/75">
-                  <Link  href={"/info/aboutUs"}>
+                  <Link href={"/info/aboutUs"}>
                     {StoreRedux.storeSetting.settingData.about_us}
                   </Link>
                 </li>
@@ -88,17 +93,21 @@ export default function Header() {
                 <li>
                   <hr className="border border-gray-900 h-5" />
                 </li>
-                <li className=" px-2 hover:text-base-color-200/75 ">
-                  <AuthDialog
-                    useIcon={false}
-                    variantBtn="text"
-                    name={StoreRedux.storeSetting.settingData.login}
-                    className="text-gray-800 bg-none"
-                  />
-                </li>
-                <li>
-                  <hr className="border border-gray-900 h-5" />
-                </li>
+                {!cookie.access_token && (
+                  <>
+                    <li className=" px-2 hover:text-base-color-200/75 ">
+                      <AuthDialog
+                        useIcon={false}
+                        variantBtn="text"
+                        name={StoreRedux.storeSetting.settingData.login}
+                        className="text-gray-800 bg-none"
+                      />
+                    </li>
+                    <li>
+                      <hr className="border border-gray-900 h-5" />
+                    </li>
+                  </>
+                )}
                 <li className=" px-2 hover:text-base-color-200/75 ">
                   <a href="">
                     {StoreRedux.storeSetting.settingData.my_account}
@@ -147,7 +156,10 @@ export default function Header() {
               <div className="flex justify-evenly md:justify-end items-center gap-4 w-full md:w-fit md:ml-12 ">
                 <div className="flex gap-4 items-center">
                   <IconButton onClick={openDrawerCartEvent} aria-label="cart">
-                    <Badge badgeContent={4} color="error">
+                    <Badge
+                      badgeContent={StoreRedux.ShopCard.items.length}
+                      color="error"
+                    >
                       <ShoppingCartIcon
                         sx={{ color: "white", fontSize: "27px" }}
                       />
@@ -170,14 +182,15 @@ export default function Header() {
                     <Search className="absolute left-2 text-gray-400" />
                   </div>
                 </form>
-
-                <div>
-                  <AuthDialog
-                    useIcon={true}
-                    variantBtn="contained"
-                    name={StoreRedux.storeSetting.settingData.login}
-                  />
-                </div>
+                {!cookie.access_token && (
+                  <div>
+                    <AuthDialog
+                      useIcon={true}
+                      variantBtn="contained"
+                      name={StoreRedux.storeSetting.settingData.login}
+                    />
+                  </div>
+                )}
 
                 <button
                   onClick={openDrawer}
@@ -372,7 +385,10 @@ export default function Header() {
                     </Link>
                   </ListItem>
                 </List>
-                <div onClick={closeDrawer} className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2">
+                <div
+                  onClick={closeDrawer}
+                  className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2"
+                >
                   <AuthDialog
                     useIcon={true}
                     variantBtn="contained"
