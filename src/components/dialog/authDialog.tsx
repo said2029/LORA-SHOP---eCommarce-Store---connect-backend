@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import { CircleUserRound } from "lucide-react";
 import { Fragment, useState } from "react";
 import Log_in from "./_components/log_in";
-import Sign_in from "./_components/sign_in";
+import Sign_in from "./_components/sign_up";
 
 export default function AuthDialog({
   name,

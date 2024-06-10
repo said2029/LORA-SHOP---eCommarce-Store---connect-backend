@@ -1,8 +1,6 @@
 import * as React from "react";
 import { AddShoppingCartRounded } from "@mui/icons-material";
 import Link from "next/link";
-import { imagesCard } from "@/_lib/Manager";
-import Image from "next/image";
 import RatingStars from "@/app/Products/_components/RatingStars";
 export default function ProductCard({
   image = "",
@@ -32,11 +30,11 @@ export default function ProductCard({
         Sale
       </span> */}
       <article className="mt-4 px-2 pb-5 flex flex-col justify-between  h-40">
-        <p>
+        <div>
           <h5 className="text-xl font-semibold tracking-tight text-slate-900 line-clamp-1">
             {tital}
           </h5>
-        </p>
+        </div>
 
         {rating != "0" ? (
           <div className="mt-2.5 mb-5 flex items-center">

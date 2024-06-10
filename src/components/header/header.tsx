@@ -73,7 +73,7 @@ export default function Header() {
             <section>
               <ul className="flex gap-2 items-center">
                 <li className="px-2 hover:text-base-color-200/75">
-                  <Link href={"/info/aboutUs"}>
+                  <Link  href={"/info/aboutUs"}>
                     {StoreRedux.storeSetting.settingData.about_us}
                   </Link>
                 </li>
