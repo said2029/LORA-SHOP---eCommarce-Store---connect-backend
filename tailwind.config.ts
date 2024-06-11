@@ -5,7 +5,6 @@ const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
- 
 const config: Config = withMT({
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,7 +12,6 @@ const config: Config = withMT({
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "path-to-your-node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
     "path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
-    
   ],
   darkMode: "class",
   theme: {
@@ -23,12 +21,12 @@ const config: Config = withMT({
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      colors:{
-        "base-color":{
-          "500":"#f44336",
-          "200/75":"#f3b3b3"
-        }
-      }
+      colors: {
+        "base-color": {
+          "500": "#f44336",
+          "200/75": "#f3b3b9",
+        },
+      },
     },
   },
   plugins: [addVariablesForColors],
@@ -36,14 +34,13 @@ const config: Config = withMT({
 export default config;
 // #f44336
 
-
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });

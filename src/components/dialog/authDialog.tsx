@@ -6,7 +6,7 @@ import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import Log_in from "./_components/log_in";
 import Sign_in from "./_components/sign_up";
 
-export class Contarole {
+export class Contaroller {
   DeloadStata: Dispatch<SetStateAction<boolean>> | undefined;
   openAuthDelog: () => void;
   CloseAuthDelog: () => void;
@@ -19,7 +19,7 @@ export class Contarole {
     };
   }
 }
-export const ContaroleDeloag = new Contarole();
+export const ContarollerDeloag = new Contaroller();
 
 export default function AuthDialog({
   name,
@@ -34,7 +34,7 @@ export default function AuthDialog({
 }) {
   const [mode, setMode] = useState("log in");
   const [open, setOpen] = useState(false);
-  ContaroleDeloag.DeloadStata = setOpen;
+  ContarollerDeloag.DeloadStata = setOpen;
 
   const handleClickOpen = () => {
     setOpen(true);

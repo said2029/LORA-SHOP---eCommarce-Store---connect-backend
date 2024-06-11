@@ -1,18 +1,25 @@
 import axiosClient from "@/_utils/axiosClient";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  items: [
-    {
-      count: 0,
-      id: "",
-    },
-  ],
+let initialState: {
+  items: {
+    count: number;
+    id: string;
+    product: any;
+  }[];
+  totelPrice: number;
+} = {
+  items: [],
+  totelPrice: 0,
 };
-
-initialState.items = JSON.parse(
-  window.localStorage.getItem("shopCard") || "[]"
-);
+try {
+  if (window)
+    initialState = JSON.parse(
+      window.localStorage.getItem("shopCard") || "{items:[],totelPrice:0}"
+    );
+} catch (error) {
+  console.log("Can't parse JSON  :", error);
+}
 
 export const fatchProductOfCard = createAsyncThunk(
   "shopCardProducts/fatchProductOfCard",
@@ -27,14 +34,25 @@ const ShopCard = createSlice({
   initialState,
   reducers: {
     addProductToCard: (state, action) => {
-      if (state.items.some((e) => e.id == action.payload)) {
-        state.items[
-          state.items.findIndex((b) => b.id == action.payload)
-        ].count += 1;
+      if (state.items.some((e) => e.id == action.payload.id)) {
+        const index = state.items.findIndex((b) => b.id == action.payload.id);
+        state.items[index].count += 1;
       } else {
-        state.items.push({ count: 1, id: action.payload });
+        state.items.push({
+          count: 1,
+          id: action.payload.id,
+          product: action.payload.product,
+        });
       }
-      window.localStorage.setItem("shopCard", JSON.stringify(state.items));
+      CalcolatePeoducPrice(state);
+    },
+
+    removeProductToCard: (state, action) => {
+      if (state.items[action.payload.index].count > 1) {
+        state.items[action.payload.index].count -= 1;
+      } else state.items.splice(action.payload.index, 1);
+
+      CalcolatePeoducPrice(state);
     },
   },
   extraReducers: (builder) => {
@@ -42,5 +60,17 @@ const ShopCard = createSlice({
   },
 });
 
-export const { addProductToCard } = ShopCard.actions;
+function CalcolatePeoducPrice(state: any) {
+  state.totelPrice = 0;
+  state.items.map((e: any) => {
+    if (e.product?.productSaleprice != undefined) {
+      state.totelPrice += +e.product.productSaleprice.$numberDecimal * e.count;
+    } else {
+      state.totelPrice += +e.product.price * e.count;
+    }
+  });
+  if (window) window.localStorage.setItem("shopCard", JSON.stringify(state));
+}
+
+export const { addProductToCard, removeProductToCard } = ShopCard.actions;
 export default ShopCard.reducer;

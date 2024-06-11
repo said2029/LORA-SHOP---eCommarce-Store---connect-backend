@@ -19,7 +19,7 @@ import Image from "next/image";
 
 import { useCookies } from "react-cookie";
 
-import { ContaroleDeloag } from "../../../components/dialog/authDialog";
+import { ContarollerDeloag } from "../../../components/dialog/authDialog";
 import { useDispatch } from "react-redux";
 import { addProductToCard } from "@/Redux/feature/ShopCards/ShopCards";
 
@@ -282,8 +282,8 @@ export default function page({ params }: { params: { id: string } }) {
                   type="button"
                   className="inline-flex h-14 items-center gap-2 justify-center rounded-md border-2 border-transparent bg-base-color-500 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
                   onClick={() => {
-                    if (!cookie.access_token) ContaroleDeloag.openAuthDelog();
-                    else dispatch(addProductToCard(product._id ));
+                    if (!cookie.access_token) ContarollerDeloag.openAuthDelog();
+                    else dispatch(addProductToCard({id:product._id, product:product}));
                   }}
                 >
                   <ShoppingBag />

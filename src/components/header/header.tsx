@@ -1,14 +1,13 @@
 "use client";
-import { CircleUserRound, Phone, PhoneCall, Search } from "lucide-react";
+import { PhoneCall, Search, ShoppingBag } from "lucide-react";
 import { Badge, IconButton } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
-import { Button, Drawer } from "@material-tailwind/react";
+import { Drawer } from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import { List, ListItem } from "@material-tailwind/react";
 import DropMenuCar from "./_componets/DropMenuCar";
 import CloseIcon from "@mui/icons-material/Close";
-import ShopCard from "./_componets/shopCard";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import Image from "next/image";
@@ -16,6 +15,8 @@ import { getStoreState } from "@/Redux/store";
 import UseIsClient from "@/hooks/IsClient";
 import AuthDialog from "../dialog/authDialog";
 import { useCookies } from "react-cookie";
+import { Shop } from "@mui/icons-material";
+import ShopCard from "./_componets/shopCard";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -24,14 +25,22 @@ export default function Header() {
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
 
-  const openDrawerCartEvent = () => setopenDrawerCart(true);
-  const closeDrawerCart = () => setopenDrawerCart(false);
+  const openDrawerCartEvent = () => {
+    setopenDrawerCart(true);
+    window.document.body.style.touchAction = "none";
+    window.document.body.style.overflow = "hidden";
+  };
+  const closeDrawerCart = () => {
+    setopenDrawerCart(false);
+    window.document.body.style.touchAction = "";
+    window.document.body.style.overflow = "";
+
+  };
 
   const pathName = usePathname();
   let [UtlAuthPage, setUtlAuthPage] = useState(false);
 
   const StoreRedux = useSelector(getStoreState);
-  console.log(StoreRedux);
   // search Form
   const router = useRouter();
   const FormSearch = useRef<HTMLFormElement[]>([]);
@@ -62,7 +71,7 @@ export default function Header() {
   return (
     <>
       {isClient && !UtlAuthPage && (
-        <header className="w-full">
+        <header className="w-full  bg-white">
           <div className="py-2 w-full flex gap-2 flex-col md:flex-row justify-center items-center md:justify-between px-16 text-[13px] text-gray-900  text-nowrap">
             <div className="flex gap-1 items-center">
               <PhoneCall widths={1} size={14} />
@@ -117,7 +126,7 @@ export default function Header() {
             </section>
           </div>
 
-          <div className="mx-auto bg-base-color-500 flex flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
+          <div className="mx-auto  bg-base-color-500 flex flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
             <Link className="block text-teal-600 mr-3" href="/">
               <span className="sr-only">Home</span>
               <picture>
@@ -157,7 +166,7 @@ export default function Header() {
                 <div className="flex gap-4 items-center">
                   <IconButton onClick={openDrawerCartEvent} aria-label="cart">
                     <Badge
-                      badgeContent={StoreRedux.ShopCard.items.length}
+                      badgeContent={StoreRedux.ShopCard?.items?.length}
                       color="error"
                     >
                       <ShoppingCartIcon
@@ -403,20 +412,46 @@ export default function Header() {
             placeholder=""
             onPointerEnterCapture={() => {}}
             onPointerLeaveCapture={() => {}}
-            overlay={false}
+            overlay={true}
+            onClose={closeDrawerCart}
             placement="right"
             open={openDrawerCart}
-            onClose={closeDrawerCart}
-            className="p-4"
+            className=""
+            size={430}
           >
-            <div className="mb-6 flex items-center justify-between">
-              <h1>Shop Cart (10)</h1>
-              <button onClick={closeDrawerCart}>
-                <CloseIcon />
+            <div className="flex flex-col min-h-full ">
+              <div className="flex items-center justify-between bg-deep-purple-50 p-6 ">
+                <div className="flex gap-2">
+                  <ShoppingBag strokeWidth={0.5} />
+                  <h1 className="font-semibold">
+                    Shop Cart ({StoreRedux.ShopCard.items.length})
+                  </h1>
+                </div>
+
+                <button
+                  className="text-sm text-gray-500"
+                  onClick={closeDrawerCart}
+                >
+                  <CloseIcon />
+                  Close
+                </button>
+              </div>
+              <div className="overflow-y-scroll flex-grow max-h-full ">
+                {StoreRedux.ShopCard.items.map((e: any, i: number) => {
+                  return <ShopCard index={i} key={i} itemCard={e} />;
+                })}
+              </div>
+              <button className="w-full bg-white h-[80px]  p-2">
+                <div className="bg-base-color-500 rounded-md h-full w-full flex justify-between items-center px-4 hover:bg-base-color-200/75">
+                  <p className="text-white font-medium text-lg">
+                    Proceed to Checkout
+                  </p>
+
+                  <span className="bg-white rounded-md p-1">
+                    ${StoreRedux.ShopCard?.totelPrice.toFixed(2)}
+                  </span>
+                </div>
               </button>
-            </div>
-            <div>
-              <ShopCard />
             </div>
           </Drawer>
         </header>

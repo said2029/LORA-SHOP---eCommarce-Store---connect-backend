@@ -68,7 +68,7 @@ export default function Fooetr() {
   return (
     <>
       {isclient && !UtlAuthPage && settingStore && (
-        <footer className="bg-stone-100  shadow-md shadow-black pt-10">
+        <footer className="bg-stone-100  shadow-md shadow-black pt-10 mt-28">
           <DeliveryCard />
 
           <div className="mx-auto w-full px-4 pb-6 pt-2 sm:px-6 lg:px-8 flex flex-col justify-center items-center">

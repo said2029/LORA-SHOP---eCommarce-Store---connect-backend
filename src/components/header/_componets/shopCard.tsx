@@ -1,24 +1,56 @@
-import Link from "next/link";
-import CheckoutCard from "@/components/Cards/checkoutCard";
-export default function ShopCard() {
-  /**
-   * Renders an array of `CheckoutCard` components, which are likely used to display checkout-related information or functionality.
-   */
+import { removeProductToCard } from "@/Redux/feature/ShopCards/ShopCards";
+import { Trash2 } from "lucide-react";
+import { useDispatch } from "react-redux";
 
-  const Cards = [<CheckoutCard key={1} />, <CheckoutCard key={2} />];
+export default function ShopCard({
+  itemCard,
+  index,
+}: {
+  itemCard: any;
+  index: number;
+}) {
+  const dispatch = useDispatch();
   return (
-    <div className="">
-      <div className="mt-4 space-y-6 overflow-y-scroll h-[84vh]">
-        <ul className="space-y-4 overflow-y-scroll">{Cards}</ul>
-
-        <div className="space-y-4  text-center  w-full px-4 ">
-          <Link
-            href="/checkout"
-            className="  items-center gap-2 rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
-          >
-            Checkout
-          </Link>
+    <div className="flex justify-between px-6 items-center border-b border-gray-400 py-3">
+      <div className="flex gap-6">
+        <img
+          className=" h-[70px]"
+          src={
+            Array.isArray(itemCard.product?.ProductsImage)
+              ? itemCard.product?.ProductsImage[0]
+              : itemCard.product?.image
+          }
+          alt="product image"
+        />
+        <div className="justify-items-start">
+          <ul>
+            <li className="line-clamp-1">{itemCard.product.ProducName}</li>
+            <li className="text-sm text-gray-600">
+              <span>item price:</span>
+              {itemCard.product?.productSaleprice?.$numberDecimal ||
+                itemCard.product?.price}
+              $ X{itemCard.count}
+            </li>
+            <li className="font-bold text-xl">
+              {" "}
+              {(itemCard.product?.productSaleprice?.$numberDecimal ||
+                itemCard.product?.price) * itemCard.count}
+              $
+            </li>
+          </ul>
         </div>
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            dispatch(removeProductToCard({ index: index }));
+          }}
+        >
+          <Trash2
+            className="hover:text-red-400 cursor-pointer text-red-600 text-sms"
+            strokeWidth={0.8}
+          />
+        </button>
       </div>
     </div>
   );
