@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { User } from "lucide-react";
 import sing_up from "../../../_utils/auth/actions";
 import { useRef, useState } from "react";
-import { Alert , Button as ButtonLoading } from "@material-tailwind/react";
+import { Alert, Button as ButtonLoading } from "@material-tailwind/react";
 
 export default function Sign_up({
   selectMode,
@@ -20,7 +20,7 @@ export default function Sign_up({
 
   return (
     <div className="flex  flex-col items-center justify-center space-y-5 rounded-lg border py-10 px-5 shadow-xl mx-auto max-w-full w-[500px]">
-      <Alert 
+      <Alert
         open={alert.show}
         className={alert.color}
         onClose={() => setAlert({ show: false, massage: "", color: "" })}
@@ -169,6 +169,7 @@ export default function Sign_up({
       <h1>OR</h1>
       <div className="w-full">
         <Button
+          href={process.env.NEXT_PUBLIC_BACKENDURL + "/auth/google"}
           fullWidth
           size="large"
           variant="contained"

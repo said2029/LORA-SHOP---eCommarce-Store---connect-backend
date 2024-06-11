@@ -13,12 +13,12 @@ let initialState: {
   totelPrice: 0,
 };
 try {
-  if (window)
+  if (window != undefined)
     initialState = JSON.parse(
       window.localStorage.getItem("shopCard") || "{items:[],totelPrice:0}"
     );
 } catch (error) {
-  console.log("Can't parse JSON  :", error);
+  console.log("Can't parse JSON  \n:", error);
 }
 
 export const fatchProductOfCard = createAsyncThunk(

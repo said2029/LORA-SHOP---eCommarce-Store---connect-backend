@@ -49,7 +49,7 @@ export default function Log_in({
             } else {
               SetCookie("access_token", result.data.token);
               window.localStorage.setItem("UserId", result.data.user._id);
-              redirect('/');
+              redirect("/");
             }
           }
         }}
@@ -111,6 +111,7 @@ export default function Log_in({
       <h1>OR</h1>
       <div className="w-full">
         <Button
+          href={process.env.NEXT_PUBLIC_BACKENDURL + "/auth/google"}
           fullWidth
           size="large"
           variant="contained"
