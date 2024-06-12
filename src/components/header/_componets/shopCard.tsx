@@ -1,4 +1,5 @@
 import { removeProductToCard } from "@/Redux/feature/ShopCards/ShopCards";
+import UseIsClient from "@/hooks/IsClient";
 import { Trash2 } from "lucide-react";
 import { useDispatch } from "react-redux";
 
@@ -10,11 +11,13 @@ export default function ShopCard({
   index: number;
 }) {
   const dispatch = useDispatch();
+  const isClient = UseIsClient();
   return (
+    
     <div className="flex justify-between px-6 items-center border-b border-gray-400 py-3">
       <div className="flex gap-6">
         <img
-          className=" h-[70px]"
+          className=" h-[70px] w-16 "
           src={
             Array.isArray(itemCard.product?.ProductsImage)
               ? itemCard.product?.ProductsImage[0]

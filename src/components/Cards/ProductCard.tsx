@@ -17,10 +17,11 @@ export default function ProductCard({
   slug = "",
   rating = "0",
 }) {
+
   const dispatch = useDispatch();
   const [cookis, setCookie] = useCookies(["access_token"]);
   return (
-    <div className="relative h-[25rem] w-full overflow-hidden rounded-lg bg-white shadow-md">
+    <article className="relative h-[25rem] w-full overflow-hidden rounded-lg bg-white shadow-md">
       <Link
         href={`/Product/${id}?slug=${slug}`}
         className="w-full flex justify-center"
@@ -33,9 +34,6 @@ export default function ProductCard({
           alt="product image"
         />
       </Link>
-      {/* <span className="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-sm text-white">
-        Sale
-      </span> */}
       <article className="mt-4 px-2 pb-5 flex flex-col justify-between  h-40">
         <div>
           <h5 className="text-xl font-semibold tracking-tight text-slate-900 line-clamp-1">
@@ -90,6 +88,6 @@ export default function ProductCard({
           </button>
         </div>
       </article>
-    </div>
+    </article>
   );
 }

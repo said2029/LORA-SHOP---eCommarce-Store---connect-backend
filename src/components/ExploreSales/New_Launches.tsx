@@ -6,6 +6,7 @@ import { Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { getStoreState } from "@/Redux/store";
 import ProductListSkeleton from "../ProductListSkeleton";
+import UseIsClient from "@/hooks/IsClient";
 
 export default function New_Launches(prop: {
   tital: string;
@@ -16,11 +17,16 @@ export default function New_Launches(prop: {
     route.push("/Products");
   }
   const products = useSelector(getStoreState).Products;
+  const isClient = UseIsClient();
   return (
-    <Container maxWidth="xl" className="flex flex-col justify-center items-center mt-7  my-7 px-3">
+    <Container
+      maxWidth="xl"
+      className="flex flex-col justify-center items-center mt-7  my-7 px-3"
+    >
       <div className="flex w-full justify-between gap-6 items-center">
         <h1 className="text-xl sm:text-3xl font-semibold">
-          {prop.tital} <span className="text-base-color-500">{prop.subtital}</span>
+          {prop.tital}{" "}
+          <span className="text-base-color-500">{prop.subtital}</span>
         </h1>
         <div className="flex">
           <MoreButton name="View All" event={ClickHandler} />
@@ -31,8 +37,9 @@ export default function New_Launches(prop: {
         {products.products?.data?.data?.length <= 0 && (
           <ProductListSkeleton count={4} />
         )}
-        {products.products?.data?.data?.length >= 1 &&
-          products.products.data.data.map((e: any, i:number) => {
+        {isClient &&
+          products.products?.data?.data?.length >= 1 &&
+          products.products.data.data.map((e: any, i: number) => {
             if (i > 8) return;
             return (
               <ProductCard

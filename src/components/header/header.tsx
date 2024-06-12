@@ -34,7 +34,6 @@ export default function Header() {
     setopenDrawerCart(false);
     window.document.body.style.touchAction = "";
     window.document.body.style.overflow = "";
-
   };
 
   const pathName = usePathname();
@@ -436,12 +435,31 @@ export default function Header() {
                   Close
                 </button>
               </div>
-              <div className="overflow-y-scroll flex-grow max-h-full ">
-                {StoreRedux.ShopCard.items.map((e: any, i: number) => {
-                  return <ShopCard index={i} key={i} itemCard={e} />;
-                })}
-              </div>
-              <button className="w-full bg-white h-[80px]  p-2">
+              {StoreRedux.ShopCard.items.length <= 0 ? (
+                <div className="flex space-y-3 flex-col justify-center items-center flex-grow">
+                  <img
+                    width={100}
+                    height={100}
+                    src="/images/icons/charity.gif"
+                    alt=""
+                  />
+                  <h1 className="font-semibold text-xl">Your cart is empty</h1>
+                  <span className="text-sm text-gray-400">
+                    No items added in your cart. Please add product to your cart
+                    list.
+                  </span>
+                </div>
+              ) : (
+                <div className="overflow-y-scroll flex-grow max-h-full ">
+                  {StoreRedux.ShopCard.items.map((e: any, i: number) => {
+                    return <ShopCard index={i} key={i} itemCard={e} />;
+                  })}
+                </div>
+              )}
+              <Link
+                href={"/checkout"}
+                className="w-full bg-white h-[80px]  p-2"
+              >
                 <div className="bg-base-color-500 rounded-md h-full w-full flex justify-between items-center px-4 hover:bg-base-color-200/75">
                   <p className="text-white font-medium text-lg">
                     Proceed to Checkout
@@ -451,7 +469,7 @@ export default function Header() {
                     ${StoreRedux.ShopCard?.totelPrice.toFixed(2)}
                   </span>
                 </div>
-              </button>
+              </Link>
             </div>
           </Drawer>
         </header>

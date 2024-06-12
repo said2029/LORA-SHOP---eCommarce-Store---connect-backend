@@ -8,9 +8,13 @@ let initialState: {
     product: any;
   }[];
   totelPrice: number;
+  discount: number;
+  codeCoupon: string;
 } = {
   items: [],
   totelPrice: 0,
+  discount: 0.0,
+  codeCoupon: "",
 };
 try {
   if (window != undefined)
@@ -54,6 +58,13 @@ const ShopCard = createSlice({
 
       CalcolatePeoducPrice(state);
     },
+    addDiscountCoupon: (state, action) => {
+      state.discount = +action.payload.discount;
+      state.codeCoupon = action.payload.codeCoupon;
+      state.totelPrice -= state.discount;
+      if (window)
+        window.localStorage.setItem("shopCard", JSON.stringify(state));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fatchProductOfCard.fulfilled, (state, action) => {});
@@ -69,8 +80,10 @@ function CalcolatePeoducPrice(state: any) {
       state.totelPrice += +e.product.price * e.count;
     }
   });
+  state.totelPrice -= state.discount;
   if (window) window.localStorage.setItem("shopCard", JSON.stringify(state));
 }
 
-export const { addProductToCard, removeProductToCard } = ShopCard.actions;
+export const { addProductToCard, removeProductToCard, addDiscountCoupon } =
+  ShopCard.actions;
 export default ShopCard.reducer;
