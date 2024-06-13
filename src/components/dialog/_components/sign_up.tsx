@@ -55,7 +55,7 @@ export default function Sign_up({
               massage: "Successfull",
               color: "bg-teal-400",
             });
-            selectMode("log in");
+            selectMode("verifayEmail");
           }
 
           SetisPandingForm(false);

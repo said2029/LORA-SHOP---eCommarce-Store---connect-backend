@@ -29,7 +29,7 @@ export default function HeroSection() {
                 </p>
                 <MoreButton name="View All" event={() => {router.push("/offers")}} />
               </div>
-              <div className="flex flex-col gap-2 w-full h-full">
+              <div className="flex flex-col gap-2 w-full h-full pt-6">
                 {coupons?.map((e: any, i: number) => {
                   if (i >= 2) return;
                   return <CoponeCard key={e._id} coupon={e} />;

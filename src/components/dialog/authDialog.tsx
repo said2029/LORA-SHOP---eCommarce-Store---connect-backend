@@ -5,6 +5,9 @@ import { CircleUserRound } from "lucide-react";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import Log_in from "./_components/log_in";
 import Sign_in from "./_components/sign_up";
+import VerifayEmail from "./_components/verifayEmail";
+import ForgetPassword from "./_components/forgetPassword";
+import ResetPassword from "./_components/ResetPassword";
 
 export class Contaroller {
   DeloadStata: Dispatch<SetStateAction<boolean>> | undefined;
@@ -32,7 +35,8 @@ export default function AuthDialog({
   useIcon: true | false;
   className?: string;
 }) {
-  const [mode, setMode] = useState("log in");
+  const [mode, setMode] = useState("ResetPassword");
+
   const [open, setOpen] = useState(false);
   ContarollerDeloag.DeloadStata = setOpen;
 
@@ -66,6 +70,10 @@ export default function AuthDialog({
       >
         {mode == "log in" && <Log_in selectMode={selectMode} />}
         {mode == "sign in" && <Sign_in selectMode={selectMode} />}
+        {mode == "verifayEmail" && <VerifayEmail selectMode={selectMode}/>}
+
+        {mode == "ForgetPassword" && <ForgetPassword selectMode={selectMode}/>}
+        {mode == "ResetPassword" && <ResetPassword selectMode={selectMode}/>}
       </Dialog>
     </Fragment>
   );

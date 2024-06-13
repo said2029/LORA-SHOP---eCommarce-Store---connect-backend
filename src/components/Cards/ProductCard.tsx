@@ -6,7 +6,6 @@ import { ContarollerDeloag } from "../dialog/authDialog";
 
 import { addProductToCard } from "@/Redux/feature/ShopCards/ShopCards";
 import { useDispatch } from "react-redux";
-import { useCookies } from "react-cookie";
 export default function ProductCard({
   image = "",
   tital = "",
@@ -17,9 +16,7 @@ export default function ProductCard({
   slug = "",
   rating = "0",
 }) {
-
   const dispatch = useDispatch();
-  const [cookis, setCookie] = useCookies(["access_token"]);
   return (
     <article className="relative h-[25rem] w-full overflow-hidden rounded-lg bg-white shadow-md">
       <Link
@@ -64,23 +61,21 @@ export default function ProductCard({
           </p>
           <button
             onClick={() => {
-              if (cookis.access_token)
-                dispatch(
-                  addProductToCard({
+              dispatch(
+                addProductToCard({
+                  id,
+                  product: {
+                    image,
+                    ProducName: tital,
+                    price: peice,
+                    supPrice,
+                    discription,
                     id,
-                    product: {
-                      image,
-                      ProducName: tital,
-                      price: peice,
-                      supPrice,
-                      discription,
-                      id,
-                      slug,
-                      rating,
-                    },
-                  })
-                );
-              else ContarollerDeloag.openAuthDelog();
+                    slug,
+                    rating,
+                  },
+                })
+              );
             }}
             className="flex items-center rounded-md bg-slate-900 py-1  px-2 duration-300 hover:bg-base-color-500 hover:text-white text-center text-sm font-medium text-base-color-500 border border-gray-300"
           >
