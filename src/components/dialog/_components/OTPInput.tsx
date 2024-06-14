@@ -172,8 +172,7 @@ function OTP({
   );
 }
 
-export default function OTPInput() {
-  const [otp, setOtp] = React.useState('');
+export default function OTPInput({setOtp:[otp, setOtp]}:{setOtp:any}) {
 
   return (
     <Box

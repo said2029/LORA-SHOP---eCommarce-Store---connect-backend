@@ -22,7 +22,7 @@ try {
       window.localStorage.getItem("shopCard") || "{items:[],totelPrice:0}"
     );
 } catch (error) {
-  console.log("Can't parse JSON  \n:", error);
+  console.log("Can't parse JSON  \n:");
 }
 
 export const fatchProductOfCard = createAsyncThunk(
@@ -62,7 +62,7 @@ const ShopCard = createSlice({
       state.discount = +action.payload.discount;
       state.codeCoupon = action.payload.codeCoupon;
       state.totelPrice -= state.discount;
-      if (window)
+      if (window != undefined)
         window.localStorage.setItem("shopCard", JSON.stringify(state));
     },
   },
@@ -81,7 +81,8 @@ function CalcolatePeoducPrice(state: any) {
     }
   });
   state.totelPrice -= state.discount;
-  if (window) window.localStorage.setItem("shopCard", JSON.stringify(state));
+  if (window != undefined)
+    window.localStorage.setItem("shopCard", JSON.stringify(state));
 }
 
 export const { addProductToCard, removeProductToCard, addDiscountCoupon } =

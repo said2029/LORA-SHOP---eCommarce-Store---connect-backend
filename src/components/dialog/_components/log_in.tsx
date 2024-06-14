@@ -5,11 +5,12 @@ import { log_In } from "../../../_utils/auth/actions";
 import { Alert } from "@material-tailwind/react";
 import { useCookies } from "react-cookie";
 import { redirect } from "next/navigation";
+import ButtonSend from "./buttonSend";
 
 export default function Log_in({
   selectMode,
 }: {
-  selectMode: (value: string) => void;
+  selectMode: (value: string, body?: any) => void;
 }) {
   const [alert, setAlert] = useState({
     show: false,
@@ -47,9 +48,19 @@ export default function Log_in({
                 color: "bg-red-500",
               });
             } else {
-              SetCookie("access_token", result.data.token);
-              window.localStorage.setItem("UserId", result.data.user._id);
-              redirect("/");
+              if (
+                result.data.user.isVerfied == true
+              ) {
+                SetCookie("access_token", result.data.token);
+                window.localStorage.setItem("UserId", result.data.user._id);
+              } else {
+                selectMode("verifayEmail", {
+                  email: result.data.user.email,
+                  name: result.data.user.FirstName,
+                  token: result.data.token,
+                  _id: result.data._id,
+                });
+              }
             }
           }
         }}
@@ -93,9 +104,7 @@ export default function Log_in({
             Enter Your password
           </label>
         </div>
-        <button className="rounded-lg w-full bg-base-color-500 py-3 font-bold text-white mt-6">
-          Login
-        </button>
+        <ButtonSend name="Login" />
       </form>
       <div>
         Don't have an account{"  "}

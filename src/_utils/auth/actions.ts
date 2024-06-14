@@ -1,5 +1,4 @@
 "use server";
-import { revalidatePath } from "next/cache";
 import axiosClient from "../axiosClient";
 
 const sing_up = async (formData: FormData) => {

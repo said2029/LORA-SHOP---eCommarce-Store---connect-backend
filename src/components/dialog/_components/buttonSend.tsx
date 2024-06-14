@@ -1,10 +1,28 @@
+import { Button } from "@material-tailwind/react";
+import { useFormStatus } from "react-dom";
 
-export default function ButtonSend({ name = "sign Up" }: { name?: string }) {
+export default function ButtonSend({
+  name = "sign Up",
+  onClick = () => {},
+}: {
+  name?: string;
+  onClick?: () => void;
+}) {
+  const { pending } = useFormStatus();
   return (
-    <button
-      className="rounded-lg w-full bg-base-color-500 py-3 font-bold text-white mt-6"
+    <Button
+      onClick={() => {
+        onClick();
+      }}
+      type="submit"
+      className="bg-base-color-500 disabled:opacity-75"
+      fullWidth
+      loading={pending}
+      placeholder={undefined}
+      onPointerEnterCapture={undefined}
+      onPointerLeaveCapture={undefined}
     >
-      {name}
-    </button>
+      {pending ? "Processing....." : name}
+    </Button>
   );
 }

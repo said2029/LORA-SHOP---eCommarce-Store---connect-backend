@@ -4,6 +4,7 @@ import { User } from "lucide-react";
 import sing_up from "../../../_utils/auth/actions";
 import { useRef, useState } from "react";
 import { Alert, Button as ButtonLoading } from "@material-tailwind/react";
+import ButtonSend from "./buttonSend";
 
 export default function Sign_up({
   selectMode,
@@ -15,7 +16,6 @@ export default function Sign_up({
     massage: "",
     color: "bg-red-500",
   });
-  const [isPandingForm, SetisPandingForm] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   return (
@@ -40,7 +40,6 @@ export default function Sign_up({
       <form
         ref={formRef}
         action={async (formData) => {
-          SetisPandingForm(true);
           formRef.current?.reset();
           const result = await sing_up(formData);
           if (result && result?.error != "") {
@@ -55,10 +54,9 @@ export default function Sign_up({
               massage: "Successfull",
               color: "bg-teal-400",
             });
-            selectMode("verifayEmail");
+            selectMode("log in");
           }
 
-          SetisPandingForm(false);
         }}
         className="w-full space-y-6"
       >
@@ -142,18 +140,7 @@ export default function Sign_up({
             Enter Your password
           </label>
         </div>
-        <ButtonLoading
-          size="lg"
-          className="bg-base-color-500 disabled:bg-base-color-200/75"
-          onPointerEnterCapture={() => {}}
-          onPointerLeaveCapture={() => {}}
-          fullWidth
-          type="submit"
-          loading={isPandingForm}
-          placeholder={""}
-        >
-          Sign Up
-        </ButtonLoading>
+        <ButtonSend name="Sign Up" />
       </form>
       <div>
         I have an account{"  "}

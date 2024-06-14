@@ -35,7 +35,7 @@ export default function AuthDialog({
   useIcon: true | false;
   className?: string;
 }) {
-  const [mode, setMode] = useState("ResetPassword");
+  const [mode, setMode] = useState("log in");
 
   const [open, setOpen] = useState(false);
   ContarollerDeloag.DeloadStata = setOpen;
@@ -47,8 +47,9 @@ export default function AuthDialog({
   const handleClose = () => {
     setOpen(false);
   };
-
-  const selectMode = (mode: string) => {
+  const [body, set_body] = useState();
+  const selectMode = (mode: string, body?: any) => {
+    set_body(body);
     setMode(mode);
   };
 
@@ -70,10 +71,12 @@ export default function AuthDialog({
       >
         {mode == "log in" && <Log_in selectMode={selectMode} />}
         {mode == "sign in" && <Sign_in selectMode={selectMode} />}
-        {mode == "verifayEmail" && <VerifayEmail selectMode={selectMode}/>}
+        {mode == "verifayEmail" && (
+          <VerifayEmail next="log in" selectMode={selectMode} bodyUser={body} />
+        )}
 
-        {mode == "ForgetPassword" && <ForgetPassword selectMode={selectMode}/>}
-        {mode == "ResetPassword" && <ResetPassword selectMode={selectMode}/>}
+        {mode == "ForgetPassword" && <ForgetPassword selectMode={selectMode} />}
+        {mode == "ResetPassword" && <ResetPassword selectMode={selectMode} />}
       </Dialog>
     </Fragment>
   );
