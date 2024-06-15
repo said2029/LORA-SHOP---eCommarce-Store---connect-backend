@@ -7,13 +7,12 @@ import { useCookies } from "react-cookie";
 export default function VerifayEmail({
   selectMode,
   next = "",
-  bodyUser = { email: "", name: "",token:"",_id:"" },
+  bodyUser = { email: "", name: "", token: "", _id: "" },
 }: {
   selectMode: (value: string) => void;
   next?: string;
-  bodyUser?: { email: string; name: string,token:string,_id:string };
+  bodyUser?: { email: string; name: string; token: string; _id: string };
 }) {
-
   const [_, SetCookie] = useCookies(["access_token"]);
   const [otp, setOtp] = useState("");
   const CodeValid = useRef("0");
@@ -41,14 +40,7 @@ export default function VerifayEmail({
     }
   };
 
-  function generateRandomCode() {
-    const value = Math.floor(Math.random() * 90000) + 10000;
-    return value.toString();
-  }
-
   async function SendCode() {
-    CodeValid.current = generateRandomCode();
-
     if (!bodyUser.email) {
       return selectMode(next);
     }
@@ -58,12 +50,12 @@ export default function VerifayEmail({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        code: CodeValid.current,
         email: bodyUser.email,
         name: bodyUser.name,
       }),
     });
-    const Data = response;
+    const Data = await response.json();
+    CodeValid.current = Data?.code;
   }
   useEffect(() => {
     SendCode();
