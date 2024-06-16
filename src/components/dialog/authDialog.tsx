@@ -76,7 +76,7 @@ export default function AuthDialog({
         )}
 
         {mode == "ForgetPassword" && <ForgetPassword selectMode={selectMode} />}
-        {mode == "ResetPassword" && <ResetPassword selectMode={selectMode} />}
+        {mode == "ResetPassword" && <ResetPassword bodyUser={body} selectMode={selectMode} />}
       </Dialog>
     </Fragment>
   );

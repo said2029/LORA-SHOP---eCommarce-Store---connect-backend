@@ -77,7 +77,7 @@ export default function ProductCard({
                 })
               );
             }}
-            className="flex items-center rounded-md bg-slate-900 py-1  px-2 duration-300 hover:bg-base-color-500 hover:text-white text-center text-sm font-medium text-base-color-500 border border-gray-300"
+            className="flex items-center rounded-md bg-slate-900 py-1  px-2 duration-300 hover:bg-gray-900 hover:text-white text-center text-sm font-medium text-base-color-500 border border-gray-300"
           >
             <AddShoppingCartRounded style={{ fontSize: "20px" }} />
           </button>

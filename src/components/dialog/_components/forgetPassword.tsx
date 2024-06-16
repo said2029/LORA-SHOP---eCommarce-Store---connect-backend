@@ -1,10 +1,23 @@
 import { Button, TextField } from "@mui/material";
+import { FormEvent, useRef } from "react";
+import ButtonSend from "./buttonSend";
 
 export default function ForgetPassword({
   selectMode,
 }: {
-  selectMode: (value: string) => void;
+  selectMode: (value: string, body?: any) => void;
 }) {
+
+  function submitForm(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const dataForm = new FormData(event.currentTarget);
+    selectMode("verifayEmail",{
+      email: dataForm.get("email"),
+      mode:"forgerPassword",
+      sendEmailUrl:"/api/forget_password"
+    })
+  }
+
   return (
     <div className="w-[400px] px-4 py-6 space-y-6">
       <div className="space-y-3">
@@ -14,7 +27,7 @@ export default function ForgetPassword({
         <p>Enter your email to send reset password Code</p>
       </div>
 
-      <form className="space-y-3">
+      <form onSubmit={submitForm} className="space-y-3">
         <TextField
           required
           type="email"
@@ -23,15 +36,9 @@ export default function ForgetPassword({
           id="outlined-basic"
           label="Email"
           variant="outlined"
+          name="email"
         />
-        <Button
-          type="submit"
-          className="  hover:bg-base-color-200/75 bg-base-color-500"
-          variant="contained"
-          fullWidth
-        >
-          Continue
-        </Button>
+        <ButtonSend name="Continue"/>
       </form>
     </div>
   );

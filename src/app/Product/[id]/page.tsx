@@ -77,8 +77,8 @@ export default function page({ params }: { params: { id: string } }) {
     });
     ReviewProductApi(params.id).then((res) => {
       res.data.reviews.map((e: any) => {
-        e.useImage = e.customers[0].imageUser;
-        e.useName = `${e.customers[0].FirstName} ${e.customers[0].lastName}`;
+        e.useImage = e.customers[0]?.imageUser;
+        e.useName = `${e.customers[0]?.FirstName} ${e.customers[0]?.lastName}`;
       });
       setReviews(res.data.reviews);
     });

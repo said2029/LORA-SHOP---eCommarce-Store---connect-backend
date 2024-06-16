@@ -18,20 +18,20 @@ export default async function page() {
     <>
       {data.body != undefined && (
         <div className="mb-20">
-          {data.body[0].checked_bg_Hero && (
+          {data?.body[0]?.checked_bg_Hero && (
             <div className="relative w-full h-52 flex justify-center items-center text-5xl font-bold bg-gray-400 mb-10">
               <img
                 loading="lazy"
                 decoding="async"
                 className="absolute w-full h-full object-cover z-0"
-                src={data.body[0].header_background_image}
+                src={data.body[0]?.header_background_image}
                 alt=""
               />
-              <h1 className="z-10">{data.body[0].contact_page_title}</h1>
+              <h1 className="z-10">{data.body[0]?.contact_page_title}</h1>
             </div>
           )}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10 xl:gap-24 px-4 md:px-10">
-            {data.body[0].checked_EmailBox && (
+            {data.body[0]?.checked_EmailBox && (
               <div className="p-8 rounded-md border border-gray-400 flex justify-center text-center">
                 <ul className="space-y-5">
                   <li className="text-base-color-500">
@@ -51,7 +51,7 @@ export default async function page() {
                 </ul>
               </div>
             )}
-            {data.body[0].checked_CallBox && (
+            {data.body[0]?.checked_CallBox && (
               <div className="p-8 rounded-md border border-gray-400 flex items-center justify-center text-center">
                 <ul className="space-y-5">
                   <li className="text-base-color-500">
@@ -71,7 +71,7 @@ export default async function page() {
                 </ul>
               </div>
             )}
-            {data.body[0].checked_Address_Box && (
+            {data.body[0]?.checked_Address_Box && (
               <div className="p-8 rounded-md border border-gray-400 flex items-center justify-center text-center">
                 <ul className="space-y-5">
                   <li className="text-base-color-500">
@@ -95,14 +95,14 @@ export default async function page() {
                 width={600}
                 height={600}
                 alt=""
-                src={data.body[0].middle_left_colum_Image}
+                src={data.body[0]?.middle_left_colum_Image}
               />
             </div>
             <div  >
               <h1 className="font-semibold text-4xl mb-6">
-                {data.body[0].contact_form_title}
+                {data.body[0]?.contact_form_title}
               </h1>
-              <p>{data.body[0].contact_form_description}</p>
+              <p>{data.body[0]?.contact_form_description}</p>
 
               <form className="mt-10  space-y-6 text-gray-500">
                 <div className="flex justify-between gap-4">

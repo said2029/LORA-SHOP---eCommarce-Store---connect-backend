@@ -48,9 +48,7 @@ export default function Log_in({
                 color: "bg-red-500",
               });
             } else {
-              if (
-                result.data.user.isVerfied == true
-              ) {
+              if (result.data.user.isVerfied == true) {
                 SetCookie("access_token", result.data.token);
                 window.localStorage.setItem("UserId", result.data.user._id);
               } else {
@@ -59,6 +57,9 @@ export default function Log_in({
                   name: result.data.user.FirstName,
                   token: result.data.token,
                   _id: result.data._id,
+                  Valied_url: "/api/valid_customer",
+                  sendEmailUrl:"/api/verify_Email",
+                  mode:"log In"
                 });
               }
             }
@@ -66,7 +67,7 @@ export default function Log_in({
         }}
         className="w-full space-y-6"
       >
-        <div className="relative  w-full">
+        <div className="relative w-full">
           <EmailOutlined
             scale={2}
             className="absolute top-0 bottom-0 my-auto ms-2 text-gray-500"
@@ -87,8 +88,12 @@ export default function Log_in({
             Enter Your Email
           </label>
         </div>
-        <div className="relative mt-2 w-full">
-          <PasswordOutlined className="absolute top-0 bottom-0 my-auto ms-2 text-gray-500" />
+        <div className="relative w-full">
+          <PasswordOutlined
+            scale={2}
+            className="absolute top-0 bottom-0 my-auto ms-2 text-gray-500"
+          />
+
           <input
             required
             type="password"
@@ -104,6 +109,15 @@ export default function Log_in({
             Enter Your password
           </label>
         </div>
+        
+          <p
+            onClick={() => {
+              selectMode("ForgetPassword");
+            }}
+            className="mt-3 text-sm text-gray-500 cursor-pointer"
+          >
+            forget password!
+          </p>
         <ButtonSend name="Login" />
       </form>
       <div>

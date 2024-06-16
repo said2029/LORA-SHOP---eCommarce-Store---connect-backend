@@ -2,7 +2,7 @@ import axiosClient from "@/_utils/axiosClient";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
-  settingData: {},
+  settingData: {} as any,
   loading: true,
   error: "",
 };
