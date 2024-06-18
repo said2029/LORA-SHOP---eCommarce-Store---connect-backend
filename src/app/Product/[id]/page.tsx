@@ -142,21 +142,19 @@ export default function page({ params }: { params: { id: string } }) {
           </nav>
           <div className="lg:col-gap-12 xl:col-gap-8 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-8">
             <div className="lg:col-span-3 lg:row-end-1">
-              <div className="md:flex lg:items-start">
+              <div className="md:flex lg:items-start ">
                 <Swiper
                   pagination={true}
                   modules={[Pagination]}
-                  className="mySwiper md:order-2 md:ml-5 py-5 h-full w-full"
+                  className="mySwiper md:order-2 md:ml-5 py-5 h-[500px] w-[550px]"
                 >
                   {product.ProductsImage.length >= 1 ? (
-                    product.ProductsImage?.map((image: string) => {
+                    product.ProductsImage?.map((image: string,i:number) => {
                       return (
-                        <SwiperSlide key={image}>
-                          <div className="w-full max-h-[600px] overflow-hidden rounded-lg">
-                            <Image
-                              width={650}
-                              height={690}
-                              className="object-fit h-full w-full"
+                        <SwiperSlide className="h-full overflow-hidden flex items-center justify-center" key={i}>
+                          <div className="rounded-lg flex object-fill h-[500px] object-center w-full">
+                            <img
+                              className=" h-full rounded-lg"
                               src={image || "logoipsum.svg"}
                               alt="Prodout image"
                             />

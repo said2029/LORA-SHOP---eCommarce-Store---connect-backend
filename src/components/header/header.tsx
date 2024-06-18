@@ -309,7 +309,7 @@ export default function Header() {
 
 
           {/* sticy Header */}
-          <div className="sticky top-0 z-50 bg-white">
+          <div className="z-50 bg-white">
             <div className="mx-auto  bg-base-color-500 flex flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
               <Link className="block text-teal-600 mr-3" href="/">
                 <span className="sr-only">Home</span>
