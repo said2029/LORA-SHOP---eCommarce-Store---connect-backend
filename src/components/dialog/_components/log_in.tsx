@@ -4,8 +4,9 @@ import { useState } from "react";
 import { log_In } from "../../../_utils/auth/actions";
 import { Alert } from "@material-tailwind/react";
 import { useCookies } from "react-cookie";
-import { redirect } from "next/navigation";
 import ButtonSend from "./buttonSend";
+import { useSelector } from "react-redux";
+import { getStoreState } from "@/Redux/store";
 
 export default function Log_in({
   selectMode,
@@ -19,6 +20,9 @@ export default function Log_in({
   });
 
   const [_, SetCookie] = useCookies(["access_token"]);
+  
+  const storeSetting= useSelector(getStoreState).storeSetting;
+
   return (
     <div className="flex  flex-col items-center justify-center space-y-5 rounded-lg border py-10 px-5 shadow-xl mx-auto max-w-full w-[400px]">
       <Alert
@@ -58,8 +62,8 @@ export default function Log_in({
                   token: result.data.token,
                   _id: result.data._id,
                   Valied_url: "/api/valid_customer",
-                  sendEmailUrl:"/api/verify_Email",
-                  mode:"log In"
+                  sendEmailUrl: "/api/verify_Email",
+                  mode: "log In",
                 });
               }
             }
@@ -109,15 +113,15 @@ export default function Log_in({
             Enter Your password
           </label>
         </div>
-        
-          <p
-            onClick={() => {
-              selectMode("ForgetPassword");
-            }}
-            className="mt-3 text-sm text-gray-500 cursor-pointer"
-          >
-            forget password!
-          </p>
+
+        <p
+          onClick={() => {
+            selectMode("ForgetPassword");
+          }}
+          className="mt-3 text-sm text-gray-500 cursor-pointer"
+        >
+          forget password!
+        </p>
         <ButtonSend name="Login" />
       </form>
       <div>
@@ -131,20 +135,24 @@ export default function Log_in({
           ?Sign Up
         </button>
       </div>
-      <h1>OR</h1>
-      <div className="w-full">
-        <Button
-          href={process.env.NEXT_PUBLIC_BACKENDURL + "/auth/google"}
-          fullWidth
-          size="large"
-          variant="contained"
-          className="flex items-center gap-3"
-          color="success"
-        >
-          <Google />
-          <span>Login With Google</span>
-        </Button>
-      </div>
+      {storeSetting?.settingData?.body?.GoogleLogin == true && (
+        <>
+          <h1>OR</h1>
+          <div className="w-full">
+            <Button
+              href={process.env.NEXT_PUBLIC_BACKENDURL + "/auth/google"}
+              fullWidth
+              size="large"
+              variant="contained"
+              className="flex items-center gap-3"
+              color="success"
+            >
+              <Google />
+              <span>Login With Google</span>
+            </Button>
+          </div>
+        </>
+      )}
       {/* Don't have an account?Sign Up */}
     </div>
   );

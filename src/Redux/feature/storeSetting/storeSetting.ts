@@ -1,37 +1,42 @@
-import axiosClient from "@/_utils/axiosClient";
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
-  settingData: {} as any,
+  settingData: {},
   loading: true,
   error: "",
 };
 
-const fatchData = createAsyncThunk("SettingStore/fatchData", async() => {
-  return await axiosClient.get("/setting/homeGet").then((res) => res.data.body[0]);
-});
+const fetchStoreSetting = createAsyncThunk(
+  "storeSetting/fetchStoreSetting",
+  async () => {
+    const fatch = await fetch("/api/store_setting",{
+      cache:"reload"
+    });
+    const respons = await fatch.json();
+    return respons;
+  }
+);
 
-const SettingStoreRedux = createSlice({
-  name: "SettingStore",
+const storeSetting = createSlice({
+  name: "storeSetting",
   initialState,
-  reducers: {
-  },
-  extraReducers(builder) {
-    builder.addCase(fatchData.pending, (state) => {
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchStoreSetting.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fatchData.fulfilled, (state, action) => {
+    builder.addCase(fetchStoreSetting.fulfilled, (state, action) => {
       state.loading = false;
       state.settingData = action.payload;
       state.error = "";
     });
-    builder.addCase(fatchData.rejected, (state, action) => {
+    builder.addCase(fetchStoreSetting.rejected, (state, action) => {
       state.loading = true;
-      state.settingData = {};
       state.error = action.error.message || "";
     });
   },
 });
 
-export default SettingStoreRedux.reducer;
-export { fatchData };
+export default storeSetting.reducer;
+
+export { fetchStoreSetting };

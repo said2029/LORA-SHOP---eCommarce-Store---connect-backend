@@ -279,9 +279,8 @@ export default function page({ params }: { params: { id: string } }) {
                 <button
                   type="button"
                   className="inline-flex h-14 items-center gap-2 justify-center rounded-md border-2 border-transparent bg-base-color-500 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
-                  onClick={() => {
-                    if (!cookie.access_token) ContarollerDeloag.openAuthDelog();
-                    else dispatch(addProductToCard({id:product._id, product:product}));
+                  onClick={() => {[]
+                    dispatch(addProductToCard({id:product._id, product:product}));
                   }}
                 >
                   <ShoppingBag />

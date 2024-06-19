@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getStoreState } from "../../Redux/store";
 export function CarouselHome() {
-  const SettingStoreRedux = useSelector(getStoreState).storeSetting;
+  const SettingStoreRedux = useSelector(getStoreState).HomeSetting;
   const respons = SettingStoreRedux;
 
   let [IsClient, SetIsClient] = useState(false);

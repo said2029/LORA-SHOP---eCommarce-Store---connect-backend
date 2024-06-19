@@ -2,10 +2,11 @@
 import { addDiscountCoupon } from "@/Redux/feature/ShopCards/ShopCards";
 import { getStoreState } from "@/Redux/store";
 import ShopCard from "@/components/header/_componets/shopCard";
+import useFetch from "@/hooks/useFetch";
 import UseIsClient from "@/hooks/IsClient";
 import { PaymentsOutlined, CreditCardOutlined } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import { CreditCard, Store, Truck } from "lucide-react";
+import { Store, Truck } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,15 +23,20 @@ export default function page() {
     }
   };
 
+  const checkout_info = useFetch("/api/checkout_info");
   const isClient = UseIsClient();
+
+
 
   return (
     <>
       <div className="grid sm:px-10 lg:grid-cols-2 px-11 mt-6">
         <div className="px-4 pt-8">
-          <p className="text-xl font-medium">01. Order Summary</p>
+          <p className="text-xl font-medium">
+            01. {checkout_info?.body?.shipping_name_one}
+          </p>
           <p className="text-gray-400">
-            Check your items. And select a suitable shipping method.
+            {checkout_info?.body?.shipping_one_desc}
           </p>
           {isClient && (
             <>
@@ -47,7 +53,9 @@ export default function page() {
               </section>
             </>
           )}
-          <p className="mt-8 text-lg font-medium">2. Shipping Methods</p>
+          <p className="mt-8 text-lg font-medium">
+            2. {checkout_info?.body?.shipping_name_two}
+          </p>
           <form className="mt-5 grid gap-6 text-gray-500">
             <div className="relative">
               <input
@@ -96,26 +104,31 @@ export default function page() {
 
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
           <div>
-            <p className="text-xl font-medium">03. Payment Method</p>
+            <p className="text-xl font-medium">
+              03. {checkout_info?.body?.payment_method}
+            </p>
             <section className="mt-2">
               <form action="" className="flex justify-around gap-3">
-                <div className="flex-grow relative">
-                  <input
-                    id="Cash_On_Delivery"
-                    className="peer hidden"
-                    type="radio"
-                    name="Payment_Method"
-                  />
-                  <span className="peer-checked:border-teal-400 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
+                {storeData?.storeSetting?.settingData?.body?.Cash_On_Delivery == true && (
+                  <div className="flex-grow relative">
+                    <input
+                      id="Cash_On_Delivery"
+                      className="peer hidden"
+                      type="radio"
+                      name="Payment_Method"
+                    />
+                    <span className="peer-checked:border-teal-400 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
 
-                  <label
-                    className="border text-gray-500 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
-                    htmlFor="Cash_On_Delivery"
-                  >
-                    <PaymentsOutlined className="font-thin" />
-                    Cash On Delivery
-                  </label>
-                </div>
+                    <label
+                      className="border text-gray-500 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
+                      htmlFor="Cash_On_Delivery"
+                    >
+                      <PaymentsOutlined className="font-thin" />
+                      Cash On Delivery
+                    </label>
+                  </div>
+                )}
+
                 <div className="flex-grow relative">
                   <input
                     id="Credit_Card"
@@ -161,7 +174,7 @@ export default function page() {
               htmlFor="email"
               className="mt-4 mb-2 block text-sm font-medium"
             >
-              Email
+              {checkout_info?.body?.email_address}
             </label>
             <div className="relative">
               <input
@@ -226,24 +239,15 @@ export default function page() {
             >
               Billing Address
             </label>
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
               <div className="relative flex-shrink-0 sm:w-7/12">
                 <input
                   type="text"
                   id="billing-address"
                   name="billing-address"
-                  className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="Street Address"
+                  className="w-full rounded-md border border-gray-200 px-4 py-3  text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                  placeholder={checkout_info?.body?.street_address}
                 />
-                <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                  <Image
-                    width={512}
-                    height={512}
-                    className="h-4 w-4 object-contain"
-                    src="https://flagpack.xyz/_nuxt/4c829b6c0131de7162790d2f897a90fd.svg"
-                    alt=""
-                  />
-                </div>
               </div>
               <input
                 type="text"
@@ -255,7 +259,19 @@ export default function page() {
                 type="text"
                 name="billing-zip"
                 className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="ZIP"
+                placeholder={checkout_info?.body?.zip_code}
+              />
+              <input
+                type="text"
+                name="city-zip"
+                className="flex-shrink-0 flex-grow rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none  focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                placeholder={checkout_info?.body?.city}
+              />
+              <input
+                type="text"
+                name="country-zip"
+                className="flex-shrink-0 flex-grow rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none  focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                placeholder={checkout_info?.body?.country}
               />
             </div>
             {/* coupon */}
@@ -288,7 +304,7 @@ export default function page() {
                 <div className="mt-6 border-t border-b py-2">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-medium text-gray-900">
-                      Subtotal
+                      {checkout_info?.body?.sub_total}
                     </p>
                     <p className="font-semibold text-gray-900">
                       ${storeData.ShopCard.totelPrice}
@@ -296,13 +312,13 @@ export default function page() {
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-medium text-gray-900">
-                      Shipping Cost
+                      {checkout_info?.body?.shipping_cost}
                     </p>
                     <p className="font-semibold text-gray-900">$8.00</p>
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-medium text-gray-900">
-                      Discount
+                      {checkout_info?.body?.discount}
                     </p>
                     <p className="font-semibold text-teal-400">
                       {storeData.ShopCard.discount}
@@ -310,14 +326,18 @@ export default function page() {
                   </div>
                 </div>
                 <div className="mt-6 flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-900">Total</p>
-                  <p className="text-2xl font-semibold text-gray-900">$333</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    {checkout_info?.body?.total_cost}
+                  </p>
+                  <p className="text-2xl font-semibold text-gray-900">
+                    ${storeData.ShopCard.totelPrice}
+                  </p>
                 </div>
               </>
             )}
           </div>
           <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
-            Place Order
+            {checkout_info?.body?.apply_button}
           </button>
         </div>
       </div>

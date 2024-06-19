@@ -9,17 +9,17 @@ export default function page({ params }: { params: any }) {
   if (p_a?.body != undefined) {
     switch (params.slug) {
       case "privacyPolicy": {
-        content = p_a?.body[0].privacyPolicy;
+        content = p_a?.body?.privacyPolicy;
         title = "Privacy Policy";
         break;
       }
       case "aboutUs": {
-        content = p_a?.body[0].aboutUs;
+        content = p_a?.body?.aboutUs;
         title = "About Us";
         break;
       }
       case "terms_conditions": {
-        content = p_a?.body[0].terms_conditions;
+        content = p_a?.body?.terms_conditions;
         title = "Terms & Conditions";
         break;
       }
@@ -43,7 +43,7 @@ export default function page({ params }: { params: any }) {
       <Container maxWidth="xl">
         <div
           dangerouslySetInnerHTML={{
-            __html: content ? content : "<p>undfind</p>",
+            __html: content? content : "<p>undfind</p>",
           }}
         />
       </Container>

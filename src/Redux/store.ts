@@ -1,6 +1,6 @@
 import { configureStore, createSelector } from "@reduxjs/toolkit";
-import { fatchData } from "./feature/storeSetting/storeSetting";
-import SettingStoreReducers from "./feature/storeSetting/storeSetting";
+import { fatchData } from "./feature/HomeSetting/storeSetting";
+import HomeSettingReducers from "./feature/HomeSetting/storeSetting";
 import fetchCategorys from "./feature/dataFetch/Category";
 import { CategorySliceReducer } from "./feature/dataFetch/Category";
 import ProductsReducer from "./feature/products/ReduxProducts";
@@ -11,15 +11,18 @@ import { p_a_SliceReducer } from "./feature/dataFetch/privacy_About";
 import fetch_p_a from "./feature/dataFetch/privacy_About";
 import ShopCardProducts from "@/Redux/feature/ShopCards/ShopCards";
 import { fatchProductOfCard } from "@/Redux/feature/ShopCards/ShopCards";
+import storeSetting from "./feature/storeSetting/storeSetting";
+import {fetchStoreSetting} from "./feature/storeSetting/storeSetting";
 
 const store = configureStore({
   reducer: {
-    storeSetting: SettingStoreReducers,
+    HomeSetting: HomeSettingReducers,
     CategoryData: CategorySliceReducer,
     Products: ProductsReducer,
     Coupons: CouponsSliceReducer,
     p_a: p_a_SliceReducer,
     ShopCard: ShopCardProducts,
+    storeSetting: storeSetting,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -33,11 +36,12 @@ store.dispatch(fetchProducts());
 store.dispatch(fetchCoupons());
 store.dispatch(fetch_p_a());
 store.dispatch(fatchProductOfCard());
+store.dispatch(fetchStoreSetting());
 
 const getStoreState = createSelector(
   (state) => state,
-  ({ storeSetting, CategoryData, Products, Coupons, p_a, ShopCard }) => {
-    return { storeSetting, CategoryData, Products, Coupons, p_a, ShopCard };
+  ({ HomeSetting, CategoryData, Products, Coupons, p_a, ShopCard,storeSetting }) => {
+    return { HomeSetting, CategoryData, Products, Coupons, p_a, ShopCard,storeSetting };
   }
 );
 export { getStoreState };

@@ -8,7 +8,7 @@ import { Container } from "@mui/material";
 
 export default function DailyDeals() {
   const SettingStoreRedux =
-    useSelector(getStoreState).storeSetting.settingData;
+    useSelector(getStoreState).HomeSetting.settingData;
 
   const IsClient = UseIsClient();
   return (

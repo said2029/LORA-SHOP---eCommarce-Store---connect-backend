@@ -76,9 +76,9 @@ export default function Header() {
                 <PhoneCall widths={1} size={14} />
                 <div className="flex gap-1">
                   <section>
-                    {StoreRedux.storeSetting.settingData.help_text}{" "}
+                    {StoreRedux.HomeSetting.settingData.help_text}{" "}
                     <span className="text-base-color-500">
-                      {StoreRedux.storeSetting.settingData.phone_number}
+                      {StoreRedux.HomeSetting.settingData.phone_number}
                     </span>
                   </section>
                 </div>
@@ -87,7 +87,7 @@ export default function Header() {
                 <ul className="flex gap-2 items-center">
                   <li className="px-2 hover:text-base-color-200/75">
                     <Link href={"/info/aboutUs"}>
-                      {StoreRedux.storeSetting.settingData.about_us}
+                      {StoreRedux.HomeSetting.settingData.about_us}
                     </Link>
                   </li>
                   <li>
@@ -95,7 +95,7 @@ export default function Header() {
                   </li>
                   <li className="px-2 hover:text-base-color-200/75 ">
                     <Link href={"/contect_us"}>
-                      {StoreRedux.storeSetting.settingData.contact_us}
+                      {StoreRedux.HomeSetting.settingData.contact_us}
                     </Link>
                   </li>
                   <li>
@@ -107,7 +107,7 @@ export default function Header() {
                         <AuthDialog
                           useIcon={false}
                           variantBtn="text"
-                          name={StoreRedux.storeSetting.settingData.login}
+                          name={StoreRedux.HomeSetting.settingData.login}
                           className="text-gray-800 bg-none"
                         />
                       </li>
@@ -118,7 +118,7 @@ export default function Header() {
                   )}
                   <li className=" px-2 hover:text-base-color-200/75 ">
                     <a href="">
-                      {StoreRedux.storeSetting.settingData.my_account}
+                      {StoreRedux.HomeSetting.settingData.my_account}
                     </a>
                   </li>
                 </ul>
@@ -138,12 +138,12 @@ export default function Header() {
               <div>
                 <div className="mb-6 flex items-center justify-between">
                   <div>
-                    {StoreRedux.storeSetting && (
+                    {StoreRedux.HomeSetting && (
                       <Image
                         width={200}
                         height={200}
                         src={
-                          StoreRedux?.storeSetting.settingData
+                          StoreRedux?.HomeSetting.settingData
                             .Header_Logo_image || "/logoipsum.svg"
                         }
                         alt="logo"
@@ -168,7 +168,7 @@ export default function Header() {
                     >
                       <DropMenuCar
                         categorys={StoreRedux.CategoryData?.categorys}
-                        name={StoreRedux.storeSetting.settingData.categories}
+                        name={StoreRedux.HomeSetting.settingData.categories}
                       />
                     </ListItem>
                     <ListItem
@@ -185,7 +185,7 @@ export default function Header() {
                       onPointerLeaveCapture={() => {}}
                     >
                       <Link href={"/info/aboutUs"}>
-                        {StoreRedux.storeSetting.settingData.about_us}
+                        {StoreRedux.HomeSetting.settingData.about_us}
                       </Link>
                     </ListItem>
 
@@ -195,7 +195,7 @@ export default function Header() {
                       onPointerLeaveCapture={() => {}}
                     >
                       <Link href={"/info/privacyPolicy"}>
-                        {StoreRedux.storeSetting.settingData.privacy_policy}
+                        {StoreRedux.HomeSetting.settingData.privacy_policy}
                       </Link>
                     </ListItem>
                     <ListItem
@@ -204,7 +204,7 @@ export default function Header() {
                       onPointerLeaveCapture={() => {}}
                     >
                       <Link href={"/info/terms_conditions"}>
-                        {StoreRedux.storeSetting.settingData.term_and_condition}
+                        {StoreRedux.HomeSetting.settingData.term_and_condition}
                       </Link>
                     </ListItem>
 
@@ -214,7 +214,7 @@ export default function Header() {
                       onPointerLeaveCapture={() => {}}
                     >
                       <Link href={"/contect_us"}>
-                        {StoreRedux.storeSetting.settingData.contact_us}
+                        {StoreRedux.HomeSetting.settingData.contact_us}
                       </Link>
                     </ListItem>
                   </List>
@@ -225,7 +225,7 @@ export default function Header() {
                     <AuthDialog
                       useIcon={true}
                       variantBtn="contained"
-                      name={StoreRedux.storeSetting.settingData.login}
+                      name={StoreRedux.HomeSetting.settingData.login}
                     />
                   </div>
                 </div>
@@ -314,12 +314,12 @@ export default function Header() {
               <Link className="block text-teal-600 mr-3" href="/">
                 <span className="sr-only">Home</span>
                 <picture>
-                  {StoreRedux.storeSetting != "" && (
+                  {StoreRedux.HomeSetting != "" && (
                     <Image
                       width={200}
                       height={200}
                       src={
-                        StoreRedux?.storeSetting?.settingData.Header_Logo_image
+                        StoreRedux?.HomeSetting?.settingData.Header_Logo_image
                       }
                       alt="logo"
                     />
@@ -380,7 +380,7 @@ export default function Header() {
                       <AuthDialog
                         useIcon={true}
                         variantBtn="contained"
-                        name={StoreRedux.storeSetting.settingData.login}
+                        name={StoreRedux.HomeSetting.settingData.login}
                       />
                     </div>
                   )}
@@ -416,47 +416,47 @@ export default function Header() {
                   className="flex justify-between w-full text-md font-medium flex-wrap gap-3"
                 >
                   <ul className="flex items-center gap-3 ">
-                    {StoreRedux.storeSetting.settingData.Categories_Header ==
+                    {StoreRedux.HomeSetting.settingData.Categories_Header ==
                       "true" && (
                       <li>
                         <DropMenuCar
                           categorys={StoreRedux.CategoryData?.categorys}
-                          name={StoreRedux.storeSetting.settingData.categories}
+                          name={StoreRedux.HomeSetting.settingData.categories}
                         />
                       </li>
                     )}
-                    {StoreRedux.storeSetting.settingData.About_Us_Header ==
+                    {StoreRedux.HomeSetting.settingData.About_Us_Header ==
                       "true" && (
                       <li className="px-2 hover:text-base-color-500">
                         <Link href={"/info/aboutUs"}>
-                          {StoreRedux.storeSetting.settingData.about_us}
+                          {StoreRedux.HomeSetting.settingData.about_us}
                         </Link>
                       </li>
                     )}
-                    {StoreRedux.storeSetting.settingData.ContactUs_Header ==
+                    {StoreRedux.HomeSetting.settingData.ContactUs_Header ==
                       "true" && (
                       <li className=" px-2 hover:text-base-color-200/75 ">
                         <Link href={"/contect_us"}>
-                          {StoreRedux.storeSetting.settingData.contact_us}
+                          {StoreRedux.HomeSetting.settingData.contact_us}
                         </Link>
                       </li>
                     )}
-                    {StoreRedux.storeSetting.settingData.FAQ_Header ==
+                    {StoreRedux.HomeSetting.settingData.FAQ_Header ==
                       "true" && (
                       <li className=" px-2 hover:text-base-color-200/75 ">
                         <Link href={"/faq"}>
-                          {StoreRedux.storeSetting.settingData.faq}
+                          {StoreRedux.HomeSetting.settingData.faq}
                         </Link>
                       </li>
                     )}
-                    {StoreRedux.storeSetting.settingData.Offers_Header ==
+                    {StoreRedux.HomeSetting.settingData.Offers_Header ==
                       "true" && (
                       <li className=" px-2 hover:text-base-color-200/75 ">
                         <Link
                           className="bg-teal-100/45 relative border border-dashed border-teal-700 text-teal-500  py-1 px-2 rounded-lg font-normal"
                           href={"/offers"}
                         >
-                          {StoreRedux.storeSetting.settingData.offers}
+                          {StoreRedux.HomeSetting.settingData.offers}
                           <span className="w-3 h-3 rounded-full animate-ping bg-teal-700 absolute -top-1 -right-1" />
                           <span className="w-3 h-3 rounded-full  bg-teal-700 absolute -top-1 -right-1" />
                         </Link>
@@ -465,20 +465,20 @@ export default function Header() {
                   </ul>
 
                   <ul className="flex gap-5 ">
-                    {StoreRedux.storeSetting.settingData.PrivacyPolicy_Header ==
+                    {StoreRedux.HomeSetting.settingData.PrivacyPolicy_Header ==
                       "true" && (
                       <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
                         <Link href={"/info/privacyPolicy"}>
-                          {StoreRedux.storeSetting.settingData.privacy_policy}
+                          {StoreRedux.HomeSetting.settingData.privacy_policy}
                         </Link>{" "}
                       </li>
                     )}
-                    {StoreRedux.storeSetting.settingData.Terms_Header ==
+                    {StoreRedux.HomeSetting.settingData.Terms_Header ==
                       "true" && (
                       <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
                         <Link href={"/info/terms_conditions"}>
                           {
-                            StoreRedux.storeSetting.settingData
+                            StoreRedux.HomeSetting.settingData
                               .term_and_condition
                           }
                         </Link>{" "}

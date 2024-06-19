@@ -5,7 +5,7 @@ import { getStoreState } from "../Redux/store";
 import UseIsClient from "../hooks/IsClient";
 
 export default function DeliveryCard() {
-  const SettingStoreRedux = useSelector(getStoreState).storeSetting.settingData;
+  const SettingStoreRedux = useSelector(getStoreState).HomeSetting.settingData;
   const isClient = UseIsClient();
 
   return (

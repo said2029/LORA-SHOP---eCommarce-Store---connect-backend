@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import UseIsClient from "../../hooks/IsClient";
 export default function ShopByCat() {
   const selector = useSelector(getStoreState);
-  const SettingStoreRedux = selector.storeSetting.settingData;
+  const SettingStoreRedux = selector.HomeSetting.settingData;
   const categorysReducx = selector.CategoryData.categorys.categores;
   const osClient = UseIsClient();
 

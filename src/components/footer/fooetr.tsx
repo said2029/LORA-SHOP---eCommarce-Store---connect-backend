@@ -22,10 +22,10 @@ export default function Fooetr() {
   useEffect(() => {
     setUtlAuthPage(pathName.includes("auth"));
   }, [pathName]);
-  let settingStore = useSelector(getStoreState).storeSetting;
+  let settingStore = useSelector(getStoreState).HomeSetting;
   settingStore = settingStore?.settingData;
   // (state: {
-  //   storeSetting: {
+  //   HomeSetting: {
   //     settingData: {
   //       Header_Logo_image: string;
   //       footer_block_three_link_one_title: string;
@@ -63,7 +63,7 @@ export default function Fooetr() {
   //       social_linkedin: "";
   //     };
   //   };
-  // }) => state.storeSetting.settingData
+  // }) => state.HomeSetting.settingData
 
   return (
     <>

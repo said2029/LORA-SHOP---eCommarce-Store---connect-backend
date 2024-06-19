@@ -5,6 +5,8 @@ import sing_up from "../../../_utils/auth/actions";
 import { useRef, useState } from "react";
 import { Alert, Button as ButtonLoading } from "@material-tailwind/react";
 import ButtonSend from "./buttonSend";
+import { useSelector } from "react-redux";
+import { getStoreState } from "@/Redux/store";
 
 export default function Sign_up({
   selectMode,
@@ -17,6 +19,8 @@ export default function Sign_up({
     color: "bg-red-500",
   });
   const formRef = useRef<HTMLFormElement>(null);
+
+  const storeSetting = useSelector(getStoreState).storeSetting;
 
   return (
     <div className="flex  flex-col items-center justify-center space-y-5 rounded-lg border py-10 px-5 shadow-xl mx-auto max-w-full w-[500px]">
@@ -56,7 +60,6 @@ export default function Sign_up({
             });
             selectMode("log in");
           }
-
         }}
         className="w-full space-y-6"
       >
@@ -153,20 +156,24 @@ export default function Sign_up({
           ? log In
         </button>
       </div>
-      <h1>OR</h1>
-      <div className="w-full">
-        <Button
-          href={process.env.NEXT_PUBLIC_BACKENDURL + "/auth/google"}
-          fullWidth
-          size="large"
-          variant="contained"
-          className="flex items-center gap-3"
-          color="success"
-        >
-          <Google />
-          <span>Login With Google</span>
-        </Button>
-      </div>
+      {storeSetting?.settingData?.body?.GoogleLogin == true && (
+        <>
+          <h1>OR</h1>
+          <div className="w-full">
+            <Button
+              href={process.env.NEXT_PUBLIC_BACKENDURL + "/auth/google"}
+              fullWidth
+              size="large"
+              variant="contained"
+              className="flex items-center gap-3"
+              color="success"
+            >
+              <Google />
+              <span>Login With Google</span>
+            </Button>
+          </div>
+        </>
+      )}
       {/* Don't have an account?Sign Up */}
     </div>
   );

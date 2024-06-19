@@ -9,7 +9,7 @@ export default function ColorProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const data = useSelector(getStoreState).storeSetting;
+  const data = useSelector(getStoreState).HomeSetting;
 
   let baseColor = "#10b981";
   let secendColor = "#059669";
