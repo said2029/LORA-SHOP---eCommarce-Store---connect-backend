@@ -23,6 +23,10 @@ export default function ColorProvider({
       {iscl && (
         <style>
           {`
+          .delay_bg{
+            background-image: linear-gradient( to right,${baseColor},${secendColor});
+
+          }
             .bg-base-color-500 {
               background-color: ${baseColor};
             }

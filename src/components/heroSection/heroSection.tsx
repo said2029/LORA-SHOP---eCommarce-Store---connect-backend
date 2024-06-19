@@ -23,7 +23,7 @@ export default function HeroSection() {
 
           <div className="gap-6 col-span-4 grid-rows-1 h-full hidden lg:grid ">
             <div className="relative overflow-hidden rounded-xl border-2 border-[#fefae0]">
-              <div className="w-full py-4 bg-[#faa307] shadow-sm text-center flex justify-between px-4 items-center">
+              <div className="w-full py-4 bg-base-color-500 shadow-sm text-center flex justify-between px-4 items-center">
                 <p className="font-semibold text-white text-nowrap text-center">
                   Latest Super Discount Active Coupon Code
                 </p>

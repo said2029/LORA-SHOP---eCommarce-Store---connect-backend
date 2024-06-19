@@ -14,7 +14,7 @@ export default function DailyDeals() {
   return (
     <>
       {IsClient && SettingStoreRedux?.Popular_Products == "true" && (
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 w-full py-16 gap-6 flex flex-col justify-center px-9">
+        <div className="delay_bg w-full py-16 gap-6 flex flex-col justify-center px-9">
           <Container maxWidth="xl" className="text-white flex flex-col gap-5 lg:flex-row justify-between items-center">
             <h1 className="text-3xl font-bold">
               {SettingStoreRedux?.feature_title_Daily_Title}
