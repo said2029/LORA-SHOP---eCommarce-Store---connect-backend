@@ -1,15 +1,21 @@
 "use client";
 import { addDiscountCoupon } from "@/Redux/feature/ShopCards/ShopCards";
 import { getStoreState } from "@/Redux/store";
+import { Button } from "@material-tailwind/react";
 import ShopCard from "@/components/header/_componets/shopCard";
 import useFetch from "@/hooks/useFetch";
 import UseIsClient from "@/hooks/IsClient";
 import { PaymentsOutlined, CreditCardOutlined } from "@mui/icons-material";
-import { Button } from "@mui/material";
 import { Store, Truck } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+// stripe
+import CheckoutForm from "./_components/CheckoutForm";
+import { Elements } from "@stripe/react-stripe-js";
+import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
+import { cn } from "../../../utils/cn";
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY || "");
 
 export default function page() {
   const storeData = useSelector(getStoreState);
@@ -26,7 +32,17 @@ export default function page() {
   const checkout_info = useFetch("/api/checkout_info");
   const isClient = UseIsClient();
 
+  const options: StripeElementsOptions = {
+    mode: "payment",
+    currency: "usd",
+    amount: 100,
+  };
+  const stripButtonSubmit = useRef<HTMLButtonElement>(null);
+  const [loading, setloading] = useState(false);
 
+  const ApplayOrder = () => {
+    if (stripButtonSubmit != null) stripButtonSubmit.current?.click();
+  };
 
   return (
     <>
@@ -109,7 +125,8 @@ export default function page() {
             </p>
             <section className="mt-2">
               <form action="" className="flex justify-around gap-3">
-                {storeData?.storeSetting?.settingData?.body?.Cash_On_Delivery == true && (
+                {storeData?.storeSetting?.settingData?.body?.Cash_On_Delivery ==
+                  true && (
                   <div className="flex-grow relative">
                     <input
                       id="Cash_On_Delivery"
@@ -163,6 +180,15 @@ export default function page() {
                 </div>
               </form>
             </section>
+            <div className="my-3">
+              {/* stripe */}
+              <Elements stripe={stripePromise} options={options}>
+                <CheckoutForm
+                  setloading={setloading}
+                  ref_Button_Submit={stripButtonSubmit}
+                />
+              </Elements>
+            </div>
           </div>
 
           <p className="text-xl font-medium mt-8">Payment Details</p>
@@ -288,6 +314,9 @@ export default function page() {
                     onClick={applyCoupon}
                     className="border-gray-400 hover:border-none font-semibold duration-500 hover:bg-base-color-500 text-gray-800 hover:text-white"
                     variant="outlined"
+                    placeholder={undefined}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
                   >
                     Apply
                   </Button>
@@ -336,9 +365,20 @@ export default function page() {
               </>
             )}
           </div>
-          <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
+          <Button
+            loading={loading}
+            onClick={() => {
+              ApplayOrder();
+            }}
+            className={cn(
+              `mt-4 mb-8 w-full rounded-md disabled:opacity-50 bg-gray-900 px-6 py-3 font-medium text-white`
+            )}
+            placeholder={undefined}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          >
             {checkout_info?.body?.apply_button}
-          </button>
+          </Button>
         </div>
       </div>
     </>

@@ -38,18 +38,17 @@ export default function ProductCard({
           </h5>
         </div>
 
-        {rating != "0" ? (
+        {rating != "0" && (
           <div className="mt-2.5 mb-5 flex items-center">
             <span className="mr-2 rounded bg-orange-500 px-2.5 py-0.5 text-xs font-semibold">
               {rating}
             </span>
             <RatingStars size="small" startconst={+rating} />
           </div>
-        ) : (
-          <p className="mt-2.5 mb-5 text-sm text-gray-600 line-clamp-2">
-            {discription}
-          </p>
         )}
+        <p className="mt-2.5 mb-5 text-sm text-gray-600 line-clamp-2">
+          {discription}
+        </p>
         <div className="flex items-center justify-between">
           <p>
             <span className="text-3xl font-bold  text-gray-900">${peice}</span>
