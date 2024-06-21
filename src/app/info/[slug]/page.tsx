@@ -1,8 +1,12 @@
-import store from "@/Redux/store";
+"use client";
+import { getStoreState } from "@/Redux/store";
+import UseIsClient from "@/hooks/IsClient";
 import { Container } from "@mui/material";
+import { useSelector } from "react-redux";
 
 export default function page({ params }: { params: any }) {
-  const store2 = store.getState().p_a as { p_a: any };
+
+  const store2 = useSelector(getStoreState).p_a as { p_a: any };
   const p_a = store2?.p_a;
   let title = "";
   let content = "";
@@ -30,23 +34,30 @@ export default function page({ params }: { params: any }) {
     }
   }
 
+  const isClient = UseIsClient();
+
   return (
     <div className="mb-20">
-      <div className="relative w-full h-52 flex justify-center items-center text-5xl font-bold bg-gray-400 mb-4">
-        <img
-          className="absolute w-full h-full object-cover z-0"
-          src="/images/2148657725.jpg"
-          alt=""
-        />
-        <h1 className="z-10">{title}</h1>
-      </div>
-      <Container maxWidth="xl">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: content? content : "<p>undfind</p>",
-          }}
-        />
-      </Container>
+      {isClient &&
+        <>
+          <div className="relative w-full h-52 flex justify-center items-center text-5xl font-bold bg-gray-400 mb-4">
+            <img
+              className="absolute w-full h-full object-cover z-0"
+              src="/images/2148657725.jpg"
+              alt=""
+            />
+            <h1 className="z-10">{title}</h1>
+          </div>
+          <Container maxWidth="xl">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: content ? content : "<p>undefined</p>",
+              }}
+            />
+
+          </Container>
+        </>
+      }
     </div>
   );
 }

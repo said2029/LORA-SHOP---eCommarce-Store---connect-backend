@@ -1,5 +1,5 @@
-import axiosClient from "@/_utils/axiosClient";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 let initialState: {
   items: {
@@ -28,7 +28,7 @@ try {
 export const fatchProductOfCard = createAsyncThunk(
   "shopCardProducts/fatchProductOfCard",
   async () => {
-    const data = await axiosClient.get(`/product?id=${initialState.items}`);
+    const data = await axios.get(`/api/products_Manager/product/${initialState.items}`);
     return data.data;
   }
 );
@@ -59,15 +59,16 @@ const ShopCard = createSlice({
       CalcolatePeoducPrice(state);
     },
     addDiscountCoupon: (state, action) => {
-      state.discount = +action.payload.discount;
+      state.discount = action.payload.discount;
       state.codeCoupon = action.payload.codeCoupon;
       state.totelPrice -= state.discount;
+      state.totelPrice = +state.totelPrice.toFixed(2);
       if (window != undefined)
         window.localStorage.setItem("shopCard", JSON.stringify(state));
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fatchProductOfCard.fulfilled, (state, action) => {});
+    builder.addCase(fatchProductOfCard.fulfilled, (state, action) => { });
   },
 });
 

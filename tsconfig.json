@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "Redux/feature/products/ReduxProducts.js", "src/app/checkout/_components/CheckoutForm.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "Redux/feature/products/ReduxProducts.js", "src/app/checkout/_components/CheckoutForm.ts"],
   "exclude": ["node_modules"]
 }

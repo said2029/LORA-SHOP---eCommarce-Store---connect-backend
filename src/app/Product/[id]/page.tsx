@@ -19,7 +19,6 @@ import Image from "next/image";
 
 import { useCookies } from "react-cookie";
 
-import { ContarollerDeloag } from "../../../components/dialog/authDialog";
 import { useDispatch } from "react-redux";
 import { addProductToCard } from "@/Redux/feature/ShopCards/ShopCards";
 

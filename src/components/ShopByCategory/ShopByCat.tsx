@@ -16,7 +16,7 @@ export default function ShopByCat() {
         <Container
           maxWidth="xl"
           sx={{ padding: "0" }}
-          className="flex flex-col justify-center items-center mt-10 px-3 md:px-0 "
+          className="flex flex-col justify-center items-center mt-10 px-3 md:px-4 "
         >
           <div className="flex w-full justify-between items-center">
             <h1 className="text-3xl font-semibold">

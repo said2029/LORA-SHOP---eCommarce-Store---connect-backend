@@ -15,7 +15,7 @@ export default function DailyDeals() {
     <>
       {IsClient && SettingStoreRedux?.Popular_Products == "true" && (
         <div className="delay_bg w-full py-16 gap-6 flex flex-col justify-center px-9">
-          <Container maxWidth="xl" className="text-white flex flex-col gap-5 lg:flex-row justify-between items-center">
+          <Container maxWidth="xl" className="text-white flex flex-col gap-5 lg:flex-row justify-between items-center px-20" >
             <h1 className="text-3xl font-bold">
               {SettingStoreRedux?.feature_title_Daily_Title}
             </h1>
@@ -29,7 +29,7 @@ export default function DailyDeals() {
             )}
           </Container>
           {/* cards */}
-          <div className="grid grid-cols-1 mt-3 justify-center items-center mx-auto gap-4 w-fit sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+          <div className="grid grid-cols-1 mt-3 justify-center items-center px-20 mx-auto gap-4 w-fit sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
             {SettingStoreRedux.DelayShoppingProducts.length >= 1 &&
               SettingStoreRedux.DelayShoppingProducts.map((e: any) => {
                 return (

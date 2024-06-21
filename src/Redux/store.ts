@@ -1,6 +1,6 @@
 import { configureStore, createSelector } from "@reduxjs/toolkit";
-import { fatchData } from "./feature/HomeSetting/storeSetting";
-import HomeSettingReducers from "./feature/HomeSetting/storeSetting";
+import { fatchData } from "./feature/HomeSetting/HomeSetting";
+import HomeSettingReducers from "./feature/HomeSetting/HomeSetting";
 import fetchCategorys from "./feature/dataFetch/Category";
 import { CategorySliceReducer } from "./feature/dataFetch/Category";
 import ProductsReducer from "./feature/products/ReduxProducts";

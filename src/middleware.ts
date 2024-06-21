@@ -1,14 +1,14 @@
-import { url } from "inspector";
 import { NextResponse, type NextRequest } from "next/server";
 
+
 export function middleware(req: NextRequest) {
-  const isLog = req.cookies.get("access_token");
-  if (!isLog) {
+  const isLog:any = req.cookies.get("access_token") ;
+  if (!isLog || isLog?.value == "null" || isLog?.value == "") {
     return NextResponse.redirect(new URL("/", req.url));
   }
   return NextResponse.next();
 }
 
-export const config ={
-    matcher:["/checkout"]
+export const config = {
+  matcher: ["/checkout"]
 }

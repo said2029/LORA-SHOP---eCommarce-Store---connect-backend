@@ -9,7 +9,7 @@ const initialState = {
 const fetchStoreSetting = createAsyncThunk(
   "storeSetting/fetchStoreSetting",
   async () => {
-    const fatch = await fetch("/api/store_setting",{
+    const fatch = await fetch("/api/setting/store_setting",{
       cache:"reload"
     });
     const respons = await fatch.json();
