@@ -1,18 +1,23 @@
 "use client";
 
+import { resetShopCards } from "@/Redux/feature/ShopCards/ShopCards";
+import { getStoreState } from "@/Redux/store";
 import { Button } from "@material-tailwind/react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function page() {
     const router = useRouter();
     const [isLoading, set_isLoading] = useState(true);
     const [success, set_success] = useState(false);
 
+    const dispatch = useDispatch();
+
     function handleClick() {
         set_isLoading(true);
-        if(!window.localStorage.getItem("order")){
+        if (!window.localStorage.getItem("order")) {
             router.push("/");
             return;
         }
@@ -25,8 +30,9 @@ export default function page() {
             .then(res => res.data).then(data => {
                 set_isLoading(false);
                 set_success(true);
-                window.localStorage.removeItem("order");  
-                window.localStorage.removeItem("shopCard");  
+                window.localStorage.removeItem("order");
+                window.localStorage.removeItem("shopCard");
+                dispatch(resetShopCards());
                 // clear order from local storage after processing
             }).catch(error => {
                 set_isLoading(false);

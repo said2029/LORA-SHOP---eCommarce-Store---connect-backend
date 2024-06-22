@@ -68,6 +68,13 @@ const ShopCard = createSlice({
       if (window != undefined)
         window.localStorage.setItem("shopCard", JSON.stringify(state));
     },
+    resetShopCards: (state) => {
+      state.items = [];
+      state.totelPrice = 0;
+      state.sub_total = 0;
+      state.discount = 0.0;
+      state.codeCoupon = "";
+    }
   },
 });
 
@@ -88,6 +95,6 @@ function CalcolatePeoducPrice(state: any) {
     window.localStorage.setItem("shopCard", JSON.stringify(state));
 }
 
-export const { addProductToCard, removeProductToCard, addDiscountCoupon } =
+export const { addProductToCard, removeProductToCard, addDiscountCoupon, resetShopCards } =
   ShopCard.actions;
 export default ShopCard.reducer;
