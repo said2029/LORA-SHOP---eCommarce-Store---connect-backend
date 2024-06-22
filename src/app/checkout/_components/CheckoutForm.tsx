@@ -6,14 +6,13 @@ import {
 import { StripeError } from "@stripe/stripe-js";
 import { Dispatch, FormEvent, RefObject, SetStateAction, useRef, useState } from "react";
 
-const CheckoutForm = ({ ref_Button_Submit, setloading,amount }: { ref_Button_Submit: RefObject<HTMLButtonElement>, setloading: Dispatch<SetStateAction<boolean>>,amount:Number }) => {
+const CheckoutForm = ({ ref_Button_Submit, setloading, amount }: { ref_Button_Submit: RefObject<HTMLButtonElement>, setloading: Dispatch<SetStateAction<boolean>>, amount: number }) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const pathName = location.origin;
 
   const [errorMessage, setErrorMessage] = useState("");
-  console.log("errorMessage   ",errorMessage);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,11 +21,12 @@ const CheckoutForm = ({ ref_Button_Submit, setloading,amount }: { ref_Button_Sub
     if (!stripe || !elements) {
       return;
     }
-
     const handleError = (error: StripeError) => {
       setloading(false);
       setErrorMessage(error.message || "");
     };
+    // order
+    
 
     const { error: submitError } = await elements.submit();
     if (submitError) {
@@ -38,7 +38,7 @@ const CheckoutForm = ({ ref_Button_Submit, setloading,amount }: { ref_Button_Sub
     const res = await fetch("/api/create_intent", {
       method: "POST",
       body: JSON.stringify({
-        amount,
+        amount: amount,
       }),
     });
     const clientSecret = await res.json();
@@ -47,13 +47,12 @@ const CheckoutForm = ({ ref_Button_Submit, setloading,amount }: { ref_Button_Sub
       clientSecret,
       elements,
       confirmParams: {
-        return_url: pathName + "/googleSuccess",
+        return_url: pathName + "/payment_confirm",
       },
     });
 
     if (result.error) {
       setloading(false);
-      console.log(result.error.message);
     } else {
       setloading(false);
     }

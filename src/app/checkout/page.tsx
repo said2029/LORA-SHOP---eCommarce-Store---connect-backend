@@ -24,6 +24,7 @@ export default function page() {
 
   const [loadingCoupon, setloadingCoupon] = useState(false);
   const [bayment_method, setbayment_method] = useState("card");
+  const [Shipping_Methods, setShipping_Methods] = useState(60);
   const formOrder = useRef<HTMLFormElement>(null);
   const stripeButtonSubmit = useRef<HTMLButtonElement>(null);
 
@@ -34,7 +35,8 @@ export default function page() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          code: refCouponInput.current?.value.trim(), totalPrice: storeData?.ShopCard?.totelPrice
+          code: refCouponInput.current?.value.trim(),
+          totalPrice: storeData?.ShopCard?.totelPrice
         }),
       })
       const body = await respons.json();
@@ -43,7 +45,7 @@ export default function page() {
         setloadingCoupon(false);
       } else {
         setloadingCoupon(false);
-        alert("failed to apply coupon, please try again. Error: ");
+        alert(body.msg);
       }
     }
   };
@@ -55,7 +57,7 @@ export default function page() {
   const options: StripeElementsOptions = {
     mode: "payment",
     currency: "usd",
-    amount: +storeData?.ShopCard?.totelPrice,
+    amount: Math.round((storeData?.ShopCard?.totelPrice + Shipping_Methods)),
   };
   const dataOrder = useRef({});
   const [loading, setloading] = useState(false);
@@ -63,7 +65,6 @@ export default function page() {
   function applay() {
     if (bayment_method == "card")
       if (stripeButtonSubmit != null) stripeButtonSubmit.current?.click();
-
   }
 
   return (
@@ -75,7 +76,7 @@ export default function page() {
               <p className="text-xl font-medium">
                 01. {checkout_info?.body?.shipping_name_one}
               </p>
-              <p className="text-gray-400">
+              <p className="text-gray-700">
                 {checkout_info?.body?.shipping_one_desc}
               </p>
               {isClient && (
@@ -96,7 +97,7 @@ export default function page() {
               <p className="mt-8 text-lg font-medium">
                 2. {checkout_info?.body?.shipping_name_two}
               </p>
-              <div className="mt-5 grid gap-6 text-gray-500">
+              <div className="mt-5 grid gap-6 text-gray-700">
                 <div className="relative">
                   <input
                     className="peer hidden"
@@ -106,6 +107,7 @@ export default function page() {
                   />
                   <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
                   <label
+                    onClick={() => { setShipping_Methods(60) }}
                     className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                     htmlFor="radio_1"
                   >
@@ -126,7 +128,7 @@ export default function page() {
                     name="radio"
                   />
                   <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
-                  <label
+                  <label onClick={() => { setShipping_Methods(20) }}
                     className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                     htmlFor="radio_2"
                   >
@@ -162,7 +164,7 @@ export default function page() {
 
                           <label
                             onClick={() => { setbayment_method("cash") }}
-                            className="border text-gray-500 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
+                            className="border text-gray-700 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
                             htmlFor="Cash_On_Delivery"
                           >
                             <PaymentsOutlined className="font-thin" />
@@ -181,7 +183,7 @@ export default function page() {
                       <span className="peer-checked:border-teal-400 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
                       <label
                         onClick={() => { setbayment_method("card") }}
-                        className="border text-gray-500 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
+                        className="border text-gray-700 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
                         htmlFor="Credit_Card"
                       >
                         <CreditCardOutlined />
@@ -212,7 +214,7 @@ export default function page() {
                     {/* stripe */}
                     <Elements stripe={stripePromise} options={options}>
                       <CheckoutForm
-                        amount={+storeData?.ShopCard?.totelPrice}
+                        amount={Math.round(storeData?.ShopCard?.totelPrice + Shipping_Methods)}
                         setloading={setloading}
                         ref_Button_Submit={stripeButtonSubmit}
                       />
@@ -222,7 +224,7 @@ export default function page() {
               </div>
 
               <p className="text-xl font-medium mt-8">Payment Details</p>
-              <p className="text-gray-400">
+              <p className="text-gray-700">
                 Complete your order by providing your payment details.
               </p>
               <form ref={formOrder} action={async (formData) => {
@@ -230,21 +232,21 @@ export default function page() {
                   "street": formData.get("street"),
                   "PhoneNumber": formData.get("PhoneNumber"),
                   "email": formData.get("email"),
-                  "country": formData.get("country")
+                  "country": formData.get("country"),
+                  "zipCode": formData.get("billing-zip"),
+                  "city": formData.get("city-zip"),
                 };
 
                 formData.set("method", bayment_method)
                 formData.set("address", JSON.stringify(address));
-                formData.set("ShoppingCost", storeData?.ShopCard?.ShoppingCost || 0);
                 formData.set("discount", storeData?.ShopCard?.discount);
+                formData.set("ShoppingCost", Shipping_Methods.toString());
                 formData.set("products", JSON.stringify(storeData?.ShopCard?.items));
                 if (window.localStorage.getItem("UserId") && window.localStorage.getItem("UserId") != "") {
                   formData.set("custamer", window.localStorage.getItem("UserId") || "");
                 }
-
                 dataOrder.current = Object.fromEntries(formData);
-
-                console.log(dataOrder.current);
+                window.localStorage.setItem("order", JSON.stringify(dataOrder.current));
                 applay();
 
 
@@ -258,6 +260,7 @@ export default function page() {
                 </label>
                 <div className="relative">
                   <input
+                  required
                     type="text"
                     id="email"
                     name="email"
@@ -267,7 +270,7 @@ export default function page() {
                   <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-gray-400"
+                      className="h-4 w-4 text-gray-700"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -289,16 +292,17 @@ export default function page() {
                 </label>
                 <div className="relative">
                   <input
+                  required
                     type="text"
                     id="card-holder"
-                    name="full_name"
+                    name="full_Name"
                     className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Your full name here"
                   />
                   <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-gray-400"
+                      className="h-4 w-4 text-gray-700"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -320,6 +324,7 @@ export default function page() {
                 </label>
                 <div className="relative">
                   <input
+                  required
                     type="text"
                     id="card-holder"
                     name="PhoneNumber"
@@ -329,7 +334,7 @@ export default function page() {
                   <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-gray-400"
+                      className="h-4 w-4 text-gray-700"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -354,6 +359,7 @@ export default function page() {
                 <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
                   <div className="relative flex-shrink-0 sm:w-7/12">
                     <input
+                    required
                       type="text"
                       id="billing-address"
                       name="street"
@@ -368,12 +374,14 @@ export default function page() {
                     placeholder={checkout_info?.body?.zip_code}
                   />
                   <input
+                  required
                     type="text"
                     name="city-zip"
                     className="flex-shrink-0 flex-grow rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none  focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                     placeholder={checkout_info?.body?.city}
                   />
                   <input
+                  required
                     type="text"
                     name="country"
                     className="flex-shrink-0 flex-grow rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none  focus:z-10 focus:border-blue-500 focus:ring-blue-500"
@@ -418,14 +426,14 @@ export default function page() {
                           {checkout_info?.body?.sub_total}
                         </p>
                         <p className="font-semibold text-gray-900">
-                          ${storeData.ShopCard.totelPrice}
+                          ${storeData.ShopCard.sub_total}
                         </p>
                       </div>
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-medium text-gray-900">
                           {checkout_info?.body?.shipping_cost}
                         </p>
-                        <p className="font-semibold text-gray-900">$8.00</p>
+                        <p className="font-semibold text-gray-900">${Shipping_Methods}</p>
                       </div>
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-medium text-gray-900">
@@ -441,7 +449,7 @@ export default function page() {
                         {checkout_info?.body?.total_cost}
                       </p>
                       <p className="text-2xl font-semibold text-gray-900">
-                        ${storeData.ShopCard.totelPrice}
+                        ${storeData.ShopCard.totelPrice + Shipping_Methods}
                       </p>
                     </div>
                   </>

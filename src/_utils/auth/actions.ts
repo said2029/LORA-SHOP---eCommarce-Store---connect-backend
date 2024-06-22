@@ -20,3 +20,15 @@ export async function log_In(formData: FormData) {
   }
 }
 export default sing_up;
+
+//  create order
+
+async function createOrder(formData: any) {
+  try {
+    
+    const value = await axiosClient.post("/CreateOrder", formData);
+    return value.data;
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}

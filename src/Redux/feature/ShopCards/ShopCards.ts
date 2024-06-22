@@ -7,12 +7,14 @@ let initialState: {
     id: string;
     product: any;
   }[];
+  sub_total: number,
   totelPrice: number;
   discount: number;
   codeCoupon: string;
 } = {
   items: [],
   totelPrice: 0,
+  sub_total: 0,
   discount: 0.0,
   codeCoupon: "",
 };
@@ -62,18 +64,16 @@ const ShopCard = createSlice({
       state.discount = action.payload.discount;
       state.codeCoupon = action.payload.codeCoupon;
       state.totelPrice -= state.discount;
-      state.totelPrice = +state.totelPrice.toFixed(2);
+      state.totelPrice = Math.round(+state.totelPrice);
       if (window != undefined)
         window.localStorage.setItem("shopCard", JSON.stringify(state));
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(fatchProductOfCard.fulfilled, (state, action) => { });
   },
 });
 
 function CalcolatePeoducPrice(state: any) {
   state.totelPrice = 0;
+  state.sub_total = 0;
   state.items.map((e: any) => {
     if (e.product?.productSaleprice != undefined) {
       state.totelPrice += +e.product.productSaleprice.$numberDecimal * e.count;
@@ -81,7 +81,9 @@ function CalcolatePeoducPrice(state: any) {
       state.totelPrice += +e.product.price * e.count;
     }
   });
+  state.sub_total = Math.round(state.totelPrice);
   state.totelPrice -= state.discount;
+  state.totelPrice = Math.round(+state.totelPrice);
   if (window != undefined)
     window.localStorage.setItem("shopCard", JSON.stringify(state));
 }
