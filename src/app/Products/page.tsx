@@ -131,17 +131,7 @@ export default function page() {
             {products.loading == false &&
               products.data.length >= 1 &&
               products.data.map(
-                (e: {
-                  Product_Description: string;
-                  productprice: { $numberDecimal: string };
-                  productSaleprice: { $numberDecimal: string };
-                  _id: string;
-                  ProducName: string;
-                  ProductsImage: [any];
-                  slug: string;
-                  rating: { $numberDecimal: string };
-                  productPublished: string;
-                }) => {
+                (e: any) => {
                   if (e.productPublished != "true") return;
                   return (
                     <ProductCard
@@ -154,6 +144,7 @@ export default function page() {
                       id={e._id}
                       slug={e?.slug}
                       rating={e.rating?.$numberDecimal}
+                      Stock={e.productStock?.$numberDecimal}
                     />
                   );
                 }

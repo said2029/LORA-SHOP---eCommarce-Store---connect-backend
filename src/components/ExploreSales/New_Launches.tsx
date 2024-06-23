@@ -51,6 +51,7 @@ export default function New_Launches(prop: {
                 rating={e.rating.$numberDecimal}
                 slug={e.slug}
                 supPrice={e.productprice.$numberDecimal}
+                Stock={e.productStock.$numberDecimal}
                 tital={e.ProducName}
               />
             );

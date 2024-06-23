@@ -145,13 +145,13 @@ export default function page({ params }: { params: { id: string } }) {
                 <Swiper
                   pagination={true}
                   modules={[Pagination]}
-                  className="mySwiper md:order-2 md:ml-5 py-5 h-[500px] w-[550px]"
+                  className="mySwiper md:order-2 md:ml-5 py-5 h-[440px] md:h-[500px] w-full md:w-[550px]"
                 >
                   {product.ProductsImage.length >= 1 ? (
-                    product.ProductsImage?.map((image: string,i:number) => {
+                    product.ProductsImage?.map((image: string, i: number) => {
                       return (
-                        <SwiperSlide className="h-full overflow-hidden flex items-center justify-center" key={i}>
-                          <div className="rounded-lg flex object-fill h-[500px] object-center w-full">
+                        <SwiperSlide className="h-full w-full overflow-hidden flex items-center justify-center" key={i}>
+                          <div className="rounded-lg  object-fill flex justify-center h-[440px] md:h-[500px] object-center w-full">
                             <img
                               className=" h-full rounded-lg"
                               src={image || "logoipsum.svg"}
@@ -198,27 +198,25 @@ export default function page({ params }: { params: { id: string } }) {
               </h1>
               <div className="mt-5 flex items-center">
                 <div className="flex items-center">
-                  {product.rating.$numberDecimal ? (
-                    <RatingStars
-                      startconst={product.rating.$numberDecimal || 5}
-                      size={"large"}
-                    />
-                  ) : (
-                    <Skeleton
-                      animation={"wave"}
-                      sx={{ width: 140, height: 50 }}
-                    />
-                  )}
+                  {product.rating.$numberDecimal >= 1 &&
+
+                    (
+                      product.rating.$numberDecimal ? (
+                        <RatingStars
+                          startconst={product.rating.$numberDecimal || 5}
+                          size={"large"}
+                        />
+                      ) : (
+                        <Skeleton
+                          animation={"wave"}
+                          sx={{ width: 140, height: 50 }}
+                        />
+                      )
+                    )
+                  }
                 </div>
                 <p className="ml-2 text-sm font-medium text-gray-500">
-                  {Reviews.length <= 0 ? (
-                    <Skeleton
-                      animation={"wave"}
-                      sx={{ width: 200, height: 40 }}
-                    />
-                  ) : (
-                    Reviews.length + " Reviews"
-                  )}
+                  {Reviews.length} Reviews
                 </p>
               </div>
 
@@ -244,7 +242,7 @@ export default function page({ params }: { params: { id: string } }) {
                       return (
                         <span
                           key={e}
-                          onClick={() => {}}
+                          onClick={() => { }}
                           style={{
                             outlineColor: e || "",
                             backgroundColor: e || "",
@@ -278,8 +276,9 @@ export default function page({ params }: { params: { id: string } }) {
                 <button
                   type="button"
                   className="inline-flex h-14 items-center gap-2 justify-center rounded-md border-2 border-transparent bg-base-color-500 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
-                  onClick={() => {[]
-                    dispatch(addProductToCard({id:product._id, product:product}));
+                  onClick={() => {
+                    []
+                    dispatch(addProductToCard({ id: product._id, product: product }));
                   }}
                 >
                   <ShoppingBag />

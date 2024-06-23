@@ -63,8 +63,9 @@ const ShopCard = createSlice({
     addDiscountCoupon: (state, action) => {
       state.discount = action.payload.discount;
       state.codeCoupon = action.payload.codeCoupon;
+
       state.totelPrice -= state.discount;
-      state.totelPrice = Math.round(+state.totelPrice);
+      state.totelPrice = Math.round(state.totelPrice);
       if (window != undefined)
         window.localStorage.setItem("shopCard", JSON.stringify(state));
     },
@@ -81,6 +82,7 @@ const ShopCard = createSlice({
 function CalcolatePeoducPrice(state: any) {
   state.totelPrice = 0;
   state.sub_total = 0;
+
   state.items.map((e: any) => {
     if (e.product?.productSaleprice != undefined) {
       state.totelPrice += +e.product.productSaleprice.$numberDecimal * e.count;
@@ -90,7 +92,7 @@ function CalcolatePeoducPrice(state: any) {
   });
   state.sub_total = Math.round(state.totelPrice);
   state.totelPrice -= state.discount;
-  state.totelPrice = Math.round(+state.totelPrice);
+  state.totelPrice = Math.round(state.totelPrice);
   if (window != undefined)
     window.localStorage.setItem("shopCard", JSON.stringify(state));
 }

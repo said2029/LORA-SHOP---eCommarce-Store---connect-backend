@@ -70,7 +70,7 @@ export default function Header() {
     <>
       {isClient && !UtlAuthPage && (
         <>
-          <section className="w-full  bg-white">
+          <section className="w-full print:hidden bg-white">
             <div className="py-2 w-full flex gap-2 flex-col md:flex-row justify-center items-center md:justify-between px-16 text-[13px] text-gray-900  text-nowrap">
               <div className="flex gap-1 items-center">
                 <PhoneCall widths={1} size={14} />
@@ -309,7 +309,7 @@ export default function Header() {
 
 
           {/* sticy Header */}
-          <div className="z-50 bg-white">
+          <div className="z-50 print:hidden bg-white">
             <div className="mx-auto  bg-base-color-500 flex flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
               <Link className="block text-teal-600 mr-3" href="/">
                 <span className="sr-only">Home</span>

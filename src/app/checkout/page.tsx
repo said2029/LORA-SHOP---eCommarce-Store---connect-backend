@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckoutForm from "./_components/CheckoutForm";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
+import { useRouter } from "next/navigation";
 
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY || "");
@@ -21,6 +22,7 @@ export default function page() {
   const storeData = useSelector(getStoreState);
   const dispatch = useDispatch();
   const refCouponInput = useRef<HTMLInputElement>(null);
+  const route = useRouter();
 
   const [loadingCoupon, setloadingCoupon] = useState(false);
   const [bayment_method, setbayment_method] = useState("card");
@@ -38,6 +40,7 @@ export default function page() {
           code: refCouponInput.current?.value.trim(),
           totalPrice: storeData?.ShopCard?.totelPrice
         }),
+        cache:"no-cache"
       })
       const body = await respons.json();
       if (body.status == "sucess") {
@@ -63,15 +66,20 @@ export default function page() {
   const [loading, setloading] = useState(false);
 
   function applay() {
-    if (bayment_method == "card")
+    if (bayment_method == "card") {
+
       if (stripeButtonSubmit != null) stripeButtonSubmit.current?.click();
+    }
+    else {
+      route.push("/payment_confirm");
+    }
   }
 
   return (
     <>
       {isClient &&
         <>
-          <div className="grid sm:px-10 lg:grid-cols-2 px-11 mt-6">
+          <div className="grid sm:px-10 lg:grid-cols-2 px-2 md:px-11 mt-6">
             <div className="px-4 pt-8">
               <p className="text-xl font-medium">
                 01. {checkout_info?.body?.shipping_name_one}
@@ -260,7 +268,7 @@ export default function page() {
                 </label>
                 <div className="relative">
                   <input
-                  required
+                    required
                     type="text"
                     id="email"
                     name="email"
@@ -292,7 +300,7 @@ export default function page() {
                 </label>
                 <div className="relative">
                   <input
-                  required
+                    required
                     type="text"
                     id="card-holder"
                     name="full_Name"
@@ -324,7 +332,7 @@ export default function page() {
                 </label>
                 <div className="relative">
                   <input
-                  required
+                    required
                     type="text"
                     id="card-holder"
                     name="PhoneNumber"
@@ -359,7 +367,7 @@ export default function page() {
                 <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
                   <div className="relative flex-shrink-0 sm:w-7/12">
                     <input
-                    required
+                      required
                       type="text"
                       id="billing-address"
                       name="street"
@@ -374,14 +382,14 @@ export default function page() {
                     placeholder={checkout_info?.body?.zip_code}
                   />
                   <input
-                  required
+                    required
                     type="text"
                     name="city-zip"
                     className="flex-shrink-0 flex-grow rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none  focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                     placeholder={checkout_info?.body?.city}
                   />
                   <input
-                  required
+                    required
                     type="text"
                     name="country"
                     className="flex-shrink-0 flex-grow rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none  focus:z-10 focus:border-blue-500 focus:ring-blue-500"

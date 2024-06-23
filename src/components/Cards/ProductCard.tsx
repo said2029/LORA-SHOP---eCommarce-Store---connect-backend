@@ -2,10 +2,10 @@ import * as React from "react";
 import { AddShoppingCartRounded } from "@mui/icons-material";
 import Link from "next/link";
 import RatingStars from "@/app/Products/_components/RatingStars";
-import { ContarollerDeloag } from "../dialog/authDialog";
 
 import { addProductToCard } from "@/Redux/feature/ShopCards/ShopCards";
 import { useDispatch } from "react-redux";
+import { cn } from "../../../utils/cn";
 export default function ProductCard({
   image = "",
   tital = "",
@@ -15,6 +15,7 @@ export default function ProductCard({
   id = "",
   slug = "",
   rating = "0",
+  Stock = "10"
 }) {
   const dispatch = useDispatch();
   return (
@@ -30,23 +31,19 @@ export default function ProductCard({
           src={image}
           alt="product image"
         />
+        <span className={cn(`absolute top-2 left-0 px-2 rounded-e-lg text-white font-medium ${+Stock >= 10 ? "bg-base-color-500" : "bg-red-400"} `)}>Stock {Stock}</span>
       </Link>
-      <article className="mt-4 px-2 pb-5 flex flex-col justify-between  h-40">
+      <article className="mt-4 px-4 pb-8 flex flex-col justify-between  h-40">
         <div>
           <h5 className="text-xl font-semibold tracking-tight text-slate-900 line-clamp-1">
             {tital}
+            {rating != "0" &&
+              <RatingStars size="small" startconst={+rating} />
+            }
+
           </h5>
         </div>
-
-        {rating != "0" && (
-          <div className="mt-2.5 mb-5 flex items-center">
-            <span className="mr-2 rounded bg-orange-500 px-2.5 py-0.5 text-xs font-semibold">
-              {rating}
-            </span>
-            <RatingStars size="small" startconst={+rating} />
-          </div>
-        )}
-        <p className="mt-2.5 mb-5 text-sm text-gray-600 line-clamp-2">
+        <p className={cn(`mt-2.5 mb-5 text-sm text-gray-600 ${rating != "0" ? "line-clamp-1" : "line-clamp-2"}`)} >
           {discription}
         </p>
         <div className="flex items-center justify-between">

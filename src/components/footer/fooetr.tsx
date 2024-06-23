@@ -24,55 +24,15 @@ export default function Fooetr() {
   }, [pathName]);
   let settingStore = useSelector(getStoreState).HomeSetting;
   settingStore = settingStore?.settingData;
-  // (state: {
-  //   HomeSetting: {
-  //     settingData: {
-  //       Header_Logo_image: string;
-  //       footer_block_three_link_one_title: string;
-  //       FooterLogo: string;
-  //       footer_block_four_phone: string;
-  //       footer_block_four_email: "";
-  //       TopCategoryFooter: "";
-  //       footer_block_two_title: "";
-  //       footer_block_two_link_one: "";
-  //       footer_block_two_link_one_title: "";
-  //       footer_block_two_link_two: "";
-  //       footer_block_two_link_three: "";
-  //       footer_block_two_link_three_title: "";
-  //       footer_block_two_link_four: "";
-  //       footer_block_two_link_four_title: "";
-  //       privacy_policy: "";
-  //       contact_us: "";
-  //       faq: "";
-  //       CompanyFooter: "";
-  //       footer_block_one_title: "";
-  //       footer_block_one_link_one_title: "";
-  //       footer_block_one_link_one: "";
-  //       footer_block_one_link_two_title: "";
-  //       footer_block_one_link_two: "";
-  //       footer_block_one_link_three_title: "";
-  //       footer_block_one_link_three: "";
-  //       footer_block_one_link_four_title: "";
-  //       footer_block_one_link_four: "";
-  //       footer_block_three_link_two_title: "";
-  //       Social_Links: "";
-  //       social_facebook: "";
-  //       social_twitter: "";
-  //       social_whatsapp: "";
-  //       social_pinterest: "";
-  //       social_linkedin: "";
-  //     };
-  //   };
-  // }) => state.HomeSetting.settingData
 
   return (
     <>
       {isclient && !UtlAuthPage && settingStore && (
-        <footer className="bg-stone-100  shadow-md shadow-black pt-10 mt-28">
+        <footer className="bg-stone-100  shadow-md shadow-black pt-10 mt-28 print:hidden">
           <DeliveryCard />
 
           <div className="mx-auto w-full px-4 pb-6 pt-2 sm:px-6 lg:px-8 flex flex-col justify-center items-center">
-            <div className="my-16 flex flex-col sm:flex-row flex-wrap gap-10  justify-around w-full">
+            <div className="my-16 flex flex-wrap gap-10  justify-around w-full">
               {settingStore.TopCategoryFooter && (
                 <div className="text-center sm:text-left md:max-w-96">
                   <p className="text-lg font-medium text-gray-900">
@@ -226,12 +186,12 @@ export default function Fooetr() {
             </div>
             <hr className="border border-gray-200 w-1/2 block"/>
             <div className="mt-10 w-full">
-              <ul className="flex items-center justify-around">
+              <ul className="flex items-center flex-wrap justify-around">
                 <li>
                   <p>Follow Us</p>
                   
                   {settingStore.Social_Links && (
-                    <ul className="mt-3 flex justify-center gap-6">
+                    <ul className="mt-3 flex  justify-center gap-6">
                       {settingStore.social_facebook && (
                         <li>
                           <a
