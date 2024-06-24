@@ -184,12 +184,12 @@ export default function Fooetr() {
                 </ul>
               </div>
             </div>
-            <hr className="border border-gray-200 w-1/2 block"/>
+            <hr className="border border-gray-200 w-1/2 block" />
             <div className="mt-10 w-full">
               <ul className="flex items-center flex-wrap justify-around">
                 <li>
                   <p>Follow Us</p>
-                  
+
                   {settingStore.Social_Links && (
                     <ul className="mt-3 flex  justify-center gap-6">
                       {settingStore.social_facebook && (
@@ -266,7 +266,7 @@ export default function Fooetr() {
                 <li className="text-center">
                   <span>Call Us Today!</span>
                   <h1 className="text-2xl text-base-color-500 font-semibold">
-                   {settingStore.footer_block_four_phone}
+                    {settingStore.footer_block_four_phone}
                   </h1>
                 </li>
                 <li className="hidden md:block">
@@ -286,6 +286,7 @@ export default function Fooetr() {
               </p>
             </div>
           </div>
+
         </footer>
       )}
     </>

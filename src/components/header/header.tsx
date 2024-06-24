@@ -1,10 +1,10 @@
 "use client";
-import { PhoneCall, Search, ShoppingBag } from "lucide-react";
+import { LogOut, PhoneCall, Search, ShoppingBag } from "lucide-react";
 import { Badge, IconButton } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
 import { Drawer } from "@material-tailwind/react";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { List, ListItem } from "@material-tailwind/react";
 import DropMenuCar from "./_componets/DropMenuCar";
 import CloseIcon from "@mui/icons-material/Close";
@@ -13,27 +13,54 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { getStoreState } from "@/Redux/store";
 import UseIsClient from "@/hooks/IsClient";
-import AuthDialog, { ContarollerDeloag } from "../dialog/authDialog";
+import AuthDialog, { ContarollerAuthDeloag } from "../dialog/authDialog";
 import { useCookies } from "react-cookie";
 import ShopCard from "./_componets/shopCard";
 
-export default function Header() {
-  const [open, setOpen] = useState(false);
-  const [openDrawerCart, setopenDrawerCart] = useState(false);
+class ContarollerDrawer {
+  setOpenDrawerCart!: Dispatch<SetStateAction<boolean>>;
+  toggleSetOpenDrawerCart: () => void;
 
-  const openDrawer = () => setOpen(true);
-  const closeDrawer = () => setOpen(false);
+  // drawer nav
+  setOpenDrawerNav!: Dispatch<SetStateAction<boolean>>;
+  toggleOpenDrawerNav: () => void;
+
+  constructor() {
+    this.toggleSetOpenDrawerCart = () => {
+      this.setOpenDrawerCart(old => !old);
+    };
+
+    this.toggleOpenDrawerNav = () => {
+      this.setOpenDrawerNav(old => !old);
+    }
+  }
+
+}
+
+export const ContarollerDrawer2 = new ContarollerDrawer();
+
+export default function Header() {
+  const [open, setDrawerNav] = useState(false);
+  const [openDrawerCart, setOpenDrawerCart] = useState(false);
+
+  const openDrawer = () => setDrawerNav(true);
+  const closeDrawer = () => setDrawerNav(false);
 
   const openDrawerCartEvent = () => {
-    setopenDrawerCart(true);
+    setOpenDrawerCart(true);
     window.document.body.style.touchAction = "none";
     window.document.body.style.overflow = "hidden";
   };
+
   const closeDrawerCart = () => {
-    setopenDrawerCart(false);
+    setOpenDrawerCart(false);
     window.document.body.style.touchAction = "";
     window.document.body.style.overflow = "";
   };
+
+  ContarollerDrawer2.setOpenDrawerCart = setOpenDrawerCart;
+  ContarollerDrawer2.setOpenDrawerNav = setDrawerNav;
+
 
   const pathName = usePathname();
   let [UtlAuthPage, setUtlAuthPage] = useState(false);
@@ -70,7 +97,7 @@ export default function Header() {
     <>
       {isClient && !UtlAuthPage && (
         <>
-          <section className="w-full print:hidden bg-white">
+          <section className="w-full  print:hidden bg-white">
             <div className="py-2 w-full flex gap-2 flex-col md:flex-row justify-center items-center md:justify-between px-16 text-[13px] text-gray-900  text-nowrap">
               <div className="flex gap-1 items-center">
                 <PhoneCall widths={1} size={14} />
@@ -83,7 +110,7 @@ export default function Header() {
                   </section>
                 </div>
               </div>
-              <section>
+              <section >
                 <ul className="flex gap-2 items-center">
                   <li className="px-2 hover:text-base-color-200/75">
                     <Link href={"/info/aboutUs"}>
@@ -103,13 +130,10 @@ export default function Header() {
                   </li>
                   {!cookie.access_token && (
                     <>
-                      <li className=" px-2 hover:text-base-color-200/75 ">
-                        <AuthDialog
-                          useIcon={false}
-                          variantBtn="text"
-                          name={StoreRedux.HomeSetting.settingData.login}
-                          className="text-gray-800 bg-none"
-                        />
+                      <li onClick={() => {
+                        ContarollerAuthDeloag.openAuthDelog();
+                      }} className="cursor-pointer px-2 hover:text-base-color-200/75 ">
+                        log in
                       </li>
                       <li>
                         <hr className="border border-gray-900 h-5" />
@@ -128,12 +152,12 @@ export default function Header() {
             {/* Navbar drawer */}
             <Drawer
               placeholder=""
-              onPointerEnterCapture={() => {}}
-              onPointerLeaveCapture={() => {}}
-              overlay={false}
+              onPointerEnterCapture={() => { }}
+              onPointerLeaveCapture={() => { }}
+              overlay={true}
               open={open}
               onClose={closeDrawer}
-              className="p-4 z-30"
+              className="p-4"
             >
               <div>
                 <div className="mb-6 flex items-center justify-between">
@@ -158,13 +182,13 @@ export default function Header() {
                 <div className="flex flex-col justify-between ">
                   <List
                     placeholder=""
-                    onPointerEnterCapture={() => {}}
-                    onPointerLeaveCapture={() => {}}
+                    onPointerEnterCapture={() => { }}
+                    onPointerLeaveCapture={() => { }}
                   >
                     <ListItem
                       placeholder=""
-                      onPointerEnterCapture={() => {}}
-                      onPointerLeaveCapture={() => {}}
+                      onPointerEnterCapture={() => { }}
+                      onPointerLeaveCapture={() => { }}
                     >
                       <DropMenuCar
                         categorys={StoreRedux.CategoryData?.categorys}
@@ -173,16 +197,34 @@ export default function Header() {
                     </ListItem>
                     <ListItem
                       placeholder=""
-                      onPointerEnterCapture={() => {}}
-                      onPointerLeaveCapture={() => {}}
+                      onPointerEnterCapture={() => { }}
+                      onPointerLeaveCapture={() => { }}
                     >
                       <Link href={"/Products"}>Products</Link>
+                    </ListItem>
+                    <ListItem
+                      placeholder=""
+                      onPointerEnterCapture={() => { }}
+                      onPointerLeaveCapture={() => { }}
+                    >
+                      {StoreRedux.HomeSetting.settingData.Offers_Header ==
+                        "true" && (
+                          <Link
+                            className="bg-teal-100/45 relative border border-dashed border-teal-700 text-teal-500  py-1 px-2 rounded-lg font-normal"
+                            href={"/offers"}
+                          >
+                            {StoreRedux.HomeSetting.settingData.offers}
+                            <span className="w-3 h-3 rounded-full animate-ping bg-teal-700 absolute -top-1 -right-1" />
+                            <span className="w-3 h-3 rounded-full  bg-teal-700 absolute -top-1 -right-1" />
+                          </Link>
+                        )}
+
                     </ListItem>
 
                     <ListItem
                       placeholder=""
-                      onPointerEnterCapture={() => {}}
-                      onPointerLeaveCapture={() => {}}
+                      onPointerEnterCapture={() => { }}
+                      onPointerLeaveCapture={() => { }}
                     >
                       <Link href={"/info/aboutUs"}>
                         {StoreRedux.HomeSetting.settingData.about_us}
@@ -191,8 +233,8 @@ export default function Header() {
 
                     <ListItem
                       placeholder=""
-                      onPointerEnterCapture={() => {}}
-                      onPointerLeaveCapture={() => {}}
+                      onPointerEnterCapture={() => { }}
+                      onPointerLeaveCapture={() => { }}
                     >
                       <Link href={"/info/privacyPolicy"}>
                         {StoreRedux.HomeSetting.settingData.privacy_policy}
@@ -200,47 +242,74 @@ export default function Header() {
                     </ListItem>
                     <ListItem
                       placeholder=""
-                      onPointerEnterCapture={() => {}}
-                      onPointerLeaveCapture={() => {}}
+                      onPointerEnterCapture={() => { }}
+                      onPointerLeaveCapture={() => { }}
                     >
                       <Link href={"/info/terms_conditions"}>
                         {StoreRedux.HomeSetting.settingData.term_and_condition}
                       </Link>
                     </ListItem>
+                    <ListItem
+                      placeholder=""
+                      onPointerEnterCapture={() => { }}
+                      onPointerLeaveCapture={() => { }}
+                    >
+                      {StoreRedux.HomeSetting.settingData.FAQ_Header ==
+                        "true" && (
+                          <Link href={"/faq"}>
+                            {StoreRedux.HomeSetting.settingData.faq}
+                          </Link>
+                        )}
+
+                    </ListItem>
 
                     <ListItem
                       placeholder=""
-                      onPointerEnterCapture={() => {}}
-                      onPointerLeaveCapture={() => {}}
+                      onPointerEnterCapture={() => { }}
+                      onPointerLeaveCapture={() => { }}
                     >
                       <Link href={"/contect_us"}>
                         {StoreRedux.HomeSetting.settingData.contact_us}
                       </Link>
                     </ListItem>
                   </List>
-                  <div
-                    onClick={closeDrawer}
-                    className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2"
-                  >
-                    <AuthDialog
-                      useIcon={true}
-                      variantBtn="contained"
-                      name={StoreRedux.HomeSetting.settingData.login}
-                    />
-                  </div>
+                  {!cookie.access_token ?
+                    <div
+                      onClick={closeDrawer}
+                      className="absolute bottom-6 w-full left-0 px-5 flex flex-col gap-2"
+                    >
+                      <AuthDialog
+                        useIcon={true}
+                        variantBtn="contained"
+                        name={StoreRedux.HomeSetting.settingData.login}
+                      />
+                    </div>
+                    :
+                    <div
+                      onClick={closeDrawer}
+                      className="absolute  bottom-6 w-full left-0 px-5 flex flex-col gap-2"
+                    >
+                      <button className="bg-red-400 rounded-lg flex justify-center gap-2 w-full py-2 text-white" onClick={() => {
+                        ContarollerAuthDeloag.log_out();
+                      }}>
+                        <LogOut strokeWidth={1} />
+                        {StoreRedux.HomeSetting.settingData.logout}
+                      </button>
+
+                    </div>
+                  }
                 </div>
               </div>
             </Drawer>
             {/* ==== drawer carts shop ==== */}
             <Drawer
               placeholder=""
-              onPointerEnterCapture={() => {}}
-              onPointerLeaveCapture={() => {}}
+              onPointerEnterCapture={() => { }}
+              onPointerLeaveCapture={() => { }}
               overlay={true}
               onClose={closeDrawerCart}
               placement="right"
               open={openDrawerCart}
-              className=""
               size={430}
             >
               <div className="flex flex-col min-h-full ">
@@ -284,12 +353,12 @@ export default function Header() {
                   </div>
                 )}
                 <Link
-                onClick={()=>{
-                  if(!cookie.access_token){
+                  onClick={() => {
+                    if (!cookie.access_token) {
+                      ContarollerAuthDeloag.openAuthDelog();
+                    }
                     closeDrawerCart();
-                    ContarollerDeloag.openAuthDelog();
-                  }
-                }}
+                  }}
                   href={"/checkout"}
                   className="w-full bg-white h-[80px]  p-2"
                 >
@@ -308,10 +377,9 @@ export default function Header() {
           </section>
 
 
-          {/* sticy Header */}
-          <div className="z-50 print:hidden bg-white">
-            <div className="mx-auto  bg-base-color-500 flex flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
-              <Link className="block text-teal-600 mr-3" href="/">
+          <div className="z-50 bg-white">
+            <div className="mx-auto flex bg-base-color-500  flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
+              <Link className="md:block hidden text-teal-600 mr-3" href="/">
                 <span className="sr-only">Home</span>
                 <picture>
                   {StoreRedux.HomeSetting != "" && (
@@ -331,7 +399,7 @@ export default function Header() {
                 {/* Search bar */}
                 <form
                   ref={addRefSearchInput}
-                  className="flex-grow flex-shrink-0 mb-5 md:mb-0 block sm:hidden md:block"
+                  className="flex-grow w-full md:w-fit flex-shrink-0 mb-0 block sm:hidden md:block"
                   method="get"
                 >
                   <div className="md:ml-8 relative w-full flex items-center">
@@ -346,7 +414,7 @@ export default function Header() {
                 </form>
                 {/* Search bar===== */}
 
-                <div className="flex justify-evenly md:justify-end items-center gap-4 w-full md:w-fit md:ml-12 ">
+                <div className="md:flex hidden justify-evenly md:justify-end items-center gap-4 w-full md:w-fit md:ml-12 ">
                   <div className="flex gap-4 items-center">
                     <IconButton onClick={openDrawerCartEvent} aria-label="cart">
                       <Badge
@@ -418,79 +486,82 @@ export default function Header() {
                   <ul className="flex items-center gap-3 ">
                     {StoreRedux.HomeSetting.settingData.Categories_Header ==
                       "true" && (
-                      <li>
-                        <DropMenuCar
-                          categorys={StoreRedux.CategoryData?.categorys}
-                          name={StoreRedux.HomeSetting.settingData.categories}
-                        />
-                      </li>
-                    )}
+                        <li>
+                          <DropMenuCar
+                            categorys={StoreRedux.CategoryData?.categorys}
+                            name={StoreRedux.HomeSetting.settingData.categories}
+                          />
+                        </li>
+                      )}
                     {StoreRedux.HomeSetting.settingData.About_Us_Header ==
                       "true" && (
-                      <li className="px-2 hover:text-base-color-500">
-                        <Link href={"/info/aboutUs"}>
-                          {StoreRedux.HomeSetting.settingData.about_us}
-                        </Link>
-                      </li>
-                    )}
+                        <li className="px-2 hover:text-base-color-500">
+                          <Link href={"/info/aboutUs"}>
+                            {StoreRedux.HomeSetting.settingData.about_us}
+                          </Link>
+                        </li>
+                      )}
                     {StoreRedux.HomeSetting.settingData.ContactUs_Header ==
                       "true" && (
-                      <li className=" px-2 hover:text-base-color-200/75 ">
-                        <Link href={"/contect_us"}>
-                          {StoreRedux.HomeSetting.settingData.contact_us}
-                        </Link>
-                      </li>
-                    )}
+                        <li className=" px-2 hover:text-base-color-200/75 ">
+                          <Link href={"/contect_us"}>
+                            {StoreRedux.HomeSetting.settingData.contact_us}
+                          </Link>
+                        </li>
+                      )}
                     {StoreRedux.HomeSetting.settingData.FAQ_Header ==
                       "true" && (
-                      <li className=" px-2 hover:text-base-color-200/75 ">
-                        <Link href={"/faq"}>
-                          {StoreRedux.HomeSetting.settingData.faq}
-                        </Link>
-                      </li>
-                    )}
+                        <li className=" px-2 hover:text-base-color-200/75 ">
+                          <Link href={"/faq"}>
+                            {StoreRedux.HomeSetting.settingData.faq}
+                          </Link>
+                        </li>
+                      )}
                     {StoreRedux.HomeSetting.settingData.Offers_Header ==
                       "true" && (
-                      <li className=" px-2 hover:text-base-color-200/75 ">
-                        <Link
-                          className="bg-teal-100/45 relative border border-dashed border-teal-700 text-teal-500  py-1 px-2 rounded-lg font-normal"
-                          href={"/offers"}
-                        >
-                          {StoreRedux.HomeSetting.settingData.offers}
-                          <span className="w-3 h-3 rounded-full animate-ping bg-teal-700 absolute -top-1 -right-1" />
-                          <span className="w-3 h-3 rounded-full  bg-teal-700 absolute -top-1 -right-1" />
-                        </Link>
-                      </li>
-                    )}
+                        <li className=" px-2 hover:text-base-color-200/75 ">
+                          <Link
+                            className="bg-teal-100/45 relative border border-dashed border-teal-700 text-teal-500  py-1 px-2 rounded-lg font-normal"
+                            href={"/offers"}
+                          >
+                            {StoreRedux.HomeSetting.settingData.offers}
+                            <span className="w-3 h-3 rounded-full animate-ping bg-teal-700 absolute -top-1 -right-1" />
+                            <span className="w-3 h-3 rounded-full  bg-teal-700 absolute -top-1 -right-1" />
+                          </Link>
+                        </li>
+                      )}
                   </ul>
 
                   <ul className="flex gap-5 ">
                     {StoreRedux.HomeSetting.settingData.PrivacyPolicy_Header ==
                       "true" && (
-                      <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
-                        <Link href={"/info/privacyPolicy"}>
-                          {StoreRedux.HomeSetting.settingData.privacy_policy}
-                        </Link>{" "}
-                      </li>
-                    )}
+                        <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
+                          <Link href={"/info/privacyPolicy"}>
+                            {StoreRedux.HomeSetting.settingData.privacy_policy}
+                          </Link>{" "}
+                        </li>
+                      )}
                     {StoreRedux.HomeSetting.settingData.Terms_Header ==
                       "true" && (
-                      <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
-                        <Link href={"/info/terms_conditions"}>
-                          {
-                            StoreRedux.HomeSetting.settingData
-                              .term_and_condition
-                          }
-                        </Link>{" "}
-                      </li>
-                    )}
+                        <li className="cursor-pointer duration-300 hover:text-base-color-200/75">
+                          <Link href={"/info/terms_conditions"}>
+                            {
+                              StoreRedux.HomeSetting.settingData
+                                .term_and_condition
+                            }
+                          </Link>{" "}
+                        </li>
+                      )}
                   </ul>
                 </nav>
               </div>
             </div>
           </div>
+
         </>
       )}
     </>
   );
 }
+
+

@@ -12,7 +12,8 @@ export default function BodyHame() {
       {/* Shop by category */}
       <ShopByCat />
       <DailyDeals />
-      {/* <ShopByLifeStyle tital="Shop By" subtital="Lifestyles" /> */}
+
+
     </>
   );
 }

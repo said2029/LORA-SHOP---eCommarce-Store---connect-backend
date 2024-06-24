@@ -1,6 +1,6 @@
 "use client";
 import { getStoreState } from "@/Redux/store";
-import CoponeCard from "@/components/heroSection/coponeCard";
+import CoponeCard from "@/components/heroSection/couponeCard";
 import UseIsClient from "@/hooks/IsClient";
 import { useSelector } from "react-redux";
 

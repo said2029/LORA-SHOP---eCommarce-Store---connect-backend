@@ -8,11 +8,16 @@ import Sign_in from "./_components/sign_up";
 import VerifayEmail from "./_components/verifayEmail";
 import ForgetPassword from "./_components/forgetPassword";
 import ResetPassword from "./_components/ResetPassword";
+import { useCookies } from "react-cookie";
+import { deleteCookie } from "@/_utils/auth/actions";
+
 
 export class Contaroller {
   DeloadStata: Dispatch<SetStateAction<boolean>> | undefined;
   openAuthDelog: () => void;
   CloseAuthDelog: () => void;
+  log_out: () => void;
+  setCookis2: any;
   constructor() {
     this.openAuthDelog = () => {
       if (this.DeloadStata != undefined) this.DeloadStata(true);
@@ -20,9 +25,22 @@ export class Contaroller {
     this.CloseAuthDelog = () => {
       if (this.DeloadStata != undefined) this.DeloadStata(false);
     };
+
+    this.log_out = () => {
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.removeItem("UserImage");
+          window.localStorage.removeItem("UserId");
+          deleteCookie("access_token");
+        } catch (error) {
+          console.error("Failed to remove local storage items:", error);
+        }
+      }
+      window.location.reload();
+    };
   }
 }
-export const ContarollerDeloag = new Contaroller();
+export const ContarollerAuthDeloag = new Contaroller();
 
 export default function AuthDialog({
   name,
@@ -36,9 +54,12 @@ export default function AuthDialog({
   className?: string;
 }) {
   const [mode, setMode] = useState("log in");
+  const [_, setCookis] = useCookies(["access_token"]);
+
 
   const [open, setOpen] = useState(false);
-  ContarollerDeloag.DeloadStata = setOpen;
+  ContarollerAuthDeloag.DeloadStata = setOpen;
+  ContarollerAuthDeloag.setCookis2 = setCookis;
 
   const handleClickOpen = () => {
     setOpen(true);

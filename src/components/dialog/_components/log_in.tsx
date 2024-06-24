@@ -55,6 +55,7 @@ export default function Log_in({
               if (result.data.user.isVerfied == true) {
                 SetCookie("access_token", result.data.token);
                 window.localStorage.setItem("UserId", result.data.user._id);
+                window.localStorage.setItem("UserImage", result.data.user.imageUser);
               } else {
                 selectMode("verifayEmail", {
                   email: result.data.user.email,

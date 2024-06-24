@@ -1,4 +1,4 @@
-import TimarCopon from "../TimarCopons";
+import TimarCoupon from "../TimarCoupons";
 import Image from "next/image";
 import { Alert } from "@material-tailwind/react";
 import { useState } from "react";
@@ -37,7 +37,7 @@ export default function CoponeCard({ coupon }: any) {
               <p className="font-medium text-lg">{coupon.name}</p>
             </div>
             <div className="w-10 text-sm">
-              <TimarCopon DetaTime={coupon.Validity_Time} />
+              <TimarCoupon DetaTime={coupon.Validity_Time} />
             </div>
           </div>
         </div>

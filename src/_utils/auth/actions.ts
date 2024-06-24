@@ -1,5 +1,7 @@
 "use server";
 import axiosClient from "../axiosClient";
+import { cookies } from 'next/headers'
+
 
 const sing_up = async (formData: FormData) => {
   try {
@@ -23,12 +25,10 @@ export default sing_up;
 
 //  create order
 
-async function createOrder(formData: any) {
-  try {
-    
-    const value = await axiosClient.post("/CreateOrder", formData);
-    return value.data;
-  } catch (error: any) {
-    return { error: error.message };
-  }
+
+
+
+
+export async function deleteCookie(data: any) {
+  cookies().delete(data)
 }

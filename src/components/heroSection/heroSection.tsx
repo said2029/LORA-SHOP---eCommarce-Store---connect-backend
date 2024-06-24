@@ -1,7 +1,7 @@
 "use client";
 
 import { CarouselHome } from "../Carousel/CarouselHome";
-import CoponeCard from "./coponeCard";
+import CoponeCard from "./couponeCard";
 import { useSelector } from "react-redux";
 import { getStoreState } from "@/Redux/store";
 import MoreButton from "../buttons/moreButton";
