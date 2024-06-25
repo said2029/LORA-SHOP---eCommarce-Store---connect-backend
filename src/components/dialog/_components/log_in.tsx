@@ -7,17 +7,13 @@ import { useCookies } from "react-cookie";
 import ButtonSend from "./buttonSend";
 import { useSelector } from "react-redux";
 import { getStoreState } from "@/Redux/store";
+import { ShowToasit_Success } from "@/_lib/ToasitControle";
 
 export default function Log_in({
   selectMode,
 }: {
   selectMode: (value: string, body?: any) => void;
 }) {
-  const [alert, setAlert] = useState({
-    show: false,
-    massage: "",
-    color: "bg-red-500",
-  });
 
   const [_, SetCookie] = useCookies(["access_token"]);
   
@@ -25,17 +21,6 @@ export default function Log_in({
 
   return (
     <div className="flex  flex-col items-center justify-center space-y-5 rounded-lg border py-10 px-5 shadow-xl mx-auto max-w-full w-[400px]">
-      <Alert
-        open={alert.show}
-        className={alert.color}
-        onClose={() => setAlert({ show: false, massage: "", color: "" })}
-        animate={{
-          mount: { y: 0 },
-          unmount: { y: -100 },
-        }}
-      >
-        {alert.massage}
-      </Alert>
 
       <div className="mx-auto mb-2 space-y-3 text-center">
         <h1 className=" text-3xl font-bold text-gray-800">Log In</h1>
@@ -46,11 +31,7 @@ export default function Log_in({
           const result = await log_In(formData);
           if (result) {
             if (result.error) {
-              setAlert({
-                show: true,
-                massage: "Password or Email is not correct!",
-                color: "bg-red-500",
-              });
+              ShowToasit_Success("Password or Email is not correct!");
             } else {
               if (result.data.user.isVerfied == true) {
                 SetCookie("access_token", result.data.token);

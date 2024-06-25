@@ -1,7 +1,6 @@
-import { Alert } from "@material-tailwind/react";
-import { Button, TextField } from "@mui/material";
-import { FormEvent, useState } from "react";
+import { TextField } from "@mui/material";
 import ButtonSend from "./buttonSend";
+import { ShowToasit_Error, } from "@/_lib/ToasitControle";
 
 export default function ResetPassword({
   selectMode,
@@ -10,10 +9,6 @@ export default function ResetPassword({
   selectMode: (value: string) => void;
   bodyUser?: { email: string };
 }) {
-  const [alert, setOpenAlert] = useState({
-    active: false,
-    massega: "The password does not match another!",
-  });
 
   async function onSubmit(event: FormData) {
     const dataForm = event;
@@ -34,26 +29,15 @@ export default function ResetPassword({
         selectMode("log in");
         return;
       } else {
-        setOpenAlert({ massega: "Password reset failed; try again!", active: true });
+        ShowToasit_Error("Password reset failed; try again!");
       }
     } else {
-      setOpenAlert((old) => ({ ...old, active: true }));
+      ShowToasit_Error("Not matching passwords! Please, try again!");
     }
   }
 
   return (
     <div className="w-[400px] px-4 py-6 space-y-6">
-      <Alert
-        open={alert.active}
-        onClose={() => setOpenAlert((old) => ({ ...old, active: false }))}
-        color="red"
-        animate={{
-          mount: { x: 0 },
-          unmount: { x: 100 },
-        }}
-      >
-        {alert.massega}
-      </Alert>
       <div className="space-y-3">
         <h1 className="text-2xl font-semibold text-base-color-500">
           Reset password

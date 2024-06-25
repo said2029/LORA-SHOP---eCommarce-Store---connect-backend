@@ -11,6 +11,8 @@ const rubik = Roboto({
 import { Metadata } from "next";
 import ColorProvider from "@/components/providers/ColorProvider";
 import dynamic from "next/dynamic";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 
 const fetchSEOSettings = async () => {
   try {
@@ -46,7 +48,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   const Mobile_header = dynamic(
     () => import("@/components/header/_componets/mobile_header"),
     { ssr: false, }
@@ -61,6 +63,9 @@ export default function RootLayout({
             <Fooetr />
             {/* modile Header */}
             <Mobile_header />
+            {/* Toasit / natefction */}
+            <ToastContainer position='top-center'  />
+
           </ColorProvider>
         </Providers>
       </body>

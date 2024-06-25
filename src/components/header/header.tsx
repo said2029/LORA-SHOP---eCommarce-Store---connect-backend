@@ -128,23 +128,25 @@ export default function Header() {
                   <li>
                     <hr className="border border-gray-900 h-5" />
                   </li>
-                  {!cookie.access_token && (
+                  {!cookie.access_token ? (
                     <>
                       <li onClick={() => {
                         ContarollerAuthDeloag.openAuthDelog();
                       }} className="cursor-pointer px-2 hover:text-base-color-200/75 ">
                         log in
                       </li>
-                      <li>
-                        <hr className="border border-gray-900 h-5" />
-                      </li>
                     </>
-                  )}
-                  <li className=" px-2 hover:text-base-color-200/75 ">
+                  ):
+                  <button onClick={ContarollerAuthDeloag.log_out}>log out</button>
+                  }
+                  <li>
+                    <hr className="border border-gray-900 h-5" />
+                  </li>
+                  {/* <li className=" px-2 hover:text-base-color-200/75 ">
                     <a href="">
                       {StoreRedux.HomeSetting.settingData.my_account}
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </section>
             </div>

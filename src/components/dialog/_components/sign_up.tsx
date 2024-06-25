@@ -7,34 +7,20 @@ import { Alert, Button as ButtonLoading } from "@material-tailwind/react";
 import ButtonSend from "./buttonSend";
 import { useSelector } from "react-redux";
 import { getStoreState } from "@/Redux/store";
+import { ShowToasit_Error, ShowToasit_Success } from "@/_lib/ToasitControle";
 
 export default function Sign_up({
   selectMode,
 }: {
   selectMode: (value: string) => void;
 }) {
-  const [alert, setAlert] = useState({
-    show: false,
-    massage: "",
-    color: "bg-red-500",
-  });
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const storeSetting = useSelector(getStoreState).storeSetting;
 
   return (
     <div className="flex  flex-col items-center justify-center space-y-5 rounded-lg border py-10 px-5 shadow-xl mx-auto max-w-full w-[500px]">
-      <Alert
-        open={alert.show}
-        className={alert.color}
-        onClose={() => setAlert({ show: false, massage: "", color: "" })}
-        animate={{
-          mount: { x: 0 },
-          unmount: { x: 100 },
-        }}
-      >
-        {alert.massage}
-      </Alert>
       <div className="mx-auto mb-2 space-y-3 text-center">
         <h1 className=" text-3xl font-bold text-gray-800">Sign Up</h1>
         <p className="text-gray-500">
@@ -47,17 +33,9 @@ export default function Sign_up({
           formRef.current?.reset();
           const result = await sing_up(formData);
           if (result && result?.error != "") {
-            setAlert({
-              show: true,
-              massage: "sometheng wrong!",
-              color: "bg-red-400",
-            });
+            ShowToasit_Error("sometheng wrong!");
           } else {
-            setAlert({
-              show: true,
-              massage: "Successfull",
-              color: "bg-teal-400",
-            });
+            ShowToasit_Success("Successfull");
             selectMode("log in");
           }
         }}

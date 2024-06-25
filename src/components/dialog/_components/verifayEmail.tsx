@@ -4,6 +4,7 @@ import ButtonSend from "./buttonSend";
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Alert } from "@material-tailwind/react";
+import { ShowToasit_Error } from "@/_lib/ToasitControle";
 
 export default function VerifayEmail({
   selectMode,
@@ -33,10 +34,7 @@ export default function VerifayEmail({
   const [_, SetCookie] = useCookies(["access_token"]);
   const [otp, setOtp] = useState("");
   const CodeValid = useRef("0");
-  const [alert, setOpenAlert] = useState({
-    active: false,
-    massega: "samething wrong!",
-  });
+
 
   const VerifyEmail = async () => {
     if (CodeValid.current && otp === CodeValid.current) {
@@ -59,13 +57,13 @@ export default function VerifayEmail({
           SetCookie("access_token", bodyUser.token);
           window.localStorage.setItem("UserId", bodyUser._id);
         } else {
-          setOpenAlert((old)=>({...old,active:true}))
+          ShowToasit_Error("Failed to verify your email!");
         }
       }else{
         selectMode("ResetPassword",{email:bodyUser.email});
       }
     } else {
-      setOpenAlert((old)=>({...old,active:true}))
+      ShowToasit_Error("Invalid OTP Code!");
     }
   };
 
@@ -92,17 +90,6 @@ export default function VerifayEmail({
 
   return (
     <div className="w-[400px] flex justify-center items-center flex-col space-y-5 px-4 text-center py-6">
-      <Alert
-        open={alert.active}
-        onClose={() => setOpenAlert((old) => ({ ...old, active: false }))}
-        color="red"
-        animate={{
-          mount: { x: 0 },
-          unmount: { x: 100 },
-        }}
-      >
-        {alert.massega}
-      </Alert>
       <div>
         <img width={100} src="/images/icons/message.gif" alt="" />
       </div>

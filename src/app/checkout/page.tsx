@@ -7,13 +7,15 @@ import useFetch from "@/hooks/useFetch";
 import UseIsClient from "@/hooks/IsClient";
 import { PaymentsOutlined, CreditCardOutlined } from "@mui/icons-material";
 import { Store, Truck } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // stripe
 import CheckoutForm from "./_components/CheckoutForm";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
+import { ShowToasit_Error } from "@/_lib/ToasitControle";
+import axiosClient from "@/_utils/axiosClient";
 
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY || "");
@@ -23,10 +25,14 @@ export default function page() {
   const dispatch = useDispatch();
   const refCouponInput = useRef<HTMLInputElement>(null);
   const route = useRouter();
+  const checkout_info: any = useFetch("/api/checkout_info");
+
+  const [totalPrice, setTotalPrice] = useState(storeData?.ShopCard?.totelPrice);
+
 
   const [loadingCoupon, setloadingCoupon] = useState(false);
   const [bayment_method, setbayment_method] = useState("card");
-  const [Shipping_Methods, setShipping_Methods] = useState(60);
+  const [Shipping_Methods, setShipping_Methods] = useState(checkout_info?.body?.Shipping_Methods_one_price || 60);
   const formOrder = useRef<HTMLFormElement>(null);
   const stripeButtonSubmit = useRef<HTMLButtonElement>(null);
 
@@ -38,9 +44,9 @@ export default function page() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           code: refCouponInput.current?.value.trim(),
-          totalPrice: storeData?.ShopCard?.totelPrice
+          totalPrice: totalPrice
         }),
-        cache:"no-cache"
+        cache: "no-cache"
       })
       const body = await respons.json();
       if (body.status == "sucess") {
@@ -48,24 +54,27 @@ export default function page() {
         setloadingCoupon(false);
       } else {
         setloadingCoupon(false);
-        alert(body.msg);
+        ShowToasit_Error(body.msg);
       }
     }
   };
 
 
-  const checkout_info = useFetch("/api/checkout_info");
   const isClient = UseIsClient();
   // stripe options
   const options: StripeElementsOptions = {
     mode: "payment",
     currency: "usd",
-    amount: Math.round((storeData?.ShopCard?.totelPrice + Shipping_Methods)),
+    amount: Math.round((totalPrice)),
   };
   const dataOrder = useRef({});
   const [loading, setloading] = useState(false);
 
   function applay() {
+    if (storeData?.ShopCard?.items.length <= 0) {
+      ShowToasit_Error("Please add item to cart");
+      return;
+    }
     if (bayment_method == "card") {
 
       if (stripeButtonSubmit != null) stripeButtonSubmit.current?.click();
@@ -74,6 +83,28 @@ export default function page() {
       route.push("/payment_confirm");
     }
   }
+
+  async function Calculate_total() {
+    const body2 ={
+      ids: storeData?.ShopCard.items,
+      discount: storeData?.ShopCard.discount,
+      shoppingCost:Shipping_Methods
+
+    }
+    console.log(body2);
+    const data = await axiosClient.post("/calculate_total",body2);
+    const body = data?.data;
+    console.log(body);
+    if (body.status == "success") {
+      console.log(body?.totalPrice);
+      setTotalPrice(body?.totalPrice);
+    }
+
+  }
+
+  useEffect(() => {
+    Calculate_total();
+  }, [storeData?.ShopCard.items,Shipping_Methods])
 
   return (
     <>
@@ -89,7 +120,7 @@ export default function page() {
               </p>
               {isClient && (
                 <>
-                  <section className="overflow-y-scroll flex-grow  min-h-[200px] max-h-[400px]">
+                  <section className="overflow-y-scroll flex-grow mt-5 min-h-[200px] max-h-[400px]">
                     {storeData.ShopCard.items.length <= 0 && (
                       <div className="w-full h-full min-h-full space-y-6 flex flex-col justify-center items-center">
                         <Store className="mt-36" size={40} strokeWidth={0.75} />
@@ -115,15 +146,15 @@ export default function page() {
                   />
                   <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
                   <label
-                    onClick={() => { setShipping_Methods(60) }}
+                    onClick={() => { setShipping_Methods(+checkout_info?.body?.Shipping_Methods_one_price) }}
                     className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                     htmlFor="radio_1"
                   >
                     <Truck strokeWidth={1} />
                     <div className="ml-5">
-                      <span className="mt-2 font-semibold">UPS</span>
+                      <span className="mt-2 font-semibold">{checkout_info?.body?.Shipping_Methods_one_name}</span>
                       <p className="text-slate-500 text-sm leading-6">
-                        UPS Delivery: Today Cost :60.00
+                        {checkout_info?.body?.Shipping_Methods_one_cost}: {checkout_info?.body?.Shipping_Methods_one_delivery} :{checkout_info?.body?.Shipping_Methods_one_price}
                       </p>
                     </div>
                   </label>
@@ -136,15 +167,16 @@ export default function page() {
                     name="radio"
                   />
                   <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
-                  <label onClick={() => { setShipping_Methods(20) }}
+                  <label
+                    onClick={() => { setShipping_Methods(+checkout_info?.body?.Shipping_Methods_two_price) }}
                     className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                     htmlFor="radio_2"
                   >
                     <Truck strokeWidth={1} />
                     <div className="ml-5">
-                      <span className="mt-2 font-semibold">UPS</span>
+                      <span className="mt-2 font-semibold">{checkout_info?.body?.Shipping_Methods_two_name}</span>
                       <p className="text-slate-500 text-sm leading-6">
-                        Delivery: 7 Days Cost :20.00
+                        {checkout_info?.body?.Shipping_Methods_two_cost}: {checkout_info?.body?.Shipping_Methods_two_delivery} :{checkout_info?.body?.Shipping_Methods_two_price}
                       </p>
                     </div>
                   </label>
@@ -222,7 +254,7 @@ export default function page() {
                     {/* stripe */}
                     <Elements stripe={stripePromise} options={options}>
                       <CheckoutForm
-                        amount={Math.round(storeData?.ShopCard?.totelPrice + Shipping_Methods)}
+                        amount={Math.round(totalPrice)}
                         setloading={setloading}
                         ref_Button_Submit={stripeButtonSubmit}
                       />
@@ -250,6 +282,7 @@ export default function page() {
                 formData.set("discount", storeData?.ShopCard?.discount);
                 formData.set("ShoppingCost", Shipping_Methods.toString());
                 formData.set("products", JSON.stringify(storeData?.ShopCard?.items));
+                formData.set("totalPrice", (totalPrice).toFixed(2));
                 if (window.localStorage.getItem("UserId") && window.localStorage.getItem("UserId") != "") {
                   formData.set("custamer", window.localStorage.getItem("UserId") || "");
                 }
@@ -269,7 +302,7 @@ export default function page() {
                 <div className="relative">
                   <input
                     required
-                    type="text"
+                    type="email"
                     id="email"
                     name="email"
                     className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
@@ -333,7 +366,7 @@ export default function page() {
                 <div className="relative">
                   <input
                     required
-                    type="text"
+                    type="number"
                     id="card-holder"
                     name="PhoneNumber"
                     className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm uppercase shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
@@ -376,7 +409,8 @@ export default function page() {
                     />
                   </div>
                   <input
-                    type="text"
+                    type="number"
+                    maxLength={10}
                     name="billing-zip"
                     className="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none flex-grow focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                     placeholder={checkout_info?.body?.zip_code}
@@ -457,7 +491,7 @@ export default function page() {
                         {checkout_info?.body?.total_cost}
                       </p>
                       <p className="text-2xl font-semibold text-gray-900">
-                        ${storeData.ShopCard.totelPrice + Shipping_Methods}
+                        ${totalPrice }
                       </p>
                     </div>
                   </>
