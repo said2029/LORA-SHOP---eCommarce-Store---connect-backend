@@ -139,7 +139,7 @@ export default function Sign_up({
           <h1>OR</h1>
           <div className="w-full">
             <Button
-              href={process.env.NEXT_PUBLIC_BACKENDURL + "/auth/google"}
+              href={process.env.BACKENDURL + "/auth/google"}
               fullWidth
               size="large"
               variant="contained"

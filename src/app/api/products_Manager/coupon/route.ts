@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     const body = await req.json();
-    const fatch = await fetch(process.env.NEXT_PUBLIC_BACKENDURL + "/useCoupon",{
+    const fatch = await fetch(process.env.BACKENDURL + "/useCoupon",{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

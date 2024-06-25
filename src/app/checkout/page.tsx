@@ -18,7 +18,7 @@ import { ShowToasit_Error } from "@/_lib/ToasitControle";
 import axiosClient from "@/_utils/axiosClient";
 
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY || "");
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY || "");
 
 export default function page() {
   const storeData = useSelector(getStoreState);
