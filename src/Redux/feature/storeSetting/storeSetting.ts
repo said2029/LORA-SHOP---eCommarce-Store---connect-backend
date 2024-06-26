@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialState: {
+  settingData: any;
+  loading: boolean;
+  error: string;
+} = {
   settingData: {},
   loading: true,
   error: "",
@@ -9,8 +13,8 @@ const initialState = {
 const fetchStoreSetting = createAsyncThunk(
   "storeSetting/fetchStoreSetting",
   async () => {
-    const fatch = await fetch("/api/setting/store_setting",{
-      cache:"reload"
+    const fatch = await fetch("/api/setting/store_setting", {
+      cache: "reload"
     });
     const respons = await fatch.json();
     return respons;

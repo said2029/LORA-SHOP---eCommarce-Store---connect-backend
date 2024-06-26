@@ -7,7 +7,7 @@ import useFetch from "@/hooks/useFetch";
 import UseIsClient from "@/hooks/IsClient";
 import { PaymentsOutlined, CreditCardOutlined } from "@mui/icons-material";
 import { Store, Truck } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // stripe
 import CheckoutForm from "./_components/CheckoutForm";
@@ -18,10 +18,12 @@ import { ShowToasit_Error } from "@/_lib/ToasitControle";
 import axiosClient from "@/_utils/axiosClient";
 
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY || "");
 
 export default function page() {
   const storeData = useSelector(getStoreState);
+  // Stripe key
+  const Stipe_public_key = storeData?.storeSetting?.settingData?.body?.Stripe_Key;
+  let [stripePromise, set_stripePromise] = useState<any>();
   const dispatch = useDispatch();
   const refCouponInput = useRef<HTMLInputElement>(null);
   const route = useRouter();
@@ -85,18 +87,15 @@ export default function page() {
   }
 
   async function Calculate_total() {
-    const body2 ={
+    const body2 = {
       ids: storeData?.ShopCard.items,
       discount: storeData?.ShopCard.discount,
-      shoppingCost:Shipping_Methods
+      shoppingCost: Shipping_Methods
 
     }
-    console.log(body2);
-    const data = await axiosClient.post("/calculate_total",body2);
+    const data = await axiosClient.post("/calculate_total", body2);
     const body = data?.data;
-    console.log(body);
     if (body.status == "success") {
-      console.log(body?.totalPrice);
       setTotalPrice(body?.totalPrice);
     }
 
@@ -104,7 +103,13 @@ export default function page() {
 
   useEffect(() => {
     Calculate_total();
-  }, [storeData?.ShopCard.items,Shipping_Methods])
+  }, [storeData?.ShopCard.items, Shipping_Methods])
+
+  useEffect(() => {
+    if (Stipe_public_key != undefined)
+      set_stripePromise(loadStripe(Stipe_public_key));
+  }, [Stipe_public_key])
+
 
   return (
     <>
@@ -222,7 +227,9 @@ export default function page() {
                       />
                       <span className="peer-checked:border-teal-400 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
                       <label
-                        onClick={() => { setbayment_method("card") }}
+                        onClick={() => {
+                          setbayment_method("card")
+                        }}
                         className="border text-gray-700 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
                         htmlFor="Credit_Card"
                       >
@@ -252,13 +259,20 @@ export default function page() {
 
                   <div className="my-3">
                     {/* stripe */}
-                    <Elements stripe={stripePromise} options={options}>
-                      <CheckoutForm
-                        amount={Math.round(totalPrice)}
-                        setloading={setloading}
-                        ref_Button_Submit={stripeButtonSubmit}
-                      />
-                    </Elements>
+                    {stripePromise ?
+
+                      <Elements stripe={stripePromise} options={options}>
+                        <CheckoutForm
+                          amount={Math.round(totalPrice)}
+                          setloading={setloading}
+                          ref_Button_Submit={stripeButtonSubmit}
+                        />
+                      </Elements>
+
+
+                      : <span>loading...</span>
+
+                    }
                   </div>
                 }
               </div>
@@ -491,7 +505,7 @@ export default function page() {
                         {checkout_info?.body?.total_cost}
                       </p>
                       <p className="text-2xl font-semibold text-gray-900">
-                        ${totalPrice }
+                        ${totalPrice}
                       </p>
                     </div>
                   </>

@@ -43,7 +43,7 @@ export default function page({ params }: { params: any }) {
           <div className="relative w-full h-52 flex justify-center items-center text-5xl font-bold bg-gray-400 mb-4">
             <img
               className="absolute w-full h-full object-cover z-0"
-              src="/images/2148657725.jpg"
+              src="/images/bg-Tital.jpg"
               alt=""
             />
             <h1 className="z-10">{title}</h1>

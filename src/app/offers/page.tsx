@@ -16,7 +16,7 @@ export default function page() {
               loading="lazy"
               decoding="async"
               className="absolute w-full h-full object-cover z-0"
-              src="/images/2148657725.jpg"
+              src="/images/bg-Tital.jpg"
               alt=""
             />
             <h1 className="z-10">Mage Offers</h1>

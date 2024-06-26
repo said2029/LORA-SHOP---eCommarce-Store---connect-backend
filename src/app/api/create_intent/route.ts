@@ -1,6 +1,21 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+
+let key = null;
+
+
+
+async function getKay() {
+  const respons = await fetch(process.env.BACKENDURL + "/getStoreSetting");
+  const data = await respons.json();
+  return data.body.Stripe_Secret;
+}
+key = await getKay();
+
+if (!key) {
+  throw new Error("Missing Stripe Secret Key");
+}
+const stripe = new Stripe(key!, {
   typescript: true,
   apiVersion: "2023-08-16",
 });

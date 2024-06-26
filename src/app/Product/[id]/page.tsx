@@ -2,13 +2,11 @@
 import ProductCard from "@/components/Cards/ProductCard";
 import { Divider, Skeleton } from "@mui/material";
 import Link from "next/link";
-import RatingStars from "@/app/Products/_components/RatingStars";
 import { ShoppingBag } from "lucide-react";
-import ReviewCard from "../_components/ReviewCard";
-import { getProductApi, ReviewProductApi } from "../../../_utils/axiosProduct";
+import { getProductApi } from "../../../_utils/axiosProduct";
 import getProductsApi from "../../../_utils/axiosProduct";
 
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -40,8 +38,18 @@ export default function page({ params }: { params: { id: string } }) {
       </button>
     );
   }
+  const [ColorProducts, setColorProducts] = useState<String[]>([]);
 
-  const [openReview, setReview] = useState(false);
+  function heandlerColorChange(event: ChangeEvent<HTMLInputElement>) {
+    const newArray = [...ColorProducts];
+    if (event.target.checked) {
+      newArray.push(event.target.value);
+    } else {
+      newArray.splice(newArray.indexOf(event.target.value), 1);
+    }
+    setColorProducts(newArray);
+  }
+
 
   let productModile = {
     _id: "",
@@ -54,7 +62,6 @@ export default function page({ params }: { params: { id: string } }) {
     rating: { $numberDecimal: 0 },
   };
   let [product, setProducts] = useState(productModile);
-  let [Reviews, setReviews] = useState([]);
 
   const [productlikes, setproductlikes] = useState([]);
   useEffect(() => {
@@ -73,13 +80,6 @@ export default function page({ params }: { params: { id: string } }) {
           setproductlikes(res2.data.data);
         }
       });
-    });
-    ReviewProductApi(params.id).then((res) => {
-      res.data.reviews.map((e: any) => {
-        e.useImage = e.customers[0]?.imageUser;
-        e.useName = `${e.customers[0]?.FirstName} ${e.customers[0]?.lastName}`;
-      });
-      setReviews(res.data.reviews);
     });
   }, []);
 
@@ -139,6 +139,8 @@ export default function page({ params }: { params: { id: string } }) {
               </li>
             </ol>
           </nav>
+
+
           <div className="lg:col-gap-12 xl:col-gap-8 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-8">
             <div className="lg:col-span-3 lg:row-end-1">
               <div className="md:flex lg:items-start ">
@@ -185,7 +187,8 @@ export default function page({ params }: { params: { id: string } }) {
                 </div>
               </div>
             </div>
-            <div className="lg:col-span-2 lg:row-span-2 lg:row-end-2 text-gray-900">
+
+            <div className="lg:col-span-2 lg:row-span-2 lg:row-end-2 text-gray-900 flex flex-col ">
               <h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl line-clamp-2">
                 {!product.ProducName ? (
                   <Skeleton
@@ -196,33 +199,11 @@ export default function page({ params }: { params: { id: string } }) {
                   product.ProducName
                 )}
               </h1>
-              <div className="mt-5 flex items-center">
-                <div className="flex items-center">
-                  {product.rating.$numberDecimal >= 1 &&
 
-                    (
-                      product.rating.$numberDecimal ? (
-                        <RatingStars
-                          startconst={product.rating.$numberDecimal || 5}
-                          size={"large"}
-                        />
-                      ) : (
-                        <Skeleton
-                          animation={"wave"}
-                          sx={{ width: 140, height: 50 }}
-                        />
-                      )
-                    )
-                  }
-                </div>
-                <p className="ml-2 text-sm font-medium text-gray-500">
-                  {Reviews.length} Reviews
-                </p>
-              </div>
 
               <div className="mt-3">
                 {product?.Product_Description ? (
-                  <p className="line-clamp-2">{product?.Product_Description}</p>
+                  <p className="line-clamp-4">{product?.Product_Description}</p>
                 ) : (
                   <Skeleton
                     animation={"wave"}
@@ -232,27 +213,29 @@ export default function page({ params }: { params: { id: string } }) {
               </div>
 
               {product.colors.length >= 2 && (
-                <>
+                <div>
                   <h2 className="mt-4 text-base text-gray-900 font-bold">
                     Choose Color
                   </h2>
                   <hr className="my-2" />
-                  <div className="mt-3 flex select-none flex-wrap items-center gap-3">
+                  <form className="mt-3 flex select-none flex-wrap items-center gap-3">
                     {product.colors?.map((e: string) => {
                       return (
-                        <span
+                        <input
+                          type="checkbox"
                           key={e}
-                          onClick={() => { }}
+                          value={e}
+                          onChange={(event) => heandlerColorChange(event)}
                           style={{
-                            outlineColor: e || "",
-                            backgroundColor: e || "",
+                            backgroundColor: e,
+                            outlineColor: e,
                           }}
-                          className="h-6 w-6 rounded-full cursor-pointer outline outline-2 outline-offset-2"
+                          className="h-6 w-6 appearance-none rounded-full cursor-pointer  checked:outline checked:outline-2 checked:outline-offset-2"
                         />
                       );
                     })}
-                  </div>
-                </>
+                  </form>
+                </div>
               )}
 
               <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
@@ -278,7 +261,7 @@ export default function page({ params }: { params: { id: string } }) {
                   className="inline-flex h-14 items-center gap-2 justify-center rounded-md border-2 border-transparent bg-base-color-500 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
                   onClick={() => {
                     []
-                    dispatch(addProductToCard({ id: product._id, product: product }));
+                    dispatch(addProductToCard({ id: product._id, product: product,colors:ColorProducts }));
                   }}
                 >
                   <ShoppingBag />
@@ -305,61 +288,31 @@ export default function page({ params }: { params: { id: string } }) {
                   Cancel Anytime
                 </li>
               </ul>
+
             </div>
-            <div className="lg:col-span-3">
+
+            <div className="lg:col-span-3 ">
               <div className="border-b border-gray-300">
                 <nav className="flex gap-4">
                   <button
                     className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800 "
-                    onClick={() => setReview(false)}
                   >
                     Description
                   </button>
-                  <button
-                    className="inline-flex border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800 "
-                    onClick={() => setReview(true)}
-                  >
-                    Reviews
-                    <span className="ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100">
-                      {Reviews.length}
-                    </span>
-                  </button>
+
                 </nav>
               </div>
-              {!openReview ? (
-                <div className="mt-8 flow-root sm:mt-12">
-                  {product?.Product_Description ? (
-                    <p className="mt-4">{product.Product_Description}</p>
-                  ) : (
-                    <Skeleton
-                      animation={"wave"}
-                      sx={{ width: "100%", height: 300 }}
-                    />
-                  )}
-                </div>
-              ) : (
-                <div className="mt-9 grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto">
-                  {Reviews.map(
-                    (e: {
-                      _id: "";
-                      review: "";
-                      rating: "";
-                      useImage: "";
-                      useName: "";
-                    }) => {
-                      return (
-                        <ReviewCard
-                          key={e._id}
-                          dis={e.review}
-                          image={e.useImage}
-                          name={e.useName}
-                          stars={+e.rating}
-                        />
-                      );
-                    }
-                  )}
-                </div>
-              )}
+              <div className="mt-8 flow-root sm:mt-12">
+                {product?.Product_Description ? (
+                  <p className="mt-4">{product.Product_Description}</p>
+                ) : (
+                  <Skeleton
+                    animation={"wave"}
+                    sx={{ width: "100%", height: 300 }}
+                  />
+                )}
+              </div>
+
             </div>
           </div>
         </div>

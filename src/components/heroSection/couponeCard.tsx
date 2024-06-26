@@ -1,13 +1,24 @@
 import TimarCoupon from "../TimarCoupons";
 import Image from "next/image";
 import { Alert } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import moment from "moment";
+import { cn } from "../../../utils/cn";
+import { ShowToasit_Error } from "@/_lib/ToasitControle";
 export default function CoponeCard({ coupon }: any) {
   const [open, setOpen] = useState(false);
   function CopyCod(text: string) {
     setOpen(true);
     navigator.clipboard.writeText(text);
   }
+  const moment2 = moment(coupon.Validity_Time);
+
+  const [couponActive, setCouponActive] = useState(true);
+  useEffect(() => {
+    moment().isBefore(moment2) ? setCouponActive(true) : setCouponActive(false);
+
+  }, [])
+
   return (
     <>
       <div className="h-fit w-full grid grid-cols-6 gap-2 px-4">
@@ -29,15 +40,15 @@ export default function CoponeCard({ coupon }: any) {
                 ${coupon.discount}{" "}
                 <span className="text-sm text-gray-600">off</span>
               </span>
-              <span className="bg-teal-50 text-teal-500  rounded-2xl px-2 h-fit">
-                Active
+              <span className={cn(` ${couponActive ? "bg-teal-50 text-teal-500" : "bg-red-50 text-red-500"} rounded-2xl px-2 h-fit`)}   >
+                {couponActive ? "Active" : "Expired"}
               </span>
             </div>
             <div>
               <p className="font-medium text-lg">{coupon.name}</p>
             </div>
             <div className="w-10 text-sm">
-              <TimarCoupon DetaTime={coupon.Validity_Time} />
+              <TimarCoupon DetaTime={coupon.Validity_Time} cuponActive={couponActive} />
             </div>
           </div>
         </div>
@@ -45,9 +56,14 @@ export default function CoponeCard({ coupon }: any) {
         <div className="col-span-2 flex-col rounded-sm justify-center gap-2 items-center px-3 hidden xl:flex shadow-md">
           <div
             onClick={() => {
-              CopyCod(coupon?.code);
+              if (couponActive) {
+                CopyCod(coupon?.code);
+              } else {
+                ShowToasit_Error("Coupon is expired!")
+              }
+
             }}
-            className="bg-teal-100 text-teal-500 px-3 py-1 border border-dashed border-[#fefae0] h-fit rounded-md w-full text-center"
+            className={cn(`${couponActive ? "bg-teal-50 text-teal-500" : "bg-red-50 text-red-500 line-through"} px-3 py-1 border border-dashed border-[#fefae0] h-fit rounded-md w-full text-center`)}
           >
             <span className="cursor-pointer">{coupon?.code}</span>
           </div>

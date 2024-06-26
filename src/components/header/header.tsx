@@ -136,8 +136,8 @@ export default function Header() {
                         log in
                       </li>
                     </>
-                  ):
-                  <button onClick={ContarollerAuthDeloag.log_out}>log out</button>
+                  ) :
+                    <button onClick={ContarollerAuthDeloag.log_out}>log out</button>
                   }
                   <li>
                     <hr className="border border-gray-900 h-5" />
@@ -159,10 +159,9 @@ export default function Header() {
               overlay={true}
               open={open}
               onClose={closeDrawer}
-              className="p-4"
             >
               <div>
-                <div className="mb-6 flex items-center justify-between">
+                <div className="mb-6 flex items-center justify-between bg-base-color-500">
                   <div>
                     {StoreRedux.HomeSetting && (
                       <Image
@@ -178,10 +177,12 @@ export default function Header() {
                   </div>
 
                   <button onClick={closeDrawer}>
-                    <CloseIcon />
+                    <CloseIcon scale={20} style={{color:"white"}}/>
                   </button>
                 </div>
-                <div className="flex flex-col justify-between ">
+
+
+                <div className="flex flex-col justify-between p-4">
                   <List
                     placeholder=""
                     onPointerEnterCapture={() => { }}
@@ -380,7 +381,7 @@ export default function Header() {
 
 
           <div className="z-50 bg-white">
-            <div className="mx-auto flex bg-base-color-500  flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
+            <div className="mx-auto flex bg-base-color-500 h-20 flex-col w-full justify-center items-center py-3 gap-3 px-4 sm:px-6 lg:px-8 md:flex-row">
               <Link className="md:block hidden text-teal-600 mr-3" href="/">
                 <span className="sr-only">Home</span>
                 <picture>
@@ -398,10 +399,10 @@ export default function Header() {
               </Link>
 
               <div className="flex flex-col items-center justify-center flex-grow w-full md:w-full md:flex-row py-2">
-                {/* Search bar */}
+                {/* Search bar \*/}
                 <form
                   ref={addRefSearchInput}
-                  className="flex-grow w-full md:w-fit flex-shrink-0 mb-0 block sm:hidden md:block"
+                  className="flex-grow w-full md:w-fit flex-shrink-0 mb-0"
                   method="get"
                 >
                   <div className="md:ml-8 relative w-full flex items-center">
@@ -414,7 +415,8 @@ export default function Header() {
                     <Search className="absolute left-2 text-gray-400" />
                   </div>
                 </form>
-                {/* Search bar===== */}
+
+
 
                 <div className="md:flex hidden justify-evenly md:justify-end items-center gap-4 w-full md:w-fit md:ml-12 ">
                   <div className="flex gap-4 items-center">
@@ -429,15 +431,15 @@ export default function Header() {
                       </Badge>
                     </IconButton>
                   </div>
-
+                  {/* Search bar===== */}
                   <form
                     ref={addRefSearchInput}
-                    className="flex-grow flex-shrink-0 mb-5 md:mb-0 hidden sm:block md:hidden"
+                    className="flex-grow flex-shrink-0 mb-5 md:mb-0  hidden"
                     method="get"
                   >
                     <div className="md:ml-8 relative w-full flex items-center">
                       <input
-                        placeholder="Search for products (e.g. Smartwatch, Smart Phone, Camera)"
+                        placeholder=""
                         className="py-[10px] px-3 bg-gray-50 rounded-3xl border border-gray-300 w-full pl-10 text-sm focus:outline-none focus:border-teal-500 focus:ring-1"
                         type="text"
                         name="search"

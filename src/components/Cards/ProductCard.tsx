@@ -19,7 +19,7 @@ export default function ProductCard({
 }) {
   const dispatch = useDispatch();
   return (
-    <article className="relative h-[25rem] w-full overflow-hidden rounded-lg bg-white shadow-md">
+    <article className="relative h-[23rem] w-full overflow-hidden rounded-lg bg-white shadow-md">
       <Link
         href={`/Product/${id}?slug=${slug}`}
         className="w-full flex justify-center"
@@ -31,19 +31,15 @@ export default function ProductCard({
           src={image}
           alt="product image"
         />
-        <span className={cn(`absolute top-2 left-0 px-2 rounded-e-lg text-white font-medium ${+Stock >= 10 ? "bg-base-color-500" : "bg-red-400"} `)}>Stock {Stock}</span>
+        <span className={cn(`absolute top-2 left-0 px-2 rounded-e-lg text-white font-medium ${+Stock >= 10 ? "bg-teal-400" : "bg-red-400"} `)}>Stock {Stock}</span>
       </Link>
-      <article className="mt-4 px-4 pb-8 flex flex-col justify-between  h-40">
+      <article className="px-4 mt-2 pb-8 flex flex-col justify-evenly  h-36">
         <div>
-          <h5 className="text-xl font-semibold tracking-tight text-slate-900 line-clamp-1">
+          <h5 className="text-lg font-semibold tracking-tight text-slate-900 line-clamp-1">
             {tital}
-            {rating != "0" &&
-              <RatingStars size="small" startconst={+rating} />
-            }
-
           </h5>
         </div>
-        <p className={cn(`mt-2.5 mb-5 text-sm text-gray-600 ${rating != "0" ? "line-clamp-1" : "line-clamp-2"}`)} >
+        <p className="text-[12px] text-gray-600 line-clamp-2" >
           {discription}
         </p>
         <div className="flex items-center justify-between">

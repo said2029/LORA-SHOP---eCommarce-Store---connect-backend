@@ -96,7 +96,7 @@ export default function page() {
 
   return (
     <>
-      <div className=" xl:px-14 flex flex-col justify-center items-center mt-9">
+      <div className="xl:px-14 flex flex-col justify-center items-center mt-9">
         <div className="grid grid-cols-4 gap-3 xl:gap-6 pb-4 mt-5">
           {/* filter */}
           <div className="hidden xl:block">
@@ -113,13 +113,13 @@ export default function page() {
             />
           </div>
           {/* products */}
-          <div className=" mt-5 col-span-full xl:hidden">
+          <div className="mt-5 col-span-full xl:hidden">
             <IconButton onClick={openDrawer}>
               <Filter /> Filter
             </IconButton>
           </div>
 
-          <section className="col-span-full xl:col-span-3 grid grid-cols-1 justify-center items-center mx-auto gap-6 w-full px-4 lg:px-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4">
+          <section className="col-span-full xl:col-span-3 grid grid-cols-1 justify-center items-center mx-auto gap-6 w-full px-4 lg:px-6  sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {/* product Skeleton */}
             {products.loading && ProductListSkeleton({ count: 10 })}
             {products.loading == false && products.data.length <= 0 && (
@@ -132,7 +132,7 @@ export default function page() {
               products.data.length >= 1 &&
               products.data.map(
                 (e: any) => {
-                  if (e.productPublished != "true") return;
+                  if (e.productPublished == "false") return;
                   return (
                     <ProductCard
                       discription={e.Product_Description}

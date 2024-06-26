@@ -34,7 +34,7 @@ export default function New_Launches(prop: {
       </div>
       {/* Cards */}
       <div className="grid grid-cols-1 mt-10 justify-center w-fit place-content-center items-center mx-auto gap-4  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {products.products?.data?.data?.length <= 0 && (
+        {products.products?.loading && (
           <ProductListSkeleton count={4} />
         )}
         {isClient &&

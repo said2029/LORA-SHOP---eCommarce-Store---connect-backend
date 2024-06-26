@@ -6,6 +6,7 @@ let initialState: {
     count: number;
     id: string;
     product: any;
+    colors: string[]
   }[];
   sub_total: number,
   totelPrice: number;
@@ -48,6 +49,7 @@ const ShopCard = createSlice({
           count: 1,
           id: action.payload.id,
           product: action.payload.product,
+          colors: action?.payload?.colors || [],
         });
       }
       CalcolatePeoducPrice(state);

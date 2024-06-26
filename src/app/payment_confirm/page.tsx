@@ -4,12 +4,13 @@ import { resetShopCards } from "@/Redux/feature/ShopCards/ShopCards";
 import { getStoreState } from "@/Redux/store";
 import { Button } from "@material-tailwind/react";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table_Products } from "./_components/table";
 import { Printer } from "lucide-react";
 import { cn } from "../../../utils/cn";
+import { useReactToPrint } from 'react-to-print';
 
 export default function page() {
     const router = useRouter();
@@ -19,6 +20,7 @@ export default function page() {
 
     const dispatch = useDispatch();
     const selector = useSelector(getStoreState);
+    const componentToPrint = useRef(null);
 
 
 
@@ -51,9 +53,10 @@ export default function page() {
 
 
     }
-    function handlePrint() {
-        window.print();
-    }
+
+    const handlePrint = useReactToPrint({
+        content: () => componentToPrint.current,
+    });
 
     useEffect(() => {
         handleClick();
@@ -65,8 +68,8 @@ export default function page() {
         <div className="p-10 text-gray-800">
             {!isLoading && success &&
 
-                <div>
-                    <div className="bg-purple-50/55 rounded-lg p-3 md:p-8 print:p-0 print:mt-44">
+                <div ref={componentToPrint}>
+                    <div className="bg-purple-50/55 rounded-lg p-3 md:p-8 print:p-8 ">
 
                         <section className="flex justify-between flex-wrap print:flex">
                             <div className="flex-grow md:flex-grow-0">
@@ -103,7 +106,7 @@ export default function page() {
                     </div>
 
                     {/* table */}
-                    <section className="mt-14">
+                    <section className="mt-14 print:px-2">
                         <Table_Products order_respons={order_respons} />
                     </section>
 
