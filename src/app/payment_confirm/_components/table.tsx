@@ -1,6 +1,7 @@
 import { Card, Typography } from "@material-tailwind/react";
+import { Avatar, AvatarGroup } from "@mui/material";
 
-const TABLE_HEAD = ["SR", "PRODUCT NAME", "QUANTITY", "ITEM PRICE", "TOTAL PRICE"];
+const TABLE_HEAD = ["SR", "PRODUCT NAME", "QUANTITY", "COLOR", "ITEM PRICE", "TOTAL PRICE"];
 
 
 export function Table_Products({ order_respons }: { order_respons: any }) {
@@ -46,10 +47,10 @@ export function Table_Products({ order_respons }: { order_respons: any }) {
                 <tbody >
                     {TABLE_ROWS.map(({ ProducName: product_name, count: quantity, productSaleprice: item_price, total, _id }, index) => {
                         const isLast = index === TABLE_ROWS.length - 1;
-                        const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+                        const classes = "p-4 border-b border-blue-gray-50 ";
 
                         return (
-                            <tr key={index}>
+                            <tr className="" key={index}>
                                 <td className={classes}>
                                     <Typography
                                         variant="small"
@@ -76,6 +77,18 @@ export function Table_Products({ order_respons }: { order_respons: any }) {
                                         {quantity}
                                     </Typography>
                                 </td>
+
+                                <td className={classes + "flex justify-start"}>
+                                    <AvatarGroup  >
+                                        {order_respons?.colors ?
+                                            order_respons.colors.map((e: string) => {
+                                                return <Avatar src="" sx={{ width: 24, height: 24, bgcolor: e }} >.</Avatar>
+                                            }) :
+                                            <Avatar src="" sx={{ width: 24, height: 24 }} >D</Avatar>
+                                        }
+                                    </AvatarGroup>
+                                </td>
+
                                 <td className={classes}>
                                     <Typography
                                         variant="small"
