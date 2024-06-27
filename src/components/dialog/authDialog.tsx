@@ -9,7 +9,8 @@ import VerifayEmail from "./_components/verifayEmail";
 import ForgetPassword from "./_components/forgetPassword";
 import ResetPassword from "./_components/ResetPassword";
 import { useCookies } from "react-cookie";
-import { deleteCookie } from "@/_utils/auth/actions";
+import { cookies } from "next/headers";
+
 
 
 export class Contaroller {
@@ -31,7 +32,7 @@ export class Contaroller {
         try {
           window.localStorage.removeItem("UserImage");
           window.localStorage.removeItem("UserId");
-          deleteCookie("access_token");
+          cookies().delete("access_token");
         } catch (error) {
           console.error("Failed to remove local storage items:", error);
         }

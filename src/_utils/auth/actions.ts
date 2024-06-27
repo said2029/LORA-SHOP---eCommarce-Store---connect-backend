@@ -22,13 +22,3 @@ export async function log_In(formData: FormData) {
   }
 }
 export default sing_up;
-
-//  create order
-
-
-
-
-
-export async function deleteCookie(data: any) {
-  cookies().delete(data)
-}
