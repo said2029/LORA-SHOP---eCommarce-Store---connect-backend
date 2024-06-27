@@ -261,7 +261,7 @@ export default function page({ params }: { params: { id: string } }) {
                   className="inline-flex h-14 items-center gap-2 justify-center rounded-md border-2 border-transparent bg-base-color-500 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
                   onClick={() => {
                     []
-                    dispatch(addProductToCard({ id: product._id, product: product,colors:ColorProducts }));
+                    dispatch(addProductToCard({ id: product._id, product: product, colors: ColorProducts }));
                   }}
                 >
                   <ShoppingBag />
@@ -330,14 +330,7 @@ export default function page({ params }: { params: { id: string } }) {
           {productlikes.length >= 1 &&
             productlikes?.map(
               (
-                e: {
-                  Product_Description: string;
-                  productprice: { $numberDecimal: "" };
-                  productSaleprice: { $numberDecimal: "" };
-                  _id: string;
-                  ProducName: string;
-                  ProductsImage: [""];
-                },
+                e: any,
                 index
               ) => {
                 if (index < 4) {
@@ -350,6 +343,10 @@ export default function page({ params }: { params: { id: string } }) {
                       tital={e.ProducName}
                       image={e.ProductsImage[0]}
                       id={e._id}
+                      slug={e?.slug}
+                      rating={e.rating?.$numberDecimal}
+                      Stock={e.productStock?.$numberDecimal}
+
                     />
                   );
                 }
