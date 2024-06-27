@@ -11,7 +11,7 @@ const fetchCategorys = createAsyncThunk(
   async () => {
     return (
       await fetch("/api/categorys", {
-        cache:"force-cache"
+        cache:"no-store"
       }).then(async (res) => res)
     ).json();
   }

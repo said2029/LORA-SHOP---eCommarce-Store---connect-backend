@@ -48,7 +48,6 @@ export default function page() {
           code: refCouponInput.current?.value.trim(),
           totalPrice: totalPrice
         }),
-        cache: "no-cache"
       })
       const body = await respons.json();
       if (body.status == "sucess") {

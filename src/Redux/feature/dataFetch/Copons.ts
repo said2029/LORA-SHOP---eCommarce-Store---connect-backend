@@ -11,7 +11,7 @@ const fetchCoupons = createAsyncThunk(
   async () => {
     return (
       await fetch("/api/coupons", {
-        cache:"force-cache"
+        cache:"no-store"
       }).then(async (res) => res)
     ).json();
   }
