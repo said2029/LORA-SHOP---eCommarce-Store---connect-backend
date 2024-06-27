@@ -41,6 +41,8 @@ export const metadata: Metadata = {
   icons: {
     icon: SEO?.body?.SeoSetting_image,
   },
+  // Add more meta tags here...
+  // <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 };
 
 export default function RootLayout({
@@ -55,6 +57,10 @@ export default function RootLayout({
   )
   return (
     <html lang="en">
+      <head>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"
+        ></meta>
+      </head>
       <body suppressHydrationWarning={true} className={rubik.className}>
         <Providers>
           <ColorProvider>
@@ -64,7 +70,7 @@ export default function RootLayout({
             {/* modile Header */}
             <Mobile_header />
             {/* Toasit / natefction */}
-            <ToastContainer position='top-center'  />
+            <ToastContainer position='top-center' />
 
           </ColorProvider>
         </Providers>
