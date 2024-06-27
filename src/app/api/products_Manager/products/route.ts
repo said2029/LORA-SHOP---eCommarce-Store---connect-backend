@@ -9,8 +9,7 @@ export async function POST(req: Request) {
             price = body.price,
             rate = body.rate,
             search = body.search
-        const fatch = await fetch(process.env.BACKENDURL + `/products?searchProduct=${search}&ProductCategory=${categorys}&page=${page}&minPrice=${price[0]
-            }&maxPrice=${price[1]}${rate != "" && "&rating=" + rate}`);
+        const fatch = await fetch(process.env.BACKENDURL + `/products?searchProduct=${search}&ProductCategory=${categorys}&page=${page}&minPrice=${price[0]}&maxPrice=${price[1]}`);
         const respons = await fatch.json();
         return NextResponse.json(respons);
     } catch (error) {

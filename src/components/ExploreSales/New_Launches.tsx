@@ -38,7 +38,7 @@ export default function New_Launches(prop: {
         {
           products.products?.data?.data?.length >= 1 &&
           products.products.data.data.map((e: any, i: number) => {
-            if (i > 15) return;
+            if (i > 8) return;
             return (
               <ProductCard
                 image={e.ProductsImage[0]}
