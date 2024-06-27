@@ -23,8 +23,6 @@ export async function log_In(formData: FormData) {
 }
 export default sing_up;
 
-'use server'
-
 
 export async function deleteCooke(name: string) {
   cookies().delete(name)
