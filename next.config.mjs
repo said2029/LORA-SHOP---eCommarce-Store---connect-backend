@@ -2,6 +2,7 @@
 const nextConfig = {
   env: {
     BACKENDURL: "https://loradash.onrender.com",
+    COPYRIGHT_TEXT:"Copyright 2024 @ FastCom., All rights reserved.",
   },
   reactStrictMode: false,
   images: {

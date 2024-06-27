@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { getStoreState } from "../../Redux/store";
+import Link from "next/link";
 export function CarouselHome() {
   const SettingStoreRedux = useSelector(getStoreState).HomeSetting;
   const respons = SettingStoreRedux;
@@ -68,12 +69,12 @@ export function CarouselHome() {
                         <span className="line-clamp-2 md:line-clamp-none">{element?.slider_description.split("//")[0]}</span> <span className="text-base-color-500">{element?.slider_description.split("//")[1]}</span>
                       </span>
                       <span className=" justify-center sm:justify-start hidden sm:flex">
-                        <a
+                        <Link
                           href={element?.slider_button_link}
                           className="bg-base-color-500 mt-10 w-fit block p-2 rounded-md text-white"
                         >
                           {element?.slider_button_name}
-                        </a>
+                        </Link>
                       </span>
                     </section>
                   </div>

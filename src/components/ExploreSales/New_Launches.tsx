@@ -6,7 +6,6 @@ import { Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { getStoreState } from "@/Redux/store";
 import ProductListSkeleton from "../ProductListSkeleton";
-import UseIsClient from "@/hooks/IsClient";
 
 export default function New_Launches(prop: {
   tital: string;
@@ -17,7 +16,6 @@ export default function New_Launches(prop: {
     route.push("/Products");
   }
   const products = useSelector(getStoreState).Products;
-  const isClient = UseIsClient();
   return (
     <Container
       maxWidth="xl"
@@ -37,7 +35,7 @@ export default function New_Launches(prop: {
         {products.products?.loading && (
           <ProductListSkeleton count={4} />
         )}
-        {isClient &&
+        {
           products.products?.data?.data?.length >= 1 &&
           products.products.data.data.map((e: any, i: number) => {
             if (i > 8) return;

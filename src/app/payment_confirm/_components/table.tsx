@@ -6,7 +6,7 @@ const TABLE_HEAD = ["SR", "PRODUCT NAME", "QUANTITY", "COLOR", "ITEM PRICE", "TO
 
 export function Table_Products({ order_respons }: { order_respons: any }) {
     const TABLE_ROWS: Array<{
-        ProducName: string, count: string, productSaleprice: string, total: string, _id: string
+        ProducName: string, count: string, productSaleprice: string, total: string, _id: string,colors:string[]
     }> = [];
 
 
@@ -18,6 +18,7 @@ export function Table_Products({ order_respons }: { order_respons: any }) {
             count: prodact1.count,
             productSaleprice: order_respons.products2[index].productSaleprice.$numberDecimal,
             total: (+order_respons.products2[index].productSaleprice.$numberDecimal * prodact1.count).toString(),
+            colors: prodact1.colors,
 
         })
     })
@@ -45,7 +46,7 @@ export function Table_Products({ order_respons }: { order_respons: any }) {
                     </tr>
                 </thead>
                 <tbody >
-                    {TABLE_ROWS.map(({ ProducName: product_name, count: quantity, productSaleprice: item_price, total, _id }, index) => {
+                    {TABLE_ROWS.map(({ ProducName: product_name, count: quantity, productSaleprice: item_price, total, _id, colors }, index) => {
                         const isLast = index === TABLE_ROWS.length - 1;
                         const classes = "p-4 border-b border-blue-gray-50 ";
 
@@ -80,8 +81,8 @@ export function Table_Products({ order_respons }: { order_respons: any }) {
 
                                 <td className={classes + "flex justify-start"}>
                                     <AvatarGroup  >
-                                        {order_respons?.colors ?
-                                            order_respons.colors.map((e: string) => {
+                                        {colors ?
+                                            colors.map((e: string) => {
                                                 return <Avatar src="" sx={{ width: 24, height: 24, bgcolor: e }} >.</Avatar>
                                             }) :
                                             <Avatar src="" sx={{ width: 24, height: 24 }} >D</Avatar>
