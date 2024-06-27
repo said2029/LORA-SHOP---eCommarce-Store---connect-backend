@@ -62,7 +62,7 @@ export default function Log_in({
             type="email"
             id="email"
             name="email"
-            value={"test@gmail.com"}
+            defaultValue={"test@gmail.com"}
             className="ps-10 border-1 peer block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-base-color-500 focus:outline-none focus:ring-0"
             placeholder=" "
           />
@@ -84,7 +84,7 @@ export default function Log_in({
             type="password"
             id="password"
             name="password"
-            value="12345"
+            defaultValue="12345"
             className="ps-10 border-1 peer block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-base-color-500 focus:outline-none focus:ring-0"
             placeholder=" "
           />
