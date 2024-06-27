@@ -156,7 +156,7 @@ export default function page() {
             size="medium"
             page={page}
             onChange={handleChange}
-            count={Math.ceil(products.length / 10)}
+            count={Math.ceil(products.length / 20)}
             siblingCount={0}
           />
         </div>
