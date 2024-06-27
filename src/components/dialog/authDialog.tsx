@@ -9,7 +9,7 @@ import VerifayEmail from "./_components/verifayEmail";
 import ForgetPassword from "./_components/forgetPassword";
 import ResetPassword from "./_components/ResetPassword";
 import { useCookies } from "react-cookie";
-import { cookies } from "next/headers";
+import { deleteCooke } from "@/_utils/auth/actions";
 
 
 
@@ -27,12 +27,12 @@ export class Contaroller {
       if (this.DeloadStata != undefined) this.DeloadStata(false);
     };
 
-    this.log_out = () => {
+    this.log_out = async () => {
       if (typeof window !== "undefined") {
         try {
+          await deleteCooke("access_token");
           window.localStorage.removeItem("UserImage");
           window.localStorage.removeItem("UserId");
-          cookies().delete("access_token");
         } catch (error) {
           console.error("Failed to remove local storage items:", error);
         }
