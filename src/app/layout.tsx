@@ -16,7 +16,9 @@ import { ToastContainer } from "react-toastify";
 
 const fetchSEOSettings = async () => {
   try {
-    const respons = await fetch(process.env.BACKENDURL + "/setting/GetSeoSetting");
+    const respons = await fetch(process.env.BACKENDURL + "/setting/GetSeoSetting",{
+      cache:"force-cache"
+    });
     const SEO = await respons.json();
     return SEO;
   } catch (error) {

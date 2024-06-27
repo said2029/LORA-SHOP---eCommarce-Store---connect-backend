@@ -5,7 +5,7 @@ const useFetch =(path_name: string) => {
   useEffect(() => {
     try {
 
-      fetch(path_name)
+      fetch(path_name,{cache:"force-cache"})
         .then((res) => res.json())
         .then((data) => setrespons(data))
         .catch((err) => console.error(err));

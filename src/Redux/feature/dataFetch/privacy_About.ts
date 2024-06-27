@@ -11,7 +11,7 @@ const fetch_p_a= createAsyncThunk(
   async () => {
     return (
       await fetch("/api/A_P", {
-        next: { revalidate: 20000 },
+        cache:"force-cache"
       }).then(async (res) => res)
     ).json();
   }

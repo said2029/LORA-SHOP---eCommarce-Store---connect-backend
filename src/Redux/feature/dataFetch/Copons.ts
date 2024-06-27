@@ -11,7 +11,7 @@ const fetchCoupons = createAsyncThunk(
   async () => {
     return (
       await fetch("/api/coupons", {
-        next: { revalidate: 20000 },
+        cache:"force-cache"
       }).then(async (res) => res)
     ).json();
   }

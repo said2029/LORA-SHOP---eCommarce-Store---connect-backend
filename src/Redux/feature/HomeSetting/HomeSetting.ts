@@ -6,8 +6,8 @@ const initialState = {
   error: "",
 };
 
-const fatchData = createAsyncThunk("HomeSetting/fatchData", async() => {
-  const fatch = await fetch("/api/setting/homeSetting");
+const fatchData = createAsyncThunk("HomeSetting/fatchData", async () => {
+  const fatch = await fetch("/api/setting/homeSetting", { cache: "force-cache" });
   const respons = await fatch.json();
   return respons.body[0]
 

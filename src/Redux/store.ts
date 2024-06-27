@@ -39,7 +39,7 @@ store.dispatch(fatchProductOfCard());
 store.dispatch(fetchStoreSetting());
 
 const getStoreState = createSelector(
-  (state) => state,
+  (state:any) => state,
   ({ HomeSetting, CategoryData, Products, Coupons, p_a, ShopCard,storeSetting }) => {
     return { HomeSetting, CategoryData, Products, Coupons, p_a, ShopCard,storeSetting };
   }
