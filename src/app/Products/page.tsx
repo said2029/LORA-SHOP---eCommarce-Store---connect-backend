@@ -8,6 +8,7 @@ import FilterSidbar from "./_components/Fliter";
 import getProductsApi from "../../_utils/axiosProduct";
 import React from "react";
 import { useSearchParams } from "next/navigation";
+import { useScroll } from "framer-motion";
 
 export default function page() {
   const [open, setOpen] = useState(false);
@@ -18,8 +19,12 @@ export default function page() {
   // Pagination
   const [page, setPage] = useState(1);
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    handleRestartFilter();
     setPage(value);
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
   };
   // === Pagination ===
 
@@ -41,6 +46,7 @@ export default function page() {
     }
     setProducts(res.data);
   }
+  const scroll = useScroll();
 
   //#region filter
   // search
@@ -48,9 +54,9 @@ export default function page() {
   const SearchValue = SearchParams.get("search") || "";
   const CategoryParams = SearchParams.get("category") || "";
   // Filter Select Category callback
-  let category: any = null;
-  let FilterProce:any = [0,9999];
-  let Rateing:any = null;
+  let category = "";
+  let FilterProce: any = [0, 9999];
+  let Rateing: any = null;
   function handleApplayFilter() {
     setProducts((old) => ({ ...old, loading: true }));
     getProductsApi(page - 1, category, FilterProce, undefined).then(
@@ -71,11 +77,7 @@ export default function page() {
   }
   function HandCategoryAction(value: SyntheticEvent<Element, Event>) {
     const target = value.target as HTMLInputElement;
-    if (target.checked) {
-      category.push(target.value);
-    } else {
-      category.slice(category.indexOf(target.value), 1);
-    }
+    category = target.value;
   }
   function SelectRateFilter(value: SyntheticEvent<Element, Event>) {
     const target = value.target as HTMLInputElement;

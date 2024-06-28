@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getProductsApi = async (
   page = 0,
-  categorys = [""],
+  categorys = "",
   price = [0, 99999],
   rate = "",
   search = ""

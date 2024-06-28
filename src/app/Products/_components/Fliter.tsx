@@ -32,7 +32,7 @@ export default function FilterSidbar({
   SelectRateFilter: (value: SyntheticEvent<Element, Event>) => void;
   RestartFilter: () => void;
 }) {
-  const [price_RangeValue, setPrice_RangeValue] = useState<number[]>([999, 0]);
+  const [price_RangeValue, setPrice_RangeValue] = useState<number[]>([0, 9999]);
   const [Categorys, SetCategorys] = useState({
     loading: true,
     categorys: { categores: [] },
@@ -42,6 +42,7 @@ export default function FilterSidbar({
   useEffect(() => {
     setPriceFilterConfig(priceFilterConfig);
     setPrice_RangeValue(priceFilterConfig);
+    console.log(priceFilterConfig);
   }, [priceFilterConfig]);
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function FilterSidbar({
 
   const ChangeValueSlider = (event: Event, value: number[] | number) => {
     setPrice_RangeValue(value as number[]);
+    FilterPriceSlider(value as number[]);
   };
 
   return (
@@ -64,19 +66,29 @@ export default function FilterSidbar({
           <AccordionFilter name="Category">
             <div className="max-h-80 overflow-y-scroll">
               <section>
-                {Categorys &&
-                  Categorys.loading == false &&
-                  Categorys?.categorys.categores.map(
-                    (cat: { name: ""; _id: "" }) => {
-                      return (
-                        <CategoryItem
-                          key={cat._id}
-                          action={categoryAction}
-                          itemName={cat.name}
-                        />
-                      );
-                    }
-                  )}
+                <FormGroup>
+                  <RadioGroup
+                    onChange={categoryAction}
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="CategoryFilter"
+                  >
+
+                    {Categorys &&
+                      Categorys.loading == false &&
+                      Categorys?.categorys.categores.map(
+                        (cat: { name: ""; _id: "" }) => {
+                          return (
+
+                            <CategoryItem
+                              key={cat._id}
+                              itemName={cat.name}
+                            />
+                          );
+                        }
+                      )}
+                  </RadioGroup>
+                </FormGroup>
+
               </section>
             </div>
           </AccordionFilter>
@@ -96,8 +108,8 @@ export default function FilterSidbar({
                   value={price_RangeValue}
                   onChange={ChangeValueSlider}
                   valueLabelDisplay="auto"
-                  max={PriceFilterConfig[0] || 999}
-                  min={PriceFilterConfig[1] || 0}
+                  min={PriceFilterConfig[0] || 0}
+                  max={PriceFilterConfig[1] || 999}
                 // getAriaValueText={(value:number)=>{return 39}}
                 />
                 <div className=" flex gap-4 mt-2">
@@ -173,7 +185,6 @@ export default function FilterSidbar({
         {/* Rating Filter End */}
         <Button
           onClick={() => {
-            FilterPriceSlider(price_RangeValue);
             applayFilter();
           }}
           className="mt-5 bg-base-color-500 hover:bg-base-color-200/75"

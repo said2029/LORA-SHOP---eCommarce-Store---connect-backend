@@ -1,3 +1,4 @@
+// "https://loradash.onrender.com"
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
