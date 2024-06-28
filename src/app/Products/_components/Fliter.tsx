@@ -14,7 +14,7 @@ import RatingStars from "./RatingStars";
 import CategoryItem from "./CategoryItem";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {getStoreState} from "../../../Redux/store";
+import { getStoreState } from "../../../Redux/store";
 import React from "react";
 
 export default function FilterSidbar({
@@ -28,22 +28,27 @@ export default function FilterSidbar({
   categoryAction: (value: SyntheticEvent<Element, Event>) => void;
   applayFilter: () => void;
   FilterPriceSlider: (value: number[] | number) => void;
-  priceFilterConfig: string[];
+  priceFilterConfig: number[];
   SelectRateFilter: (value: SyntheticEvent<Element, Event>) => void;
   RestartFilter: () => void;
 }) {
-  const [price_RangeValue, setPrice_RangeValue] = useState<number[]>([0, 999]);
+  const [price_RangeValue, setPrice_RangeValue] = useState<number[]>([999, 0]);
   const [Categorys, SetCategorys] = useState({
     loading: true,
     categorys: { categores: [] },
   });
   const categorys = useSelector(getStoreState);
-  // (state: {
-  //   CategoryData: { loading: boolean; categorys: { categores: [] } };
-  // }) => state.CategoryData
+  const [PriceFilterConfig, setPriceFilterConfig] = useState<number[]>([0, 0]);
+  useEffect(() => {
+    setPriceFilterConfig(priceFilterConfig);
+    setPrice_RangeValue(priceFilterConfig);
+  }, [priceFilterConfig]);
+
   useEffect(() => {
     SetCategorys(categorys.CategoryData);
-  }, []);
+
+  }, [])
+
 
   const ChangeValueSlider = (event: Event, value: number[] | number) => {
     setPrice_RangeValue(value as number[]);
@@ -85,15 +90,15 @@ export default function FilterSidbar({
               <section className="px-2 mt-5">
                 <Slider
                   getAriaLabel={(index) =>
-                    index === 0 ? priceFilterConfig[0] : priceFilterConfig[1]
+                    index === 0 ? PriceFilterConfig[0]?.toString() : PriceFilterConfig[1]?.toString()
                   }
                   className=" text-base-color-500"
                   value={price_RangeValue}
                   onChange={ChangeValueSlider}
                   valueLabelDisplay="auto"
-                  max={+priceFilterConfig[1] || 999}
-                  min={+priceFilterConfig[0] || 0}
-                  // getAriaValueText={(value:number)=>{return 39}}
+                  max={PriceFilterConfig[0] || 999}
+                  min={PriceFilterConfig[1] || 0}
+                // getAriaValueText={(value:number)=>{return 39}}
                 />
                 <div className=" flex gap-4 mt-2">
                   <TextField

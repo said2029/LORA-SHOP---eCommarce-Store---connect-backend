@@ -1,3 +1,4 @@
+import axiosClient from "@/_utils/axiosClient";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
@@ -7,11 +8,7 @@ const initialState = {
 };
 
 const fatchData = createAsyncThunk("HomeSetting/fatchData", async () => {
-  const fatch = await fetch("/api/setting/homeSetting", { cache: "reload" });
-  const respons = await fatch.json();
-  return respons.body[0]
-
-  // return await axiosClient.get("/setting/homeGet").then((res) => res.data.body[0]);
+  return await axiosClient.get("/setting/homeGet").then((res) => res.data.body[0]);
 });
 
 const HomeSettingReducers = createSlice({

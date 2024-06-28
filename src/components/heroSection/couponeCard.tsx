@@ -7,7 +7,6 @@ import { cn } from "../../../utils/cn";
 import { ShowToasit_Error } from "@/_lib/ToasitControle";
 export default function CoponeCard({ coupon }: any) {
   const [open, setOpen] = useState(false);
-  const [randomNumber, setRandomNumber] = useState(0);
   function CopyCod(text: string) {
     setOpen(true);
     navigator.clipboard.writeText(text);
@@ -31,13 +30,7 @@ export default function CoponeCard({ coupon }: any) {
                 alt="image"
                 className="object-cover w-full h-full"
                 height={300}
-                onError={()=>{
-                  setRandomNumber(getRandomNumber());
-                }}
-                onLoad={()=>{
-                  setRandomNumber(getRandomNumber());
-                }}
-                src={`/images/coupons/coupon_${randomNumber}.jpg`}
+                src={`/images/coupons/coupon_${getRandomNumber()}.jpg`}
               />
             </figure>
           </div>

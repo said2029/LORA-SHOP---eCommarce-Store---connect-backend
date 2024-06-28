@@ -27,8 +27,8 @@ export default function page() {
     loading: true,
     data: [],
     length: 0,
-    maxPrixe: { $numberDecimal: "999" },
-    minPrixe: { $numberDecimal: "0" },
+    maxPrice: 0,
+    minPrice: 0,
   });
 
   // Call api product
@@ -48,12 +48,12 @@ export default function page() {
   const SearchValue = SearchParams.get("search") || "";
   const CategoryParams = SearchParams.get("category") || "";
   // Filter Select Category callback
-  let category: string[] = [CategoryParams];
-  let FilterProce = [0, 999999];
-  let Rateing = "";
+  let category: any = null;
+  let FilterProce:any = [0,9999];
+  let Rateing:any = null;
   function handleApplayFilter() {
     setProducts((old) => ({ ...old, loading: true }));
-    getProductsApi(page - 1, category, FilterProce, Rateing).then(
+    getProductsApi(page - 1, category, FilterProce, undefined).then(
       (res: any) => {
         SetProductData(res);
         closeDrawer();
@@ -61,10 +61,8 @@ export default function page() {
     );
   }
   function handleRestartFilter() {
-    console.log("CategoryParams", CategoryParams);
-
     setProducts((old) => ({ ...old, loading: true }));
-    getProductsApi(page - 1, category, [0, 99999], "", SearchValue).then(
+    getProductsApi(page - 1, category, FilterProce, undefined, SearchValue).then(
       (res: any) => {
         SetProductData(res);
         closeDrawer();
@@ -102,8 +100,8 @@ export default function page() {
           <div className="hidden xl:block">
             <FilterSidbar
               priceFilterConfig={[
-                products?.minPrixe?.$numberDecimal,
-                products?.minPrixe?.$numberDecimal,
+                products?.maxPrice,
+                products?.minPrice,
               ]}
               categoryAction={HandCategoryAction}
               applayFilter={handleApplayFilter}
@@ -188,8 +186,8 @@ export default function page() {
           <div>
             <FilterSidbar
               priceFilterConfig={[
-                products?.minPrixe?.$numberDecimal,
-                products?.minPrixe?.$numberDecimal,
+                products?.maxPrice,
+                products?.minPrice,
               ]}
               categoryAction={HandCategoryAction}
               applayFilter={handleApplayFilter}
