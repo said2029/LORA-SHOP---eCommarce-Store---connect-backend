@@ -60,7 +60,7 @@ export function CarouselHome() {
                     src={element?.home_Slider_Images || ""}
                     alt=""
                   />
-                  <div className="absolute top-0 h-full flex items-center sm:p-5 w-[70%] md:w-[60%] px-2">
+                  <Link href={element?.slider_button_link} className="absolute top-0 h-full flex items-center sm:p-5 w-[70%] md:w-[60%] px-2">
                     <section className="text-start w-full">
                       <h1 className="text-sm sm:text-4xl font-medium uppercase">
                         {element?.slider_title}
@@ -69,15 +69,15 @@ export function CarouselHome() {
                         <span className="line-clamp-2 md:line-clamp-none">{element?.slider_description.split("//")[0]}</span> <span className="text-base-color-500">{element?.slider_description.split("//")[1]}</span>
                       </span>
                       <span className=" justify-center sm:justify-start hidden sm:flex">
-                        <Link
-                          href={element?.slider_button_link}
+                        <p
+                          
                           className="bg-base-color-500 mt-10 w-fit block p-2 rounded-md text-white"
                         >
                           {element?.slider_button_name}
-                        </Link>
+                        </p>
                       </span>
                     </section>
-                  </div>
+                  </Link>
                 </SwiperSlide>
               );
             }

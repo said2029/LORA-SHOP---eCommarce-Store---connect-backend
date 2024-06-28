@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const fatchData = createAsyncThunk("HomeSetting/fatchData", async () => {
-  const fatch = await fetch("/api/setting/homeSetting", { cache: "no-store" });
+  const fatch = await fetch("/api/setting/homeSetting", { cache: "reload" });
   const respons = await fatch.json();
   return respons.body[0]
 

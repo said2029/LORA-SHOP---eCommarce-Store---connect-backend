@@ -19,7 +19,7 @@ export default function ProductCard({
 }) {
   const dispatch = useDispatch();
   return (
-    <article className="relative h-[23rem] w-full overflow-hidden rounded-lg bg-white shadow-md">
+    <div className="relative h-[23rem] w-full overflow-hidden rounded-lg bg-white shadow-md">
       <Link
         href={`/Product/${id}?slug=${slug}`}
         className="w-full flex justify-center"
@@ -75,6 +75,6 @@ export default function ProductCard({
           </button>
         </div>
       </article>
-    </article>
+    </div>
   );
 }

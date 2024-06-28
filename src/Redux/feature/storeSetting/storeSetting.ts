@@ -14,7 +14,7 @@ const fetchStoreSetting = createAsyncThunk(
   "storeSetting/fetchStoreSetting",
   async () => {
     const fatch = await fetch("/api/setting/store_setting", {
-     cache:"no-store"
+     cache:"reload"
     });
     const respons = await fatch.json();
     return respons;

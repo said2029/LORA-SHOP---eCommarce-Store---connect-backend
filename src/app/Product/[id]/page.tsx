@@ -302,9 +302,9 @@ export default function page({ params }: { params: { id: string } }) {
 
                 </nav>
               </div>
-              <div className="mt-8 flow-root sm:mt-12">
+              <div className=" w-full text-gray-600 text-sm flow-root sm:mt-5">
                 {product?.Product_Description ? (
-                  <p className="mt-4">{product.Product_Description}</p>
+                  <pre className=" max-w-full text-wrap">{product.Product_Description}</pre>
                 ) : (
                   <Skeleton
                     animation={"wave"}

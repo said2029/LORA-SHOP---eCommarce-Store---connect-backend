@@ -7,7 +7,22 @@ const initialState = {
 };
 
 const fetchProducts = createAsyncThunk("Products/fetchProducts", async () => {
-  return await getProductsApi().then((res) => res);
+  return await fetch("/api/products_Manager/products", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      page: 0,
+      categorys: [""],
+      price: [0, 99999],
+      rate: "",
+      search: ""
+    }),
+    cache: "reload"
+  })
+    .then((res) => res.json())
+    .then((res) => res);
 });
 const ProductSlice = createSlice({
   name: "Products",

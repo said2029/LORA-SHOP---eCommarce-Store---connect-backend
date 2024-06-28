@@ -1,11 +1,17 @@
 "use client";
 import { useRouter } from "next/navigation";
-import ProductCard from "../Cards/ProductCard";
 import MoreButton from "@/components/buttons/moreButton";
 import { Container } from "@mui/material";
 import { useSelector } from "react-redux";
 import { getStoreState } from "@/Redux/store";
 import ProductListSkeleton from "../ProductListSkeleton";
+import dynamic from "next/dynamic";
+
+const ProductCard = dynamic(() => import("../Cards/ProductCard"),
+  {
+    ssr: false
+  }
+)
 
 export default function New_Launches(prop: {
   tital: string;
@@ -32,13 +38,13 @@ export default function New_Launches(prop: {
       </div>
       {/* Cards */}
       <div className="grid grid-cols-1 mt-10 justify-center w-fit place-content-center items-center mx-auto gap-4  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {products.products?.loading && (
+        {products.products?.data?.length <= 0 && (
           <ProductListSkeleton count={4} />
         )}
         {
-          products.products?.data?.data?.length >= 1 &&
-          products.products.data.data.map((e: any, i: number) => {
-            if (i > 8) return;
+          products.products?.data?.length >= 1 &&
+          products.products?.data.map((e: any, i: number) => {
+            if (i > 4) return;
             return (
               <ProductCard
                 image={e.ProductsImage[0]}
