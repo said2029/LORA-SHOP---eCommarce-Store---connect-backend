@@ -142,11 +142,7 @@ export default function Header() {
                   <li>
                     <hr className="border border-gray-900 h-5" />
                   </li>
-                  {/* <li className=" px-2 hover:text-base-color-200/75 ">
-                    <a href="">
-                      {StoreRedux.HomeSetting.settingData.my_account}
-                    </a>
-                  </li> */}
+
                 </ul>
               </section>
             </div>

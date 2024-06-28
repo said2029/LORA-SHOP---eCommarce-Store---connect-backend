@@ -54,8 +54,8 @@ export function CarouselHome() {
                   className="flex gap-2 justify-between  items-center relative bg-white h-96"
                 >
                   <Image
-                    width={750}
-                    height={790}
+                    width={1050 }
+                    height={1090}
                     className="w-full h-full object-cover"
                     src={element?.home_Slider_Images || ""}
                     alt=""
