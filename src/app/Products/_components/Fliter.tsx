@@ -42,7 +42,6 @@ export default function FilterSidbar({
   useEffect(() => {
     setPriceFilterConfig(priceFilterConfig);
     setPrice_RangeValue(priceFilterConfig);
-    console.log(priceFilterConfig);
   }, [priceFilterConfig]);
 
   useEffect(() => {

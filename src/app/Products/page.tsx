@@ -99,7 +99,7 @@ export default function page() {
       <div className="xl:px-14 flex flex-col justify-center items-center mt-9">
         <div className="grid grid-cols-4 gap-3 xl:gap-6 pb-4 mt-5">
           {/* filter */}
-          <div className="hidden xl:block">
+          <div   className="hidden xl:block">
             <FilterSidbar
               priceFilterConfig={[
                 products?.maxPrice,

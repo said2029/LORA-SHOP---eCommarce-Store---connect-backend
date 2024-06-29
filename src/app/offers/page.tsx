@@ -21,10 +21,12 @@ export default function page() {
             />
             <h1 className="z-10">Mage Offers</h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-20 px-8" >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-20 px-8 " >
             {coupons?.map((e: any, i: number) => {
+              if (!e.published) return;
               return <CoponeCard key={e._id} coupon={e} />;
             })}
+            
           </div>
         </div>
       )}

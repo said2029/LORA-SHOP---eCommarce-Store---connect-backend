@@ -19,17 +19,27 @@ export default function CoponeCard({ coupon }: any) {
 
   }, [])
 
+  function handlCopyCoupon() {
+    if (couponActive) {
+      CopyCod(coupon?.code);
+    } else {
+      ShowToasit_Error("Coupon is expired!")
+    }
+
+  }
+
   return (
     <>
-      <div className="h-fit w-full grid grid-cols-6 gap-2 px-4">
-        <div className="xl:col-span-4 rounded-sm p-5 flex gap-2 col-span-full  shadow-md">
-          <div className="h-full w-48  rounded-lg flex items-center flex-shrink">
-            <figure className="overflow-hidden rounded-lg w-full h-full">
+      <div className="h-fit w-full grid grid-cols-6 gap-2 rounded-lg">
+        <div className="xl:col-span-4  sm:col-span-4 md:col-span-full  col-span-full rounded-sm flex gap-3 shadow-md">
+          <div className="h-full w-48  rounded-lg  items-center flex flex-shrink">
+            <figure className="overflow-hidden rounded-lg w-fit h-fit p-3 cursor-pointer relative">
               <Image
+                onClick={handlCopyCoupon}
                 width={300}
-                alt="image"
-                className="object-cover w-full h-full"
                 height={300}
+                alt="image"
+                className="object-cover rounded-lg duration-500 w-full h-full hover:scale-110 hover:rotate-2"
                 src={`/images/coupons/coupon_${getRandomNumber()}.jpg`}
               />
             </figure>
@@ -47,22 +57,15 @@ export default function CoponeCard({ coupon }: any) {
             <div>
               <p className="font-medium text-lg">{coupon.name}</p>
             </div>
-            <div className="w-10 text-sm">
+            <div className="w-full text-sm overflow-hidden">
               <TimarCoupon DetaTime={coupon.Validity_Time} cuponActive={couponActive} />
             </div>
           </div>
         </div>
 
-        <div className="col-span-2 flex-col rounded-sm justify-center gap-2 items-center px-3 hidden xl:flex shadow-md">
+        <div className="col-span-2 flex-col rounded-sm justify-center gap-2 items-center px-3 hidden sm:flex md:hidden xl:flex shadow-md">
           <div
-            onClick={() => {
-              if (couponActive) {
-                CopyCod(coupon?.code);
-              } else {
-                ShowToasit_Error("Coupon is expired!")
-              }
-
-            }}
+            onClick={handlCopyCoupon}
             className={cn(`${couponActive ? "bg-teal-50 text-teal-500" : "bg-red-50 text-red-500 line-through"} px-3 py-1 border border-dashed border-[#fefae0] h-fit rounded-md w-full text-center`)}
           >
             <span className="cursor-pointer">{coupon?.code}</span>

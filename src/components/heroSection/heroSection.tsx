@@ -7,10 +7,14 @@ import { getStoreState } from "@/Redux/store";
 import MoreButton from "../buttons/moreButton";
 import UseIsClient from "@/hooks/IsClient";
 import { useRouter } from "next/navigation";
+import moment from "moment";
 export default function HeroSection() {
   const coupons = useSelector(getStoreState).Coupons?.copons?.body;
   const isClient = UseIsClient();
-  const router =useRouter();
+  const router = useRouter();
+
+  const nowData = Date.now();
+  let MaxCouponToShow = 2;
   return (
     <>
       {isClient && (
@@ -27,13 +31,29 @@ export default function HeroSection() {
                 <p className="font-semibold text-white text-nowrap text-center">
                   Latest Super Discount Active Coupon Code
                 </p>
-                <MoreButton name="View All" event={() => {router.push("/offers")}} />
+                <MoreButton name="View All" event={() => { router.push("/offers") }} />
               </div>
-              <div className="flex flex-col gap-2 w-full h-full pt-6">
-                {coupons?.map((e: any, i: number) => {
-                  if (i >= 2) return;
-                  return <CoponeCard key={e._id} coupon={e} />;
-                })}
+              <div className="flex flex-col gap-2 w-full h-full pt-6 px-3">
+                {
+                  coupons?.map((e: any) => {
+                    if (moment(e.Validity_Time).isBefore(nowData)) return;
+                    if (!e.published) return;
+                    MaxCouponToShow--;
+                    if (MaxCouponToShow < 0) return;
+                    return <CoponeCard key={e._id} coupon={e} />;
+                  })
+
+                }
+                {
+
+                  MaxCouponToShow >= 2 &&
+                  <>
+                    <CoponeCard coupon={{ Validity_Time: "00-00-00",discount:"00" }} />
+                    <CoponeCard coupon={{ Validity_Time: "00-00-00",discount:"00" }} />
+                  </>
+
+                }
+
               </div>
             </div>
           </div>

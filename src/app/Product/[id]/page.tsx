@@ -153,9 +153,9 @@ export default function page({ params }: { params: { id: string } }) {
                     product.ProductsImage?.map((image: string, i: number) => {
                       return (
                         <SwiperSlide className="h-full w-full overflow-hidden flex items-center justify-center" key={i}>
-                          <div className="rounded-lg  object-fill flex justify-center h-[440px] md:h-[500px] object-center w-full">
+                          <div className="rounded-lg  object-fill flex justify-center h-[400px] md:h-[500px] object-center w-full">
                             <img
-                              className=" h-full rounded-lg"
+                              className="object-fill rounded-lg"
                               src={image || "logoipsum.svg"}
                               alt="Prodout image"
                             />
@@ -165,7 +165,7 @@ export default function page({ params }: { params: { id: string } }) {
                     })
                   ) : (
                     <SwiperSlide>
-                      <div className="w-full max-h-[500px] min-h-[500px] overflow-hidden rounded-lg  animate-pulse bg-gray-400"></div>
+                      <div className="w-full h-[400px] md:h-[500px] overflow-hidden rounded-lg  animate-pulse bg-gray-400"></div>
                     </SwiperSlide>
                   )}
                 </Swiper>
