@@ -28,15 +28,15 @@ export default function page() {
   const refCouponInput = useRef<HTMLInputElement>(null);
   const route = useRouter();
   const checkout_info: any = useFetch("/api/checkout_info");
-
-  const [totalPrice, setTotalPrice] = useState(storeData?.ShopCard?.totelPrice);
-
-
+  
   const [loadingCoupon, setloadingCoupon] = useState(false);
   const [bayment_method, setbayment_method] = useState("card");
   const [Shipping_Methods, setShipping_Methods] = useState(checkout_info?.body?.Shipping_Methods_one_price || 60);
   const formOrder = useRef<HTMLFormElement>(null);
   const stripeButtonSubmit = useRef<HTMLButtonElement>(null);
+  
+  const [totalPrice, setTotalPrice] = useState(storeData?.ShopCard?.totelPrice + Shipping_Methods);
+
 
   const applyCoupon = async () => {
     if (refCouponInput.current) {
@@ -194,10 +194,10 @@ export default function page() {
                   03. {checkout_info?.body?.payment_method}
                 </p>
                 <section className="mt-2">
-                  <div className="flex justify-around gap-3">
+                  <div className="flex flex-wrap justify-around gap-3">
                     {storeData?.storeSetting?.settingData?.body?.Cash_On_Delivery ==
                       true && (
-                        <div className="flex-grow relative">
+                        <div className="flex-grow min-w-48  relative">
                           <input
                             id="Cash_On_Delivery"
                             className="peer hidden"
@@ -217,7 +217,7 @@ export default function page() {
                         </div>
                       )}
 
-                    <div className="flex-grow relative">
+                    <div className="flex-grow min-w-48 relative">
                       <input
                         id="Credit_Card"
                         className="peer hidden"
@@ -236,22 +236,6 @@ export default function page() {
                         Credit Card
                       </label>
                     </div>
-                    {/* <div className="flex-grow relative">
-                  <input
-                    name="Payment_Method"
-                    id="RazorPay"
-                    className="peer hidden"
-                    type="radio"
-                  />
-                  <span className="peer-checked:border-teal-400 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
-                  <label
-                    className="border text-gray-500 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center"
-                    htmlFor="RazorPay"
-                  >
-                    <CreditCardOutlined />
-                    RazorPay
-                  </label>
-                </div> */}
                   </div>
                 </section>
                 {bayment_method == "card" &&

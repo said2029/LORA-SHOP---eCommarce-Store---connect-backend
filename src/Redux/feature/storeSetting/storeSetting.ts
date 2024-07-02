@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState: {
   settingData: any;
@@ -13,10 +14,9 @@ const initialState: {
 const fetchStoreSetting = createAsyncThunk(
   "storeSetting/fetchStoreSetting",
   async () => {
-    const fatch = await fetch("/api/setting/store_setting", {
-     cache:"reload"
-    });
-    const respons = await fatch.json();
+    const respons = await axios
+      .get("/api/setting/store_setting")
+      .then((res) => res.data);
     return respons;
   }
 );

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-    const fatch = await fetch(process.env.BACKENDURL + "/setting/A_P");
+    const fatch = await fetch(process.env.BACKEND_URL + "/setting/A_P");
     const respons = await fatch.json();
     return NextResponse.json(respons);
 }
