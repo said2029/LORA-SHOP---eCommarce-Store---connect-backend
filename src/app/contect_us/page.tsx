@@ -18,14 +18,7 @@ export default async function page() {
       {data.body != undefined && (
         <div className="mb-20">
           {data?.body?.checked_bg_Hero && (
-            <div className="relative w-full h-52 flex justify-center items-center text-5xl font-bold bg-gray-400 mb-10">
-              <img
-                loading="lazy"
-                decoding="async"
-                className="absolute w-full h-full object-cover z-0"
-                src={data.body?.header_background_image}
-                alt=""
-              />
+            <div className="relative w-full text-white bg-base-color-500 h-52 flex justify-center items-center text-5xl font-bold bg-gray-400 mb-10">
               <h1 className="z-10">{data.body?.contact_page_title}</h1>
             </div>
           )}

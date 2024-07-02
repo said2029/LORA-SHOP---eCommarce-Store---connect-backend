@@ -147,13 +147,13 @@ export default function page({ params }: { params: { id: string } }) {
                 <Swiper
                   pagination={true}
                   modules={[Pagination]}
-                  className="mySwiper md:order-2 md:ml-5 py-5 h-[440px] md:h-[500px] w-full md:w-[550px]"
+                  className="mySwiper md:order-2 md:ml-5 py-5 max-h-[400px] md:max-h-[500px] w-full md:w-[550px]"
                 >
                   {product.ProductsImage.length >= 1 ? (
                     product.ProductsImage?.map((image: string, i: number) => {
                       return (
-                        <SwiperSlide className="h-full w-full overflow-hidden flex items-center justify-center" key={i}>
-                          <div className="rounded-lg  object-fill flex justify-center h-[400px] md:h-[500px] object-center w-full">
+                        <SwiperSlide className="w-full overflow-hidden max-h-full flex items-center justify-center" key={i}>
+                          <div className="rounded-lg aspect-square object-fill flex justify-center object-center w-full">
                             <img
                               className="object-fill rounded-lg"
                               src={image || "logoipsum.svg"}
@@ -165,7 +165,7 @@ export default function page({ params }: { params: { id: string } }) {
                     })
                   ) : (
                     <SwiperSlide>
-                      <div className="w-full h-[400px] md:h-[500px] overflow-hidden rounded-lg  animate-pulse bg-gray-400"></div>
+                      <div className="w-full h-[300px] md:h-[500px] overflow-hidden rounded-lg  animate-pulse bg-gray-400"></div>
                     </SwiperSlide>
                   )}
                 </Swiper>
@@ -302,7 +302,7 @@ export default function page({ params }: { params: { id: string } }) {
 
                 </nav>
               </div>
-              <div className=" w-full text-gray-600 text-sm flow-root sm:mt-5">
+              <div className=" w-full text-gray-600 text-sm flow-root mt-5">
                 {product?.Product_Description ? (
                   <pre className=" max-w-full text-wrap">{product.Product_Description}</pre>
                 ) : (

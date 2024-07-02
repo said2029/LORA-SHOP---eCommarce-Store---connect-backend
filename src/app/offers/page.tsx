@@ -11,14 +11,8 @@ export default function page() {
     <>
       {isClient && (
         <div className="pb-16">
-          <div className="relative w-full h-52 flex justify-center items-center text-5xl font-bold mb-10">
-            <img
-              loading="lazy"
-              decoding="async"
-              className="absolute w-full h-full object-cover z-0"
-              src="/images/bg-Tital.jpg"
-              alt=""
-            />
+          <div className="relative w-full h-52 flex bg-base-color-500 text-white justify-center items-center text-5xl font-bold mb-10">
+            
             <h1 className="z-10">Mage Offers</h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-20 px-8 " >

@@ -14,8 +14,8 @@ export default function ColorProvider({
   let baseColor = "#10b981";
   let secendColor = "#059669";
 
-  baseColor = data?.settingData.Base_Color_option;
-  secendColor = data?.settingData.Secend_Color_option;
+  baseColor = data?.settingData.Base_Color_option || "#10b981";
+  secendColor = data?.settingData.Secend_Color_option || "#059669";;
   const iscl = UseIsClient();
 
   return (
