@@ -2,7 +2,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
-    BACKEND_URL: "https://loradash.onrender.com",
+    BACKEND_URL: "https://e-com-laizer-backend.vercel.app",
     COPYRIGHT_TEXT:"Copyright 2024 @ FastCom., All rights reserved.",
   },
   reactStrictMode: false,
