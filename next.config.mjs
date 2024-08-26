@@ -1,10 +1,6 @@
 // "https://loradash.onrender.com"
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    BACKEND_URL: "https://loradash.onrender.com",
-    COPYRIGHT_TEXT:"Copyright 2024 @ FastCom., All rights reserved.",
-  },
   reactStrictMode: false,
   images: {
     remotePatterns: [

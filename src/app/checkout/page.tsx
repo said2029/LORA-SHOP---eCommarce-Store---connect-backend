@@ -7,7 +7,7 @@ import useFetch from "@/hooks/useFetch";
 import UseIsClient from "@/hooks/IsClient";
 import { PaymentsOutlined, CreditCardOutlined } from "@mui/icons-material";
 import { Store, Truck } from "lucide-react";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // stripe
 import CheckoutForm from "./_components/CheckoutForm";
@@ -17,26 +17,34 @@ import { useRouter } from "next/navigation";
 import { ShowToasit_Error } from "@/_lib/ToasitControle";
 import axiosClient from "@/_utils/axiosClient";
 
-
-
 export default function page() {
   const storeData = useSelector(getStoreState);
-  // Stripe key
-  const Stipe_public_key = storeData?.storeSetting?.settingData?.body?.Stripe_Key;
-  let [stripePromise, set_stripePromise] = useState<any>();
+  let [stripePromise, setStripePromise] = useState<any>(null);
   const dispatch = useDispatch();
   const refCouponInput = useRef<HTMLInputElement>(null);
   const route = useRouter();
   const checkout_info: any = useFetch("/api/checkout_info");
-  
+
+  useEffect(() => {
+    if (storeData?.storeSetting?.settingData?.body?.Stripe_Key) {
+      const value = loadStripe(
+        storeData?.storeSetting?.settingData?.body?.Stripe_Key
+      );
+      setStripePromise(value);
+    }
+  }, [storeData?.storeSetting?.settingData?.body?.Stripe_Key]);
+
   const [loadingCoupon, setloadingCoupon] = useState(false);
   const [bayment_method, setbayment_method] = useState("card");
-  const [Shipping_Methods, setShipping_Methods] = useState(checkout_info?.body?.Shipping_Methods_one_price || 60);
+  const [Shipping_Methods, setShipping_Methods] = useState(
+    checkout_info?.body?.Shipping_Methods_one_price || 60
+  );
   const formOrder = useRef<HTMLFormElement>(null);
   const stripeButtonSubmit = useRef<HTMLButtonElement>(null);
-  
-  const [totalPrice, setTotalPrice] = useState(storeData?.ShopCard?.totelPrice + Shipping_Methods);
 
+  const [totalPrice, setTotalPrice] = useState(
+    storeData?.ShopCard?.totelPrice + Shipping_Methods
+  );
 
   const applyCoupon = async () => {
     if (refCouponInput.current) {
@@ -46,12 +54,17 @@ export default function page() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           code: refCouponInput.current?.value.trim(),
-          totalPrice: totalPrice
+          totalPrice: totalPrice,
         }),
-      })
+      });
       const body = await respons.json();
       if (body.status == "sucess") {
-        dispatch(addDiscountCoupon({ discount: body.coupon.discount, codeCoupon: body.coupon.code }));
+        dispatch(
+          addDiscountCoupon({
+            discount: body.coupon.discount,
+            codeCoupon: body.coupon.code,
+          })
+        );
         setloadingCoupon(false);
       } else {
         setloadingCoupon(false);
@@ -60,13 +73,12 @@ export default function page() {
     }
   };
 
-
   const isClient = UseIsClient();
   // stripe options
   const options: StripeElementsOptions = {
     mode: "payment",
     currency: "usd",
-    amount: Math.round((totalPrice)),
+    amount: Math.round(totalPrice),
   };
   const dataOrder = useRef({});
   const [loading, setloading] = useState(false);
@@ -77,10 +89,8 @@ export default function page() {
       return;
     }
     if (bayment_method == "card") {
-
       if (stripeButtonSubmit != null) stripeButtonSubmit.current?.click();
-    }
-    else {
+    } else {
       route.push("/payment_confirm");
     }
   }
@@ -89,30 +99,22 @@ export default function page() {
     const body2 = {
       ids: storeData?.ShopCard.items,
       discount: storeData?.ShopCard.discount,
-      shoppingCost: Shipping_Methods
-
-    }
+      shoppingCost: Shipping_Methods,
+    };
     const data = await axiosClient.post("/calculate_total", body2);
     const body = data?.data;
     if (body.status == "success") {
       setTotalPrice(body?.totalPrice);
     }
-
   }
 
   useEffect(() => {
     Calculate_total();
-  }, [storeData?.ShopCard.items, Shipping_Methods])
-
-  useEffect(() => {
-    if (Stipe_public_key != undefined)
-      set_stripePromise(loadStripe(Stipe_public_key));
-  }, [Stipe_public_key])
-
+  }, [storeData?.ShopCard.items, Shipping_Methods]);
 
   return (
     <>
-      {isClient &&
+      {isClient && (
         <>
           <div className="grid sm:px-10 lg:grid-cols-2 px-2 md:px-11 mt-6">
             <div className="px-4 pt-8">
@@ -150,15 +152,23 @@ export default function page() {
                   />
                   <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
                   <label
-                    onClick={() => { setShipping_Methods(+checkout_info?.body?.Shipping_Methods_one_price) }}
+                    onClick={() => {
+                      setShipping_Methods(
+                        +checkout_info?.body?.Shipping_Methods_one_price
+                      );
+                    }}
                     className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                     htmlFor="radio_1"
                   >
                     <Truck strokeWidth={1} />
                     <div className="ml-5">
-                      <span className="mt-2 font-semibold">{checkout_info?.body?.Shipping_Methods_one_name}</span>
+                      <span className="mt-2 font-semibold">
+                        {checkout_info?.body?.Shipping_Methods_one_name}
+                      </span>
                       <p className="text-slate-500 text-sm leading-6">
-                        {checkout_info?.body?.Shipping_Methods_one_cost}: {checkout_info?.body?.Shipping_Methods_one_delivery} :{checkout_info?.body?.Shipping_Methods_one_price}
+                        {checkout_info?.body?.Shipping_Methods_one_cost}:{" "}
+                        {checkout_info?.body?.Shipping_Methods_one_delivery} :
+                        {checkout_info?.body?.Shipping_Methods_one_price}
                       </p>
                     </div>
                   </label>
@@ -172,15 +182,23 @@ export default function page() {
                   />
                   <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
                   <label
-                    onClick={() => { setShipping_Methods(+checkout_info?.body?.Shipping_Methods_two_price) }}
+                    onClick={() => {
+                      setShipping_Methods(
+                        +checkout_info?.body?.Shipping_Methods_two_price
+                      );
+                    }}
                     className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                     htmlFor="radio_2"
                   >
                     <Truck strokeWidth={1} />
                     <div className="ml-5">
-                      <span className="mt-2 font-semibold">{checkout_info?.body?.Shipping_Methods_two_name}</span>
+                      <span className="mt-2 font-semibold">
+                        {checkout_info?.body?.Shipping_Methods_two_name}
+                      </span>
                       <p className="text-slate-500 text-sm leading-6">
-                        {checkout_info?.body?.Shipping_Methods_two_cost}: {checkout_info?.body?.Shipping_Methods_two_delivery} :{checkout_info?.body?.Shipping_Methods_two_price}
+                        {checkout_info?.body?.Shipping_Methods_two_cost}:{" "}
+                        {checkout_info?.body?.Shipping_Methods_two_delivery} :
+                        {checkout_info?.body?.Shipping_Methods_two_price}
                       </p>
                     </div>
                   </label>
@@ -195,27 +213,29 @@ export default function page() {
                 </p>
                 <section className="mt-2">
                   <div className="flex flex-wrap justify-around gap-3">
-                    {storeData?.storeSetting?.settingData?.body?.Cash_On_Delivery ==
-                      true && (
-                        <div className="flex-grow min-w-48  relative">
-                          <input
-                            id="Cash_On_Delivery"
-                            className="peer hidden"
-                            type="radio"
-                            name="Payment_Method"
-                          />
-                          <span className="peer-checked:border-teal-400 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
+                    {storeData?.storeSetting?.settingData?.body
+                      ?.Cash_On_Delivery == true && (
+                      <div className="flex-grow min-w-48  relative">
+                        <input
+                          id="Cash_On_Delivery"
+                          className="peer hidden"
+                          type="radio"
+                          name="Payment_Method"
+                        />
+                        <span className="peer-checked:border-teal-400 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
 
-                          <label
-                            onClick={() => { setbayment_method("cash") }}
-                            className="border text-gray-700 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
-                            htmlFor="Cash_On_Delivery"
-                          >
-                            <PaymentsOutlined className="font-thin" />
-                            Cash On Delivery
-                          </label>
-                        </div>
-                      )}
+                        <label
+                          onClick={() => {
+                            setbayment_method("cash");
+                          }}
+                          className="border text-gray-700 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
+                          htmlFor="Cash_On_Delivery"
+                        >
+                          <PaymentsOutlined className="font-thin" />
+                          Cash On Delivery
+                        </label>
+                      </div>
+                    )}
 
                     <div className="flex-grow min-w-48 relative">
                       <input
@@ -227,7 +247,7 @@ export default function page() {
                       <span className="peer-checked:border-teal-400 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 " />
                       <label
                         onClick={() => {
-                          setbayment_method("card")
+                          setbayment_method("card");
                         }}
                         className="border text-gray-700 peer-checked:text-gray-600 peer-checked:border-gray-900 w-full cursor-pointer p-3 rounded-lg space-x-3 flex gap-4 items-center "
                         htmlFor="Credit_Card"
@@ -238,12 +258,10 @@ export default function page() {
                     </div>
                   </div>
                 </section>
-                {bayment_method == "card" &&
-
+                {bayment_method == "card" && (
                   <div className="my-3">
                     {/* stripe */}
-                    {stripePromise ?
-
+                    {stripePromise ? (
                       <Elements stripe={stripePromise} options={options}>
                         <CheckoutForm
                           amount={Math.round(totalPrice)}
@@ -251,45 +269,56 @@ export default function page() {
                           ref_Button_Submit={stripeButtonSubmit}
                         />
                       </Elements>
-
-
-                      : <span>loading...</span>
-
-                    }
+                    ) : (
+                      <span>loading...</span>
+                    )}
                   </div>
-                }
+                )}
               </div>
 
               <p className="text-xl font-medium mt-8">Payment Details</p>
               <p className="text-gray-700">
                 Complete your order by providing your payment details.
               </p>
-              <form ref={formOrder} action={async (formData) => {
-                const address = {
-                  "street": formData.get("street"),
-                  "PhoneNumber": formData.get("PhoneNumber"),
-                  "email": formData.get("email"),
-                  "country": formData.get("country"),
-                  "zipCode": formData.get("billing-zip"),
-                  "city": formData.get("city-zip"),
-                };
+              <form
+                ref={formOrder}
+                action={async (formData) => {
+                  const address = {
+                    street: formData.get("street"),
+                    PhoneNumber: formData.get("PhoneNumber"),
+                    email: formData.get("email"),
+                    country: formData.get("country"),
+                    zipCode: formData.get("billing-zip"),
+                    city: formData.get("city-zip"),
+                  };
 
-                formData.set("method", bayment_method)
-                formData.set("address", JSON.stringify(address));
-                formData.set("discount", storeData?.ShopCard?.discount);
-                formData.set("ShoppingCost", Shipping_Methods.toString());
-                formData.set("products", JSON.stringify(storeData?.ShopCard?.items));
-                formData.set("totalPrice", (totalPrice).toFixed(2));
-                if (window.localStorage.getItem("UserId") && window.localStorage.getItem("UserId") != "") {
-                  formData.set("custamer", window.localStorage.getItem("UserId") || "");
-                }
-                dataOrder.current = Object.fromEntries(formData);
-                window.localStorage.setItem("order", JSON.stringify(dataOrder.current));
-                applay();
-
-
-
-              }} className="">
+                  formData.set("method", bayment_method);
+                  formData.set("address", JSON.stringify(address));
+                  formData.set("discount", storeData?.ShopCard?.discount);
+                  formData.set("ShoppingCost", Shipping_Methods.toString());
+                  formData.set(
+                    "products",
+                    JSON.stringify(storeData?.ShopCard?.items)
+                  );
+                  formData.set("totalPrice", totalPrice.toFixed(2));
+                  if (
+                    window.localStorage.getItem("UserId") &&
+                    window.localStorage.getItem("UserId") != ""
+                  ) {
+                    formData.set(
+                      "custamer",
+                      window.localStorage.getItem("UserId") || ""
+                    );
+                  }
+                  dataOrder.current = Object.fromEntries(formData);
+                  window.localStorage.setItem(
+                    "order",
+                    JSON.stringify(dataOrder.current)
+                  );
+                  applay();
+                }}
+                className=""
+              >
                 <label
                   htmlFor="email"
                   className="mt-4 mb-2 block text-sm font-medium"
@@ -387,7 +416,6 @@ export default function page() {
                   </div>
                 </div>
 
-
                 <label
                   htmlFor="billing-address"
                   className="mt-4 mb-2 block text-sm font-medium"
@@ -452,8 +480,9 @@ export default function page() {
                   ) : (
                     <div className="bg-teal-50 rounded-sm px-2 flex justify-between mt-7 py-2">
                       <p className="text-teal-600">Coupon Applied</p>
-                      <p className="text-red font-bold text-red-500">{storeData?.ShopCard?.codeCoupon
-                      }</p>
+                      <p className="text-red font-bold text-red-500">
+                        {storeData?.ShopCard?.codeCoupon}
+                      </p>
                     </div>
                   ))}
 
@@ -472,7 +501,9 @@ export default function page() {
                         <p className="text-sm font-medium text-gray-900">
                           {checkout_info?.body?.shipping_cost}
                         </p>
-                        <p className="font-semibold text-gray-900">${Shipping_Methods}</p>
+                        <p className="font-semibold text-gray-900">
+                          ${Shipping_Methods}
+                        </p>
                       </div>
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-medium text-gray-900">
@@ -500,18 +531,17 @@ export default function page() {
                 }}
                 type="submit"
                 loading={loading}
-                className='mt-4 mb-8 w-full rounded-md disabled:opacity-50 bg-gray-900 px-6 py-3 font-medium text-white'
+                className="mt-4 mb-8 w-full rounded-md disabled:opacity-50 bg-gray-900 px-6 py-3 font-medium text-white"
                 placeholder={undefined}
                 onPointerEnterCapture={undefined}
                 onPointerLeaveCapture={undefined}
               >
-                .
-                {checkout_info?.body?.apply_button}
+                .{checkout_info?.body?.apply_button}
               </Button>
             </div>
           </div>
         </>
-      }
+      )}
     </>
   );
 }

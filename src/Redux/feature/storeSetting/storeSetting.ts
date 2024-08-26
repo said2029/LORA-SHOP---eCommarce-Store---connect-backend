@@ -1,5 +1,6 @@
+import axiosClient from "@/_utils/axiosClient";
+import { Get_SettingSore } from "@/_utils/queris";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const initialState: {
   settingData: any;
@@ -14,10 +15,8 @@ const initialState: {
 const fetchStoreSetting = createAsyncThunk(
   "storeSetting/fetchStoreSetting",
   async () => {
-    const respons = await axios
-      .get("/api/setting/store_setting")
-      .then((res) => res.data);
-    return respons;
+    const data = await Get_SettingSore();
+    return data;
   }
 );
 

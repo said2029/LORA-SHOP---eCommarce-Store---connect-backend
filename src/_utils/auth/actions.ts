@@ -27,3 +27,6 @@ export default sing_up;
 export async function deleteCooke(name: string) {
   cookies().delete(name)
 }
+
+
+

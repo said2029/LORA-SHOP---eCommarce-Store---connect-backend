@@ -6,7 +6,7 @@ let key = null;
 
 
 async function getKay() {
-  const respons = await fetch(process.env.BACKEND_URL + "/getStoreSetting");
+  const respons = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/getStoreSetting");
   const data = await respons.json();
   return data.body.Stripe_Secret;
 }

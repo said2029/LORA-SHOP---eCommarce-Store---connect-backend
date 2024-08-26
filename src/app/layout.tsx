@@ -11,14 +11,18 @@ const rubik = Roboto({
 import { Metadata } from "next";
 import ColorProvider from "@/components/providers/ColorProvider";
 import dynamic from "next/dynamic";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import FetchProvider from "@/components/providers/FetchProvider";
 
 const fetchSEOSettings = async () => {
   try {
-    const respons = await fetch(process.env.BACKEND_URL + "/setting/GetSeoSetting",{
-      cache:"reload"
-    });
+    const respons = await fetch(
+      process.env.NEXT_PUBLIC_BACKEND_URL + "/setting/GetSeoSetting",
+      {
+        cache: "reload",
+      }
+    );
     const SEO = await respons.json();
     return SEO;
   } catch (error) {
@@ -52,29 +56,31 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const Mobile_header = dynamic(
     () => import("@/components/header/_componets/mobile_header"),
-    { ssr: false, }
-  )
+    { ssr: false }
+  );
   return (
     <html lang="en">
       <head>
-        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests"
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
         ></meta>
       </head>
       <body suppressHydrationWarning={true} className={rubik.className}>
         <Providers>
-          <ColorProvider>
-            <Header />
-            {children}
-            <Fooetr />
-            {/* modile Header */}
-            <Mobile_header />
-            {/* Toasit / natefction */}
-            <ToastContainer position='top-center' />
-
-          </ColorProvider>
+          <FetchProvider>
+            <ColorProvider>
+              <Header />
+              {children}
+              <Fooetr />
+              {/* modile Header */}
+              <Mobile_header />
+              {/* Toasit / natefction */}
+              <ToastContainer position="top-center" />
+            </ColorProvider>
+          </FetchProvider>
         </Providers>
       </body>
     </html>

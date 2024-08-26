@@ -36,7 +36,7 @@ store.dispatch(fetchProducts());
 store.dispatch(fetchCoupons());
 store.dispatch(fetch_p_a());
 store.dispatch(fatchProductOfCard());
-store.dispatch(fetchStoreSetting());
+// store.dispatch(fetchStoreSetting());
 
 const getStoreState = createSelector(
   (state:any) => state,

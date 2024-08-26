@@ -122,7 +122,7 @@ export default function Log_in({
           <h1>OR</h1>
           <div className="w-full">
             <Button
-              href={process.env.BACKEND_URL + "/auth/google"}
+              href={process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/google"}
               fullWidth
               size="large"
               variant="contained"

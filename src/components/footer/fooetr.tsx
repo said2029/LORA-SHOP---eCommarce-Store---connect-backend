@@ -282,7 +282,7 @@ export default function Fooetr() {
 
             <div className="mt-16 border-t border-gray-100 pt-6 justify-center flex items-center">
               <p className="text-center text-sm text-gray-500 sm:text-left">
-                {process.env.COPYRIGHT_TEXT}
+                {process.env.NEXT_PUBLIC_COPYRIGHT_TEXT}
               </p>
             </div>
           </div>
